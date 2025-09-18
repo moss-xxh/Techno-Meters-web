@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-zh="系统仪表板" data-en="System Dashboard">系统仪表板</title>
+    <link rel="stylesheet" href="assets/css/common.css">
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="nav-content">
+            <div class="nav-brand">
+                <h1 data-zh="能源管理系统" data-en="Energy Management System">能源管理系统</h1>
+            </div>
+            <div class="nav-menu">
+                <a href="dashboard.html" class="nav-link active" data-zh="仪表板" data-en="Dashboard">仪表板</a>
+                <a href="users.html" class="nav-link" data-zh="用户管理" data-en="User Management">用户管理</a>
+                <a href="bills.html" class="nav-link" data-zh="账单管理" data-en="Bill Management">账单管理</a>
+                <a href="reports.html" class="nav-link" data-zh="报表分析" data-en="Reports">报表分析</a>
+                <a href="settings.html" class="nav-link" data-zh="系统设置" data-en="Settings">系统设置</a>
+            </div>
+            <div class="nav-actions">
+                <div class="lang-dropdown">
+                    <select id="language-select" class="form-select lang-select">
+                        <option value="zh" data-zh="中文" data-en="Chinese">中文</option>
+                        <option value="en" data-zh="English" data-en="English">English</option>
+                    </select>
+                </div>
+                <div class="user-menu">
+                    <div class="user-avatar">管</div>
+                    <span data-zh="管理员" data-en="Admin">管理员</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 主内容区域 -->
+    <main class="main-content">
+        <div class="container">
+            <!-- 页面标题 -->
+            <div class="page-header">
+                <h2 data-zh="系统概览" data-en="System Overview">系统概览</h2>
+                <p data-zh="实时监控能源使用情况和系统状态" data-en="Real-time monitoring of energy usage and system status">实时监控能源使用情况和系统状态</p>
+            </div>
+
+            <!-- 核心指标卡片 -->
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <div class="metric-icon">👥</div>
+                    <div class="metric-content">
+                        <div class="metric-value">2,847</div>
+                        <div class="metric-label" data-zh="总用户数" data-en="Total Users">总用户数</div>
+                        <div class="metric-change positive">
+                            <span>+12%</span>
+                            <span data-zh="较上月" data-en="vs last month">较上月</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-icon">⚡</div>
+                    <div class="metric-content">
+                        <div class="metric-value">1.24M</div>
+                        <div class="metric-label" data-zh="总用电量 (kWh)" data-en="Total Usage (kWh)">总用电量 (kWh)</div>
+                        <div class="metric-change positive">
+                            <span>+8.5%</span>
+                            <span data-zh="较上月" data-en="vs last month">较上月</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-icon">💰</div>
+                    <div class="metric-content">
+                        <div class="metric-value">¥2.85M</div>
+                        <div class="metric-label" data-zh="本月收入" data-en="Monthly Revenue">本月收入</div>
+                        <div class="metric-change positive">
+                            <span>+15.2%</span>
+                            <span data-zh="较上月" data-en="vs last month">较上月</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-icon">📊</div>
+                    <div class="metric-content">
+                        <div class="metric-value">96.8%</div>
+                        <div class="metric-label" data-zh="系统正常率" data-en="System Uptime">系统正常率</div>
+                        <div class="metric-change positive">
+                            <span>+0.3%</span>
+                            <span data-zh="较上月" data-en="vs last month">较上月</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 快速操作 -->
+            <div class="quick-actions">
+                <h3 data-zh="快速操作" data-en="Quick Actions">快速操作</h3>
+                <div class="actions-grid">
+                    <a href="users.html" class="action-card">
+                        <div class="action-icon">👤</div>
+                        <div class="action-content">
+                            <h4 data-zh="用户管理" data-en="User Management">用户管理</h4>
+                            <p data-zh="添加、编辑用户信息" data-en="Add and edit user information">添加、编辑用户信息</p>
+                        </div>
+                    </a>
+
+                    <a href="bills.html" class="action-card">
+                        <div class="action-icon">📄</div>
+                        <div class="action-content">
+                            <h4 data-zh="账单管理" data-en="Bill Management">账单管理</h4>
+                            <p data-zh="查看和管理用户账单" data-en="View and manage user bills">查看和管理用户账单</p>
+                        </div>
+                    </a>
+
+                    <a href="reports.html" class="action-card">
+                        <div class="action-icon">📈</div>
+                        <div class="action-content">
+                            <h4 data-zh="报表分析" data-en="Reports">报表分析</h4>
+                            <p data-zh="生成分析报表" data-en="Generate analysis reports">生成分析报表</p>
+                        </div>
+                    </a>
+
+                    <a href="settings.html" class="action-card">
+                        <div class="action-icon">⚙️</div>
+                        <div class="action-content">
+                            <h4 data-zh="系统设置" data-en="Settings">系统设置</h4>
+                            <p data-zh="配置系统参数" data-en="Configure system parameters">配置系统参数</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <!-- 最近活动 -->
+            <div class="recent-activity">
+                <h3 data-zh="最近活动" data-en="Recent Activity">最近活动</h3>
+                <div class="activity-list">
+                    <div class="activity-item">
+                        <div class="activity-icon success">✓</div>
+                        <div class="activity-content">
+                            <p><strong data-zh="新用户注册" data-en="New user registered">新用户注册</strong></p>
+                            <p data-zh="张明华 已成功注册" data-en="Zhang Minghua registered successfully">张明华 已成功注册</p>
+                            <span class="activity-time">2分钟前</span>
+                        </div>
+                    </div>
+
+                    <div class="activity-item">
+                        <div class="activity-icon warning">!</div>
+                        <div class="activity-content">
+                            <p><strong data-zh="账单逾期" data-en="Bill overdue">账单逾期</strong></p>
+                            <p data-zh="用户 李小红 账单已逾期" data-en="User Li Xiaohong bill is overdue">用户 李小红 账单已逾期</p>
+                            <span class="activity-time">15分钟前</span>
+                        </div>
+                    </div>
+
+                    <div class="activity-item">
+                        <div class="activity-icon success">✓</div>
+                        <div class="activity-content">
+                            <p><strong data-zh="账单支付" data-en="Bill payment">账单支付</strong></p>
+                            <p data-zh="王建国 完成12月账单支付" data-en="Wang Jianguo completed December bill payment">王建国 完成12月账单支付</p>
+                            <span class="activity-time">1小时前</span>
+                        </div>
+                    </div>
+
+                    <div class="activity-item">
+                        <div class="activity-icon info">i</div>
+                        <div class="activity-content">
+                            <p><strong data-zh="系统维护" data-en="System maintenance">系统维护</strong></p>
+                            <p data-zh="定期数据备份已完成" data-en="Regular data backup completed">定期数据备份已完成</p>
+                            <span class="activity-time">2小时前</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="assets/js/common.js"></script>
+    <script>
+        // 初始化页面
+        document.addEventListener('DOMContentLoaded', function() {
+            // 设置当前页面导航激活状态
+            const currentPage = 'dashboard.html';
+            const navLinks = document.querySelectorAll('.nav-link');
+            navLinks.forEach(link => {
+                link.classList.toggle('active', link.getAttribute('href') === currentPage);
+            });
+
+            // 初始化语言系统
+            initLanguageSystem();
+        });
+    </script>
+</body>
+</html>

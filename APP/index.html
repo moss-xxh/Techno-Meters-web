@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title data-zh="电费账单" data-en="Electricity Bill">电费账单</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="light-content">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#26A69A">
+    <link rel="apple-touch-icon" href="assets/images/icon-192.png">
+    <meta name="apple-mobile-web-app-title" content="电费账单">
+</head>
+<body>
+    <!-- Status Bar -->
+    <div class="status-bar">
+        <div class="status-left">
+            <i class="fas fa-chevron-left"></i>
+            <span class="status-time">14:28</span>
+        </div>
+        <div class="status-center">
+            <h1 class="page-title" data-zh="电费账单" data-en="Electricity Bill">电费账单</h1>
+        </div>
+        <div class="status-right">
+            <div class="signal-bars">
+                <span></span><span></span><span></span><span></span>
+            </div>
+            <i class="fas fa-wifi"></i>
+            <div class="battery">
+                <span class="battery-level">92%</span>
+                <div class="battery-icon">
+                    <div class="battery-fill"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Top Action Bar -->
+    <div class="top-bar">
+        <div class="share-btn">
+            <span data-zh="分享" data-en="Share">分享</span>
+        </div>
+    </div>
+
+    <!-- User Info Card -->
+    <div class="user-card">
+        <div class="user-header">
+            <div class="user-name">
+                <span class="star">*</span>
+                <span data-zh="志闪" data-en="Zhishan">志闪</span>
+            </div>
+            <button class="switch-account-btn" data-zh="切换户号" data-en="Switch Account">切换户号</button>
+        </div>
+        <div class="user-details">
+            <div class="user-id">
+                <span class="label" data-zh="用电户号:" data-en="Account ID:">用电户号:</span>
+                <span class="value">140070110346</span>
+            </div>
+            <div class="user-address">
+                <span class="label" data-zh="用电地址:" data-en="Address:">用电地址:</span>
+                <span class="value" data-zh="山西省运城市万荣县******087号" data-en="Shanxi Province, Yuncheng, Wanrong County ******087">山西省运城市万荣县******087号</span>
+            </div>
+        </div>
+        <div class="card-arrow"></div>
+    </div>
+
+    <!-- Date Selector -->
+    <div class="date-selector">
+        <span class="date-text" data-zh="2025年7月" data-en="July 2025">2025年7月</span>
+        <i class="fas fa-chevron-down"></i>
+    </div>
+
+    <!-- Bill Info Section -->
+    <div class="bill-info-header">
+        <h2 data-zh="账单信息" data-en="Bill Information">账单信息</h2>
+        <div class="action-buttons">
+            <button class="action-btn outline" data-zh="账单阅读指南" data-en="Bill Reading Guide">账单阅读指南</button>
+            <button class="action-btn outline" data-zh="订阅下载" data-en="Subscribe & Download">订阅下载</button>
+        </div>
+    </div>
+
+    <!-- Bill Details -->
+    <div class="bill-details">
+        <div class="bill-period">
+            <span class="label" data-zh="账单周期:" data-en="Bill Period:">账单周期:</span>
+            <span class="value">2025/07/01-2025/07/31</span>
+        </div>
+        <div class="payment-due">
+            <span class="label" data-zh="缴费截止日期:" data-en="Payment Due Date:">缴费截止日期:</span>
+            <span class="value">2025/08/20</span>
+        </div>
+    </div>
+
+    <!-- Usage and Cost Cards -->
+    <div class="usage-cards">
+        <div class="usage-card electricity">
+            <div class="card-icon">
+                <i class="fas fa-bolt"></i>
+            </div>
+            <div class="card-content">
+                <div class="card-label" data-zh="本期电量" data-en="Current Usage">本期电量</div>
+                <div class="card-value">
+                    <span class="number">382</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="usage-card cost">
+            <div class="card-icon">
+                <i class="fas fa-yuan-sign"></i>
+            </div>
+            <div class="card-content">
+                <div class="card-label" data-zh="本期电费" data-en="Current Bill">本期电费</div>
+                <div class="card-value">
+                    <span class="number">184.31</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cost Breakdown Table -->
+    <div class="cost-table">
+        <div class="table-header">
+            <div class="col" data-zh="费用类别" data-en="Cost Type">费用类别</div>
+            <div class="col" data-zh="电量(kW·h)" data-en="Usage(kW·h)">电量(kW·h)</div>
+            <div class="col" data-zh="电价(元/kW·h)" data-en="Rate(¥/kW·h)">电价(元/kW·h)</div>
+            <div class="col" data-zh="电费(元)" data-en="Cost(¥)">电费(元)</div>
+        </div>
+        <div class="table-row">
+            <div class="col" data-zh="电度电费" data-en="Electricity Fee">电度电费</div>
+            <div class="col">382</div>
+            <div class="col">0.477</div>
+            <div class="col">182.21</div>
+        </div>
+        <div class="table-row">
+            <div class="col" data-zh="三档加价电费" data-en="Tier Surcharge">三档加价电费</div>
+            <div class="col">42</div>
+            <div class="col">0.05</div>
+            <div class="col">2.1</div>
+        </div>
+    </div>
+
+    <!-- Tiered Usage Section -->
+    <div class="tiered-usage">
+        <div class="section-header">
+            <h3 data-zh="阶梯电量使用情况" data-en="Tiered Usage Status">阶梯电量使用情况</h3>
+            <span class="unit" data-zh="单位：千瓦时" data-en="Unit: kWh">单位：千瓦时</span>
+        </div>
+
+        <!-- Current Tier Indicator -->
+        <div class="current-tier">
+            <span data-zh="您的阶梯电量正处于" data-en="Your tiered usage is at">您的阶梯电量正处于</span>
+            <strong data-zh="第二阶梯" data-en="Second Tier">第二阶梯</strong>
+        </div>
+        <div class="cumulative-usage">
+            <span class="label" data-zh="累计电量" data-en="Cumulative Usage">累计电量</span>
+            <span class="value">382</span>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="tier-progress">
+            <div class="progress-bar">
+                <div class="tier-segment tier-1 active"></div>
+                <div class="tier-segment tier-2 active"></div>
+                <div class="tier-segment tier-3"></div>
+                <div class="progress-indicator"></div>
+            </div>
+
+            <div class="tier-labels">
+                <div class="tier-label">
+                    <span class="tier-name" data-zh="第一阶梯" data-en="Tier 1">第一阶梯</span>
+                    <span class="tier-range">0-340</span>
+                </div>
+                <div class="tier-label">
+                    <span class="tier-name" data-zh="第二阶梯" data-en="Tier 2">第二阶梯</span>
+                    <span class="tier-range">341-520</span>
+                </div>
+                <div class="tier-label">
+                    <span class="tier-name" data-zh="第三阶梯" data-en="Tier 3">第三阶梯</span>
+                    <span class="tier-range" data-zh="521-以上" data-en="521+">521-以上</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Language Toggle (Hidden) -->
+    <div class="language-toggle">
+        <button id="langToggle" class="lang-btn">
+            <span class="lang-text">EN</span>
+        </button>
+    </div>
+
+    <script src="assets/js/app.js"></script>
+</body>
+</html>
