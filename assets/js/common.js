@@ -4,7 +4,7 @@
    ============================================= */
 
 // 全局语言系统
-let currentLanguage = 'zh';
+let currentLanguage = 'en';
 
 // 语言切换功能
 function switchLanguage(lang) {
@@ -19,6 +19,11 @@ function switchLanguage(lang) {
     const languageSelect = document.getElementById('language-select');
     if (languageSelect) {
         languageSelect.value = lang;
+        // 立即更新下拉列表的显示文本
+        const selectedOption = languageSelect.querySelector(`option[value="${lang}"]`);
+        if (selectedOption) {
+            selectedOption.selected = true;
+        }
     }
 
     // 更新所有文本
@@ -60,9 +65,14 @@ function updateTexts() {
 
 // 初始化语言系统
 function initLanguageSystem() {
-    // 恢复保存的语言设置
-    const savedLang = localStorage.getItem('system-lang') || 'zh';
-    switchLanguage(savedLang);
+    // 强制设置默认语言为英文（清除旧的中文设置）
+    const savedLang = localStorage.getItem('system-lang');
+    if (!savedLang || savedLang === 'zh') {
+        localStorage.setItem('system-lang', 'en');
+        switchLanguage('en');
+    } else {
+        switchLanguage(savedLang);
+    }
 
     // 绑定语言切换事件 - 按钮方式
     document.querySelectorAll('.lang-btn').forEach(btn => {
@@ -99,7 +109,7 @@ function formatNumber(num) {
 }
 
 // 格式化货币
-function formatCurrency(amount, currency = '¥') {
+function formatCurrency(amount, currency = '₹') {
     if (amount >= 1000000) {
         return `${currency}${(amount / 1000000).toFixed(2)}M`;
     } else if (amount >= 1000) {

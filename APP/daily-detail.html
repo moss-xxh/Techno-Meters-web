@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>本月每日详情</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f5f5f5;
+            min-height: 100vh;
+            color: #333;
+        }
+
+        /* 状态栏 */
+        .status-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 20px;
+            background: white;
+            color: #000;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .status-left {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .status-right {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        /* 导航栏 */
+        .nav-header {
+            background: white;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .back-btn {
+            background: none;
+            border: none;
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        .page-title {
+            font-size: 18px;
+            font-weight: 600;
+            flex: 1;
+            text-align: center;
+        }
+
+        /* 表格头部 */
+        .table-header {
+            background: #f0f0f0;
+            display: flex;
+            padding: 15px 0;
+            font-size: 14px;
+            font-weight: 600;
+            color: #666;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .header-cell {
+            flex: 1;
+            text-align: center;
+        }
+
+        .header-cell.date {
+            flex: 1.2;
+        }
+
+        /* 数据列表 */
+        .data-list {
+            background: white;
+        }
+
+        .data-row {
+            display: flex;
+            padding: 18px 0;
+            border-bottom: 1px solid #f0f0f0;
+            align-items: center;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .data-row:hover {
+            background: #f9f9f9;
+        }
+
+        .data-row:last-child {
+            border-bottom: none;
+        }
+
+        .data-cell {
+            flex: 1;
+            text-align: center;
+            font-size: 16px;
+        }
+
+        .data-cell.date {
+            flex: 1.2;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .data-cell.usage {
+            color: #333;
+            font-weight: 600;
+        }
+
+        .chevron {
+            color: #ccc;
+            font-size: 14px;
+            margin-right: 20px;
+        }
+
+        /* 底部导航 */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            border-top: 1px solid #eee;
+            padding: 10px 0 30px;
+        }
+
+        .home-indicator {
+            width: 134px;
+            height: 5px;
+            background: #000;
+            border-radius: 3px;
+            margin: 15px auto 0;
+        }
+
+        /* 加载更多 */
+        .load-more {
+            padding: 20px;
+            text-align: center;
+            color: #666;
+            font-size: 14px;
+        }
+
+        /* 详情弹窗 */
+        .detail-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            margin: 20px;
+            max-width: 300px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .modal-date {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .modal-usage {
+            font-size: 32px;
+            font-weight: bold;
+            color: #4ecdc4;
+            margin-bottom: 5px;
+        }
+
+        .modal-unit {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .modal-close {
+            background: #4ecdc4;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <!-- 状态栏 -->
+    <div class="status-bar">
+        <div class="status-left">
+            <span>16:47</span>
+        </div>
+        <div class="status-right">
+            <span>⋯</span>
+            <span>📶</span>
+            <span style="color: #4CAF50; font-weight: bold;">100</span>
+        </div>
+    </div>
+
+    <!-- 导航栏 -->
+    <div class="nav-header">
+        <button class="back-btn" onclick="window.history.back()">‹</button>
+        <h1 class="page-title">电量电费</h1>
+    </div>
+
+    <!-- 表格头部 -->
+    <div class="table-header">
+        <div class="header-cell date">时间</div>
+        <div class="header-cell">电量（千瓦时）</div>
+        <div class="header-cell" style="width: 40px;"></div>
+    </div>
+
+    <!-- 数据列表 -->
+    <div class="data-list">
+        <div class="data-row" onclick="showDetail('2025-09-01', '6.64')">
+            <div class="data-cell date">2025-09-01</div>
+            <div class="data-cell usage">6.64</div>
+            <div class="chevron">›</div>
+        </div>
+
+        <div class="data-row" onclick="showDetail('2025-09-02', '5.98')">
+            <div class="data-cell date">2025-09-02</div>
+            <div class="data-cell usage">5.98</div>
+            <div class="chevron">›</div>
+        </div>
+
+        <div class="data-row" onclick="showDetail('2025-09-03', '4.59')">
+            <div class="data-cell date">2025-09-03</div>
+            <div class="data-cell usage">4.59</div>
+            <div class="chevron">›</div>
+        </div>
+
+        <div class="data-row" onclick="showDetail('2025-09-04', '5.81')">
+            <div class="data-cell date">2025-09-04</div>
+            <div class="data-cell usage">5.81</div>
+            <div class="chevron">›</div>
+        </div>
+
+        <div class="data-row" onclick="showDetail('2025-09-05', '7.70')">
+            <div class="data-cell date">2025-09-05</div>
+            <div class="data-cell usage">7.7</div>
+            <div class="chevron">›</div>
+        </div>
+
+        <div class="data-row" onclick="showDetail('2025-09-06', '5.81')">
+            <div class="data-cell date">2025-09-06</div>
+            <div class="data-cell usage">5.81</div>
+            <div class="chevron">›</div>
+        </div>
+
+        <div class="data-row" onclick="showDetail('2025-09-07', '5.60')">
+            <div class="data-cell date">2025-09-07</div>
+            <div class="data-cell usage">5.6</div>
+            <div class="chevron">›</div>
+        </div>
+
+        <div class="data-row" onclick="showDetail('2025-09-08', '5.84')">
+            <div class="data-cell date">2025-09-08</div>
+            <div class="data-cell usage">5.84</div>
+            <div class="chevron">›</div>
+        </div>
+
+        <div class="data-row" onclick="showDetail('2025-09-09', '6.90')">
+            <div class="data-cell date">2025-09-09</div>
+            <div class="data-cell usage">6.9</div>
+            <div class="chevron">›</div>
+        </div>
+
+        <div class="data-row" onclick="showDetail('2025-09-10', '7.45')">
+            <div class="data-cell date">2025-09-10</div>
+            <div class="data-cell usage">7.45</div>
+            <div class="chevron">›</div>
+        </div>
+
+        <div class="data-row" onclick="showDetail('2025-09-11', '5.89')">
+            <div class="data-cell date">2025-09-11</div>
+            <div class="data-cell usage">5.89</div>
+            <div class="chevron">›</div>
+        </div>
+
+        <div class="data-row" onclick="showDetail('2025-09-12', '7.53')">
+            <div class="data-cell date">2025-09-12</div>
+            <div class="data-cell usage">7.53</div>
+            <div class="chevron">›</div>
+        </div>
+
+        <div class="data-row" onclick="showDetail('2025-09-13', '7.26')">
+            <div class="data-cell date">2025-09-13</div>
+            <div class="data-cell usage">7.26</div>
+            <div class="chevron">›</div>
+        </div>
+
+        <div class="data-row" onclick="showDetail('2025-09-14', '7.18')">
+            <div class="data-cell date">2025-09-14</div>
+            <div class="data-cell usage">7.18</div>
+            <div class="chevron">›</div>
+        </div>
+
+        <div class="data-row" onclick="showDetail('2025-09-15', '5.74')">
+            <div class="data-cell date">2025-09-15</div>
+            <div class="data-cell usage">5.74</div>
+            <div class="chevron">›</div>
+        </div>
+
+        <div class="data-row" onclick="showDetail('2025-09-16', '5.52')">
+            <div class="data-cell date">2025-09-16</div>
+            <div class="data-cell usage">5.52</div>
+            <div class="chevron">›</div>
+        </div>
+    </div>
+
+    <!-- 详情弹窗 -->
+    <div class="detail-modal" id="detailModal">
+        <div class="modal-content">
+            <div class="modal-date" id="modalDate">2025-09-01</div>
+            <div class="modal-usage" id="modalUsage">6.64</div>
+            <div class="modal-unit">千瓦时</div>
+            <button class="modal-close" onclick="hideDetail()">确定</button>
+        </div>
+    </div>
+
+    <!-- 底部导航 -->
+    <div class="bottom-nav">
+        <div class="home-indicator"></div>
+    </div>
+
+    <script>
+        // 显示详情弹窗
+        function showDetail(date, usage) {
+            document.getElementById('modalDate').textContent = date;
+            document.getElementById('modalUsage').textContent = usage;
+            document.getElementById('detailModal').style.display = 'flex';
+        }
+
+        // 隐藏详情弹窗
+        function hideDetail() {
+            document.getElementById('detailModal').style.display = 'none';
+        }
+
+        // 点击弹窗外部关闭
+        document.getElementById('detailModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                hideDetail();
+            }
+        });
+
+        // 生成更多数据（模拟）
+        function generateMoreData() {
+            const dataList = document.querySelector('.data-list');
+            const currentRows = dataList.children.length;
+
+            // 模拟剩余的日期数据
+            const remainingDates = [
+                { date: '2025-09-17', usage: '6.23' },
+                { date: '2025-09-18', usage: '5.91' },
+                { date: '2025-09-19', usage: '7.12' },
+                { date: '2025-09-20', usage: '6.85' },
+                { date: '2025-09-21', usage: '5.67' },
+                { date: '2025-09-22', usage: '6.45' },
+                { date: '2025-09-23', usage: '7.33' },
+                { date: '2025-09-24', usage: '5.88' },
+                { date: '2025-09-25', usage: '6.72' },
+                { date: '2025-09-26', usage: '5.94' },
+                { date: '2025-09-27', usage: '7.15' },
+                { date: '2025-09-28', usage: '6.38' },
+                { date: '2025-09-29', usage: '5.76' },
+                { date: '2025-09-30', usage: '6.92' }
+            ];
+
+            // 添加剩余日期
+            remainingDates.forEach(item => {
+                const row = document.createElement('div');
+                row.className = 'data-row';
+                row.onclick = () => showDetail(item.date, item.usage);
+                row.innerHTML = `
+                    <div class="data-cell date">${item.date}</div>
+                    <div class="data-cell usage">${item.usage}</div>
+                    <div class="chevron">›</div>
+                `;
+                dataList.appendChild(row);
+            });
+        }
+
+        // 滚动到底部时加载更多数据
+        window.addEventListener('scroll', function() {
+            if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 100) {
+                // 检查是否已经加载了所有数据
+                if (document.querySelector('.data-list').children.length < 30) {
+                    generateMoreData();
+                }
+            }
+        });
+
+        // 初始化时生成所有数据
+        generateMoreData();
+    </script>
+</body>
+</html>

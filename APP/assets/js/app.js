@@ -4,7 +4,7 @@
  */
 
 // 当前语言状态
-let currentLanguage = localStorage.getItem('bill-app-language') || 'zh';
+let currentLanguage = localStorage.getItem('bill-app-language') || 'en';
 
 // 语言文本映射
 const languageTexts = {
@@ -37,8 +37,8 @@ const languageTexts = {
         // 表格头部
         'cost-type': '费用类别',
         'usage-kwh': '电量(kW·h)',
-        'rate-kwh': '电价(元/kW·h)',
-        'cost-yuan': '电费(元)',
+        'rate-kwh': '电价(₹/kW·h)',
+        'cost-inr': '电费(₹)',
 
         // 费用类别
         'electricity-fee': '电度电费',
@@ -84,8 +84,8 @@ const languageTexts = {
         // Table headers
         'cost-type': 'Cost Type',
         'usage-kwh': 'Usage(kW·h)',
-        'rate-kwh': 'Rate(¥/kW·h)',
-        'cost-yuan': 'Cost(¥)',
+        'rate-kwh': 'Rate(₹/kW·h)',
+        'cost-inr': 'Cost(₹)',
 
         // Cost categories
         'electricity-fee': 'Electricity Fee',

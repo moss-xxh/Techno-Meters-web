@@ -1,0 +1,1075 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title data-zh="能源管理系统" data-en="Energy Management System">能源管理系统</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="light-content">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="theme-color" content="#26A69A">
+    <link rel="apple-touch-icon" href="assets/images/icon-192.png">
+    <meta name="apple-mobile-web-app-title" content="能源管理系统">
+    <style>
+        /* 重置样式 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            background: #E5E5E7;
+            min-height: 100vh;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+            background: #F8F9FA;
+            color: #000;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            max-width: 414px;
+            margin: 0 auto;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+
+        /* 状态栏 - 苹果设计 */
+        .status-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            background-color: #fff;
+            height: 44px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
+        }
+
+        .status-left {
+            display: flex;
+            align-items: center;
+            min-width: 54px;
+        }
+
+        .status-time {
+            font-size: 15px;
+            font-weight: 600;
+            color: #000;
+            letter-spacing: -0.24px;
+        }
+
+        .status-center {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .dynamic-island {
+            background: #000;
+            border-radius: 20px;
+            padding: 6px 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .island-content {
+            color: #fff;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .status-right {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 14px;
+            color: #000;
+            min-width: 54px;
+            justify-content: flex-end;
+        }
+
+        .signal-bars {
+            display: flex;
+            gap: 2px;
+            align-items: flex-end;
+        }
+
+        .signal-bars span {
+            width: 3px;
+            background: #000;
+            border-radius: 1px;
+        }
+
+        .signal-bars span:nth-child(1) { height: 4px; }
+        .signal-bars span:nth-child(2) { height: 6px; }
+        .signal-bars span:nth-child(3) { height: 8px; }
+        .signal-bars span:nth-child(4) { height: 10px; }
+
+        .wifi-icon {
+            font-size: 15px;
+            color: #000;
+            margin: 0 2px;
+        }
+
+        .battery {
+            display: flex;
+            align-items: center;
+            gap: 2px;
+        }
+
+        .battery-level {
+            font-size: 13px;
+            font-weight: 600;
+            color: #000;
+        }
+
+        .battery-icon {
+            width: 24px;
+            height: 12px;
+            border: 1px solid #000;
+            border-radius: 2px;
+            position: relative;
+            background: #fff;
+        }
+
+        .battery-icon::after {
+            content: '';
+            position: absolute;
+            right: -3px;
+            top: 3px;
+            width: 2px;
+            height: 6px;
+            background: #000;
+            border-radius: 0 1px 1px 0;
+        }
+
+        .battery-fill {
+            position: absolute;
+            left: 1px;
+            top: 1px;
+            bottom: 1px;
+            width: 80%;
+            background: #34C759;
+            border-radius: 1px;
+        }
+
+        /* 导航栏 */
+        .navbar {
+            background: #fff;
+            border-bottom: 1px solid #F0F0F0;
+            padding: 0;
+        }
+
+        .nav-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 20px;
+        }
+
+        .nav-brand h1 {
+            font-size: 18px;
+            font-weight: 500;
+            color: #000;
+            letter-spacing: -0.02em;
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .lang-dropdown {
+            display: flex;
+            align-items: center;
+        }
+
+        .lang-select {
+            background: #FAFAFA;
+            border: 1px solid #F0F0F0;
+            border-radius: 8px;
+            padding: 8px 12px;
+            font-size: 14px;
+            color: #333;
+            cursor: pointer;
+            outline: none;
+            transition: all 0.15s ease;
+        }
+
+        .lang-select:focus {
+            border-color: #0066CC;
+            box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.1);
+        }
+
+        .user-menu {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            border-radius: 8px;
+            background: #FAFAFA;
+        }
+
+        .user-avatar {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: #000;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .user-menu span {
+            font-size: 14px;
+            font-weight: 500;
+            color: #333;
+        }
+
+        /* 电费卡片样式 - 黑色填充 */
+        .bill-card {
+            background: #000;
+            margin: 24px 16px;
+            border-radius: 16px;
+            padding: 32px 24px;
+            border: none;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 32px;
+        }
+
+        .user-type-tabs {
+            display: flex;
+            background: #FAFAFA;
+            border-radius: 8px;
+            padding: 2px;
+            border: 1px solid #F0F0F0;
+        }
+
+        .tab {
+            padding: 10px 24px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            background: transparent;
+            border: none;
+            transition: all 0.2s ease;
+            color: #666;
+        }
+
+        .tab.active {
+            background: #000;
+            color: white;
+            font-weight: 600;
+        }
+
+        .bill-header {
+            margin-bottom: 32px;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .bill-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #ffffff;
+            text-align: center;
+            margin-bottom: 8px;
+            letter-spacing: -0.03em;
+        }
+
+        .bill-period {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.7);
+            text-align: center;
+            margin-bottom: 24px;
+            font-weight: 500;
+        }
+
+        .bill-data-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+
+        .bill-data-item {
+            text-align: center;
+            padding: 0;
+        }
+
+        .bill-data-item:first-child {
+            border-bottom: none;
+            border-right: 1px solid rgba(255, 255, 255, 0.2);
+            margin-bottom: 0;
+            padding-bottom: 0;
+            padding-right: 24px;
+        }
+
+        .current-bill-label {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .current-bill-value {
+            font-size: 28px;
+            font-weight: 800;
+            color: #ffffff;
+            letter-spacing: -0.8px;
+            line-height: 1.1;
+        }
+
+        .unit {
+            font-size: 16px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.7);
+            margin-left: 3px;
+        }
+
+        .go-pay-btn {
+            background: #000;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .go-pay-btn:hover {
+            background: #333;
+            transform: translateY(-1px);
+        }
+
+        .balance-section {
+            text-align: center;
+            margin: 40px 0;
+        }
+
+        .balance-label {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 12px;
+            font-weight: 500;
+            letter-spacing: 0.02em;
+        }
+
+        .balance-amount {
+            font-size: 48px;
+            font-weight: 200;
+            color: #000;
+            margin-bottom: 16px;
+            letter-spacing: -2px;
+            line-height: 1;
+        }
+
+        .balance-date {
+            font-size: 12px;
+            color: #999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .collapse-btn {
+            background: transparent;
+            border: 1px solid #E0E0E0;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 11px;
+            color: #666;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .collapse-btn:hover {
+            background: #F8F8F8;
+            border-color: #D0D0D0;
+        }
+
+        .stats-grid-bill {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+            margin-top: 32px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .stats-grid-bill .stat-item {
+            text-align: center;
+            padding: 0;
+            background: none;
+            border: none;
+        }
+
+        .stats-grid-bill .stat-value {
+            font-size: 14px;
+            font-weight: 400;
+            color: rgba(255, 255, 255, 0.5);
+            margin-bottom: 4px;
+            letter-spacing: 0;
+        }
+
+        .stats-grid-bill .stat-label {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.4);
+            line-height: 1.2;
+            font-weight: 400;
+        }
+
+        /* 主导航菜单 */
+        .main-nav {
+            background: #fff;
+            margin: 24px 16px;
+            border-radius: 16px;
+            border: 1px solid #F0F0F0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+            overflow: hidden;
+        }
+
+        .nav-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1px;
+            background: #F8F8F8;
+        }
+
+        .nav-item {
+            background: #fff;
+            padding: 32px 20px;
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+
+        .nav-item:hover {
+            background: #FAFAFA;
+        }
+
+        .nav-item:active {
+            background: #F5F5F5;
+            transform: scale(0.98);
+        }
+
+        .nav-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            background: #F8F8F8;
+            color: #666;
+            transition: all 0.3s ease;
+        }
+
+        .nav-item:hover .nav-icon {
+            background: #000;
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        .nav-text {
+            font-size: 18px;
+            font-weight: 600;
+            color: #000;
+            text-align: center;
+            letter-spacing: -0.02em;
+        }
+
+        .nav-desc {
+            font-size: 13px;
+            color: #666;
+            text-align: center;
+            line-height: 1.4;
+            font-weight: 400;
+        }
+
+        /* 快速操作 */
+        .quick-actions {
+            margin: 24px 16px;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #000;
+            margin-bottom: 20px;
+            padding: 0 4px;
+            letter-spacing: -0.02em;
+        }
+
+        .actions-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+
+        .action-card {
+            background: #fff;
+            border: 1px solid #F0F0F0;
+            border-radius: 12px;
+            padding: 24px 16px;
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+            min-height: 100px;
+        }
+
+        .action-card:hover {
+            border-color: #000;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+            transform: translateY(-2px);
+        }
+
+        .action-icon {
+            font-size: 24px;
+            color: #000;
+        }
+
+        .action-text {
+            font-size: 14px;
+            font-weight: 500;
+            color: #000;
+            text-align: center;
+        }
+
+        /* 统计信息 */
+        .stats-section {
+            margin: 24px 16px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 16px;
+        }
+
+        .stats-card {
+            background: #fff;
+            border: 1px solid #F0F0F0;
+            border-radius: 16px;
+            padding: 32px 24px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        }
+
+        .stats-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .stats-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #000;
+            letter-spacing: -0.02em;
+        }
+
+        .stats-period {
+            font-size: 12px;
+            color: #666;
+            background: #F8F8F8;
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-weight: 500;
+        }
+
+        .stats-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .stats-value {
+            font-size: 32px;
+            font-weight: 200;
+            color: #000;
+            letter-spacing: -1px;
+        }
+
+        .stats-change {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+            color: #28A745;
+            font-weight: 500;
+        }
+
+        .stats-change.positive {
+            color: #28A745;
+        }
+
+        .stats-change.negative {
+            color: #DC3545;
+        }
+
+        /* 系统状态 */
+        .system-status {
+            background: #fff;
+            margin: 24px 16px;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+            border: 1px solid #F0F0F0;
+        }
+
+        .status-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 8px;
+        }
+
+        .status-indicator {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #28A745;
+        }
+
+        .status-text {
+            font-size: 16px;
+            font-weight: 600;
+            color: #000;
+            letter-spacing: -0.02em;
+        }
+
+        .status-time {
+            font-size: 13px;
+            color: #666;
+            margin-top: 6px;
+            margin-left: 22px;
+        }
+
+        /* 底部导航 - 悬浮设计 */
+        .bottom-nav {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: calc(100% - 40px);
+            max-width: 374px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(30px);
+            border-radius: 30px;
+            padding: 16px 20px 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+        }
+
+        .nav-items {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .nav-item-bottom {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: #999;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            padding: 12px 16px;
+            border-radius: 20px;
+            min-width: 64px;
+            position: relative;
+        }
+
+        .nav-item-bottom:hover {
+            transform: translateY(-2px);
+        }
+
+        .nav-item-bottom.active {
+            color: #fff;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+            transform: translateY(-4px);
+        }
+
+        .nav-icon-bottom {
+            font-size: 22px;
+            margin-bottom: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-item-bottom.active .nav-icon-bottom {
+            transform: scale(1.1);
+        }
+
+        .nav-text-bottom {
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            transition: all 0.3s ease;
+        }
+
+        .home-indicator {
+            width: 134px;
+            height: 5px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 3px;
+            margin: 12px auto 0;
+        }
+
+        /* 动画 */
+        .fade-in {
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .clickable {
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .clickable:active {
+            transform: scale(0.98);
+            opacity: 0.8;
+        }
+
+        /* 响应式 */
+        @media (max-width: 375px) {
+            .nav-content {
+                padding: 16px;
+            }
+
+            .actions-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .nav-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 状态栏 - 苹果设计 -->
+    <div class="status-bar">
+        <div class="status-left">
+            <span class="status-time">9:41</span>
+        </div>
+        <div class="status-center">
+            <div class="dynamic-island">
+                <div class="island-content">🏠</div>
+            </div>
+        </div>
+        <div class="status-right">
+            <div class="signal-bars">
+                <span></span><span></span><span></span><span></span>
+            </div>
+            <i class="fas fa-wifi wifi-icon"></i>
+            <div class="battery">
+                <span class="battery-level">100</span>
+                <div class="battery-icon">
+                    <div class="battery-fill"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 电费卡片 -->
+    <div class="bill-card fade-in">
+        <div class="bill-header">
+            <h2 class="bill-title" data-zh="2025年9月账单" data-en="September 2025 Bill">2025年9月账单</h2>
+            <div class="bill-period" data-zh="（9月1日-9月30日）" data-en="(Sep 1 - Sep 30)">(9月1日-9月30日)</div>
+            <div class="bill-data-grid">
+                <div class="bill-data-item">
+                    <div class="current-bill-label" data-zh="用电量" data-en="Usage">用电量</div>
+                    <div class="current-bill-value">450 <span class="unit">kWh</span></div>
+                </div>
+                <div class="bill-data-item">
+                    <div class="current-bill-label" data-zh="电费" data-en="Bill Amount">电费</div>
+                    <div class="current-bill-value">₹2,840 <span class="unit">INR</span></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="stats-grid-bill">
+            <div class="stat-item">
+                <div class="stat-value">380 kWh</div>
+                <div class="stat-label" data-zh="上期电量" data-en="Last Usage">上期电量</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">₹2,450 INR</div>
+                <div class="stat-label" data-zh="上期电费" data-en="Last Bill">上期电费</div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+    <!-- 底部导航 -->
+    <div class="bottom-nav">
+        <div class="nav-items">
+            <a href="001.html" class="nav-item-bottom active">
+                <div class="nav-icon-bottom">🏠</div>
+                <span class="nav-text-bottom" data-zh="首页" data-en="Home">首页</span>
+            </a>
+            <a href="home-app.html" class="nav-item-bottom">
+                <div class="nav-icon-bottom">📄</div>
+                <span class="nav-text-bottom" data-zh="账单" data-en="Bills">账单</span>
+            </a>
+            <a href="002.html" class="nav-item-bottom">
+                <div class="nav-icon-bottom">⚙️</div>
+                <span class="nav-text-bottom" data-zh="电站" data-en="Station">电站</span>
+            </a>
+        </div>
+        <div class="home-indicator"></div>
+    </div>
+
+    <script>
+        // 全局语言变量
+        let currentLanguage = 'zh';
+
+        // 语言切换功能
+        function switchLanguage(lang) {
+            currentLanguage = lang;
+
+            // 更新下拉选择器
+            const languageSelect = document.getElementById('language-select');
+            if (languageSelect) {
+                languageSelect.value = lang;
+            }
+
+            // 更新所有文本
+            updateTexts();
+
+            // 保存语言偏好
+            localStorage.setItem('energy-system-lang', lang);
+
+            // 触发自定义事件
+            window.dispatchEvent(new CustomEvent('languageChanged', { detail: { language: lang } }));
+        }
+
+        // 更新页面文本
+        function updateTexts() {
+            document.querySelectorAll('[data-zh]').forEach(element => {
+                const text = element.getAttribute(`data-${currentLanguage}`);
+                if (text) {
+                    if (element.tagName === 'OPTION') {
+                        element.textContent = text;
+                    } else {
+                        element.textContent = text;
+                    }
+                }
+            });
+
+            // 更新页面标题
+            const title = document.querySelector('title');
+            if (title) {
+                const titleText = title.getAttribute(`data-${currentLanguage}`);
+                if (titleText) {
+                    title.textContent = titleText;
+                }
+            }
+
+            // 更新收起/展开按钮文本
+            const collapseBtn = document.querySelector('.collapse-btn');
+            const statsGrid = document.querySelector('.stats-grid-bill');
+            if (collapseBtn && statsGrid) {
+                if (statsGrid.style.display === 'none') {
+                    collapseBtn.textContent = currentLanguage === 'zh' ? '展开' : 'Expand';
+                } else {
+                    collapseBtn.textContent = currentLanguage === 'zh' ? '收起' : 'Collapse';
+                }
+            }
+        }
+
+        // 初始化语言系统
+        function initLanguageSystem() {
+            // 恢复保存的语言设置
+            const savedLang = localStorage.getItem('energy-system-lang') || 'zh';
+            switchLanguage(savedLang);
+
+            // 绑定语言切换事件
+            const languageSelect = document.getElementById('language-select');
+            if (languageSelect) {
+                languageSelect.addEventListener('change', () => {
+                    switchLanguage(languageSelect.value);
+                });
+            }
+        }
+
+        // 添加动画效果
+        function addAnimations() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            });
+
+            document.querySelectorAll('.fade-in').forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(20px)';
+                el.style.transition = 'all 0.5s ease-out';
+                observer.observe(el);
+            });
+        }
+
+        // 底部导航激活状态
+        function setActiveNavigation() {
+            const currentPath = window.location.pathname;
+            const navItems = document.querySelectorAll('.nav-item-bottom');
+
+            navItems.forEach(item => {
+                const href = item.getAttribute('href');
+                if (currentPath.endsWith(href) || (currentPath.includes('001.html') && href === '001.html')) {
+                    item.classList.add('active');
+                } else {
+                    item.classList.remove('active');
+                }
+            });
+        }
+
+        // 触摸反馈
+        function addTouchFeedback() {
+            const clickableElements = document.querySelectorAll('.nav-item, .action-card, .stats-card, .clickable');
+
+            clickableElements.forEach(element => {
+                element.addEventListener('touchstart', function() {
+                    this.style.transform = 'scale(0.98)';
+                    this.style.opacity = '0.8';
+                });
+
+                element.addEventListener('touchend', function() {
+                    this.style.transform = 'scale(1)';
+                    this.style.opacity = '1';
+                });
+            });
+        }
+
+        // 电费卡片功能
+        function initBillCard() {
+            // 用户类型切换
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    tabs.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+
+            // 收起/展开功能
+            const collapseBtn = document.querySelector('.collapse-btn');
+            const statsGrid = document.querySelector('.stats-grid-bill');
+
+            if (collapseBtn && statsGrid) {
+                collapseBtn.addEventListener('click', function() {
+                    if (statsGrid.style.display === 'none') {
+                        statsGrid.style.display = 'grid';
+                        this.textContent = currentLanguage === 'zh' ? '收起' : 'Collapse';
+                    } else {
+                        statsGrid.style.display = 'none';
+                        this.textContent = currentLanguage === 'zh' ? '展开' : 'Expand';
+                    }
+                });
+            }
+
+            // 去缴费按钮
+            const goPayBtn = document.querySelector('.go-pay-btn');
+            if (goPayBtn) {
+                goPayBtn.addEventListener('click', function() {
+                    alert(currentLanguage === 'zh' ? '跳转到缴费页面' : 'Redirecting to payment page');
+                });
+            }
+        }
+
+        // 页面初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            initLanguageSystem();
+            addAnimations();
+            setActiveNavigation();
+            addTouchFeedback();
+            initBillCard();
+
+            // 更新时间显示
+            function updateTime() {
+                const now = new Date();
+                const timeString = now.toLocaleTimeString('zh-CN', {
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    hour12: false
+                });
+                document.querySelector('.status-time').textContent = timeString;
+            }
+
+            updateTime();
+            setInterval(updateTime, 60000); // 每分钟更新一次
+        });
+
+        // 处理页面导航
+        document.querySelectorAll('.nav-item-bottom').forEach(item => {
+            item.addEventListener('click', function(e) {
+                const href = this.getAttribute('href');
+                if (href && href !== '#') {
+                    // 添加页面切换动画
+                    document.body.style.opacity = '0.8';
+                    setTimeout(() => {
+                        window.location.href = href;
+                    }, 150);
+                } else {
+                    e.preventDefault();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

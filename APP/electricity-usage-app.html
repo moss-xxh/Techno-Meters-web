@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title data-zh="电量电费" data-en="Electricity Usage">电量电费</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="light-content">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="theme-color" content="#26A69A">
+    <link rel="apple-touch-icon" href="assets/images/icon-192.png">
+    <meta name="apple-mobile-web-app-title" content="电量电费">
+    <style>
+        /* 重置样式 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.4;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            max-width: 414px;
+            margin: 0 auto;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* 状态栏 */
+        .status-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 16px;
+            background-color: #fff;
+            height: 44px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid #e5e5e5;
+        }
+
+        .status-left {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .status-time {
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .status-right {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 14px;
+        }
+
+        .signal-bars {
+            display: flex;
+            gap: 2px;
+        }
+
+        .signal-bars span {
+            width: 3px;
+            height: 8px;
+            background: #000;
+            border-radius: 1px;
+        }
+
+        .signal-bars span:nth-child(2) { height: 10px; }
+        .signal-bars span:nth-child(3) { height: 12px; }
+        .signal-bars span:nth-child(4) { height: 14px; }
+
+        .battery {
+            font-size: 14px;
+            font-weight: 600;
+            color: #4CAF50;
+        }
+
+        /* 导航栏 */
+        .nav-header {
+            display: flex;
+            align-items: center;
+            padding: 16px;
+            background: #fff;
+            border-bottom: 1px solid #e5e5e5;
+        }
+
+        .back-btn {
+            background: none;
+            border: none;
+            font-size: 18px;
+            color: #333;
+            cursor: pointer;
+            padding: 8px;
+            margin-right: 12px;
+        }
+
+        .page-title {
+            font-size: 18px;
+            font-weight: 600;
+            flex: 1;
+            text-align: center;
+        }
+
+        /* 用户信息卡片 */
+        .user-card {
+            background: #fff;
+            margin: 16px;
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .user-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .user-name {
+            font-size: 20px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .switch-account-btn {
+            background: #f5f5f5;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            color: #666;
+            cursor: pointer;
+        }
+
+        .user-details {
+            space-y: 8px;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .detail-label {
+            color: #666;
+        }
+
+        .detail-value {
+            color: #333;
+            font-weight: 500;
+        }
+
+        /* 标签切换 */
+        .tab-container {
+            background: #fff;
+            margin: 0 16px 16px;
+            border-radius: 16px;
+            padding: 6px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .tab-buttons {
+            display: flex;
+            gap: 4px;
+        }
+
+        .tab-btn {
+            flex: 1;
+            background: none;
+            border: none;
+            padding: 12px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            color: #666;
+        }
+
+        .tab-btn.active {
+            background: #26A69A;
+            color: white;
+            font-weight: 500;
+        }
+
+        /* 年份选择器 */
+        .year-selector {
+            background: #fff;
+            margin: 0 16px 16px;
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .year-buttons {
+            display: flex;
+            background: #f5f5f5;
+            border-radius: 25px;
+            padding: 4px;
+            gap: 4px;
+        }
+
+        .year-btn {
+            flex: 1;
+            background: none;
+            border: none;
+            padding: 12px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: #666;
+        }
+
+        .year-btn.active {
+            background: #26A69A;
+            color: white;
+            font-weight: 500;
+        }
+
+        /* 图表区域 */
+        .chart-section {
+            background: #fff;
+            margin: 0 16px 16px;
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .chart-unit {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .chart-tip {
+            font-size: 12px;
+            color: #999;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .chart-container {
+            height: 280px;
+            position: relative;
+        }
+
+        .bar-chart {
+            display: flex;
+            align-items: end;
+            justify-content: space-between;
+            height: 240px;
+            padding: 20px 8px 0;
+            gap: 6px;
+        }
+
+        .bar {
+            flex: 1;
+            background: linear-gradient(to top, #26A69A, #4DB6AC);
+            border-radius: 6px 6px 2px 2px;
+            position: relative;
+            min-height: 20px;
+            display: flex;
+            align-items: end;
+            justify-content: center;
+            color: white;
+            font-size: 11px;
+            font-weight: 600;
+            padding-bottom: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(38, 166, 154, 0.3);
+        }
+
+        .bar:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(38, 166, 154, 0.4);
+        }
+
+        .bar.highlight {
+            background: linear-gradient(to top, #FF7043, #FF8A65);
+            box-shadow: 0 2px 8px rgba(255, 112, 67, 0.3);
+        }
+
+        .chart-labels {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 8px 0;
+            font-size: 12px;
+            color: #666;
+        }
+
+        .label {
+            flex: 1;
+            text-align: center;
+        }
+
+        /* 统计信息 */
+        .stats-section {
+            background: #fff;
+            margin: 0 16px 100px;
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .stats-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .stats-row:last-child {
+            border-bottom: none;
+        }
+
+        .stat-label {
+            font-size: 16px;
+            color: #333;
+        }
+
+        .stat-value {
+            font-size: 18px;
+            font-weight: 600;
+            color: #26A69A;
+        }
+
+        /* 底部导航 */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 414px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+            padding: 8px 0 32px;
+            box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        .home-indicator {
+            width: 134px;
+            height: 5px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 3px;
+            margin: 12px auto 0;
+        }
+
+        /* 点击反馈 */
+        .clickable {
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .clickable:active {
+            transform: scale(0.98);
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+    <!-- 状态栏 -->
+    <div class="status-bar">
+        <div class="status-left">
+            <span class="status-time">16:47</span>
+        </div>
+        <div class="status-right">
+            <span>⋯</span>
+            <div class="signal-bars">
+                <span></span><span></span><span></span><span></span>
+            </div>
+            <i class="fas fa-wifi"></i>
+            <span class="battery">100</span>
+        </div>
+    </div>
+
+    <!-- 导航栏 -->
+    <div class="nav-header">
+        <button class="back-btn" onclick="window.history.back()">
+            <i class="fas fa-chevron-left"></i>
+        </button>
+        <h1 class="page-title">电量电费</h1>
+    </div>
+
+    <!-- 用户信息卡片 -->
+    <div class="user-card">
+        <div class="user-header">
+            <span class="user-name">*志刚</span>
+            <button class="switch-account-btn clickable">切换户号</button>
+        </div>
+        <div class="user-details">
+            <div class="detail-row">
+                <span class="detail-label">用电户号：</span>
+                <span class="detail-value">140071104366</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-value">山西省运城市万荣县******街087号</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 标签切换 -->
+    <div class="tab-container">
+        <div class="tab-buttons">
+            <button class="tab-btn">日用电量</button>
+            <button class="tab-btn active">月度电费</button>
+        </div>
+    </div>
+
+    <!-- 年份选择器 -->
+    <div class="year-selector">
+        <div class="year-buttons">
+            <button class="year-btn active">2025年</button>
+            <button class="year-btn">2024年</button>
+            <button class="year-btn">2023年</button>
+        </div>
+    </div>
+
+    <!-- 图表区域 -->
+    <div class="chart-section">
+        <div class="chart-header">
+            <span class="chart-unit">单位：千瓦时</span>
+            <span class="chart-tip">
+                ☀️ 点击柱状图查看当月用电情况
+            </span>
+        </div>
+
+        <div class="chart-container">
+            <div class="bar-chart">
+                <div class="bar" style="height: 200px;" data-month="1" data-value="1076">1076</div>
+                <div class="bar highlight" style="height: 160px;" data-month="2" data-value="876">876</div>
+                <div class="bar" style="height: 40px;" data-month="3" data-value="186">186</div>
+                <div class="bar" style="height: 32px;" data-month="4" data-value="145">145</div>
+                <div class="bar" style="height: 40px;" data-month="5" data-value="185">185</div>
+                <div class="bar" style="height: 55px;" data-month="6" data-value="248">248</div>
+                <div class="bar" style="height: 85px;" data-month="7" data-value="385">385</div>
+                <div class="bar" style="height: 60px;" data-month="8" data-value="268">268</div>
+                <div class="bar" style="height: 20px;" data-month="9" data-value="0"></div>
+                <div class="bar" style="height: 20px;" data-month="10" data-value="0"></div>
+                <div class="bar" style="height: 20px;" data-month="11" data-value="0"></div>
+                <div class="bar" style="height: 20px;" data-month="12" data-value="0"></div>
+            </div>
+            <div class="chart-labels">
+                <span class="label">1月</span>
+                <span class="label">2月</span>
+                <span class="label">3月</span>
+                <span class="label">4月</span>
+                <span class="label">5月</span>
+                <span class="label">6月</span>
+                <span class="label">7月</span>
+                <span class="label">8月</span>
+                <span class="label">9月</span>
+                <span class="label">10月</span>
+                <span class="label">11月</span>
+                <span class="label">12月</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 统计信息 -->
+    <div class="stats-section">
+        <div class="stats-row">
+            <span class="stat-label">年累计电费(元)</span>
+            <span class="stat-value">1327.58</span>
+        </div>
+        <div class="stats-row">
+            <span class="stat-label">年累计电量(千瓦时)</span>
+            <span class="stat-value">3384</span>
+        </div>
+    </div>
+
+    <!-- 底部导航 -->
+    <div class="bottom-nav">
+        <div class="home-indicator"></div>
+    </div>
+
+    <script>
+        // 标签切换功能
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+
+                if (this.textContent === '日用电量') {
+                    window.location.href = 'daily-usage-app.html';
+                }
+            });
+        });
+
+        // 年份切换功能
+        document.querySelectorAll('.year-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.year-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+
+                // 模拟数据更新
+                updateChartData(this.textContent);
+            });
+        });
+
+        // 柱状图点击功能
+        document.querySelectorAll('.bar').forEach(bar => {
+            bar.addEventListener('click', function() {
+                const month = this.getAttribute('data-month');
+                const value = this.getAttribute('data-value');
+                if (value && value !== '0') {
+                    alert(`${month}月用电量：${value}千瓦时`);
+                }
+            });
+        });
+
+        // 切换户号功能
+        document.querySelector('.switch-account-btn').addEventListener('click', function() {
+            alert('切换户号功能');
+        });
+
+        // 更新图表数据（模拟）
+        function updateChartData(year) {
+            console.log(`切换到${year}的数据`);
+            // 这里可以添加实际的数据更新逻辑
+
+            // 模拟不同年份的数据
+            const yearData = {
+                '2025年': [1076, 876, 186, 145, 185, 248, 385, 268, 0, 0, 0, 0],
+                '2024年': [945, 756, 234, 189, 267, 312, 428, 356, 298, 245, 187, 156],
+                '2023年': [832, 698, 201, 167, 223, 289, 367, 294, 267, 234, 178, 145]
+            };
+
+            const data = yearData[year] || yearData['2025年'];
+            const bars = document.querySelectorAll('.bar');
+
+            bars.forEach((bar, index) => {
+                const value = data[index];
+                const height = value > 0 ? Math.max(20, (value / 1200) * 200) : 20;
+                bar.style.height = height + 'px';
+                bar.textContent = value > 0 ? value : '';
+                bar.setAttribute('data-value', value);
+            });
+
+            // 更新统计数据
+            const totalUsage = data.reduce((sum, val) => sum + val, 0);
+            const totalCost = (totalUsage * 0.5).toFixed(2);
+
+            document.querySelector('.stats-row:nth-child(1) .stat-value').textContent = totalCost;
+            document.querySelector('.stats-row:nth-child(2) .stat-value').textContent = totalUsage;
+        }
+
+        // 添加触摸反馈
+        document.querySelectorAll('.clickable').forEach(element => {
+            element.addEventListener('touchstart', function() {
+                this.style.transform = 'scale(0.98)';
+                this.style.opacity = '0.8';
+            });
+
+            element.addEventListener('touchend', function() {
+                this.style.transform = 'scale(1)';
+                this.style.opacity = '1';
+            });
+        });
+    </script>
+</body>
+</html>
