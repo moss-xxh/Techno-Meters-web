@@ -3,8 +3,9 @@
  * 实现中英文语言切换和交互功能
  */
 
-// 当前语言状态
-let currentLanguage = localStorage.getItem('bill-app-language') || 'en';
+// 当前语言状态 - 强制默认英文
+localStorage.setItem('bill-app-language', 'en');
+let currentLanguage = 'en';
 
 // 语言文本映射
 const languageTexts = {

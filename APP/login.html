@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title data-zh="登录 - 能源管理系统" data-en="Login - Energy Management System">Login - Energy Management System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="light-content">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="theme-color" content="#26A69A">
+    <link rel="apple-touch-icon" href="assets/images/icon-192.png">
+    <meta name="apple-mobile-web-app-title" content="Energy Management System">
+    <style>
+        /* 重置样式 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            background: #E5E5E7;
+            min-height: 100vh;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+            background: #F8F9FA;
+            color: #000;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            margin: 0;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* 状态栏 - 苹果设计 */
+        .status-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            background-color: #fff;
+            height: 44px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
+        }
+
+        .status-left {
+            display: flex;
+            align-items: center;
+            min-width: 54px;
+        }
+
+        .status-time {
+            font-size: 15px;
+            font-weight: 600;
+            color: #000;
+            letter-spacing: -0.24px;
+        }
+
+        .status-center {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .dynamic-island {
+            background: #000;
+            border-radius: 20px;
+            padding: 6px 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .island-content {
+            color: #fff;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .status-right {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 14px;
+            color: #000;
+            min-width: 54px;
+            justify-content: flex-end;
+        }
+
+        .signal-bars {
+            display: flex;
+            gap: 2px;
+            align-items: flex-end;
+        }
+
+        .signal-bars span {
+            width: 3px;
+            background: #000;
+            border-radius: 1px;
+        }
+
+        .signal-bars span:nth-child(1) { height: 4px; }
+        .signal-bars span:nth-child(2) { height: 6px; }
+        .signal-bars span:nth-child(3) { height: 8px; }
+        .signal-bars span:nth-child(4) { height: 10px; }
+
+        .wifi-icon {
+            font-size: 15px;
+            color: #000;
+            margin: 0 2px;
+        }
+
+        .battery {
+            display: flex;
+            align-items: center;
+            gap: 2px;
+        }
+
+        .battery-level {
+            font-size: 13px;
+            font-weight: 600;
+            color: #000;
+        }
+
+        .battery-icon {
+            width: 24px;
+            height: 12px;
+            border: 1px solid #000;
+            border-radius: 2px;
+            position: relative;
+            background: #fff;
+        }
+
+        .battery-icon::after {
+            content: '';
+            position: absolute;
+            right: -3px;
+            top: 3px;
+            width: 2px;
+            height: 6px;
+            background: #000;
+            border-radius: 0 1px 1px 0;
+        }
+
+        .battery-fill {
+            position: absolute;
+            left: 1px;
+            top: 1px;
+            bottom: 1px;
+            width: 80%;
+            background: #34C759;
+            border-radius: 1px;
+        }
+
+        /* 主容器 */
+        .login-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 40px 24px;
+            min-height: calc(100vh - 44px);
+        }
+
+        /* 标题部分 */
+        .login-header {
+            text-align: center;
+            margin-bottom: 48px;
+        }
+
+        .app-logo {
+            width: 160px;
+            height: 160px;
+            margin: 0 auto 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .app-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: #000;
+            margin-bottom: 8px;
+            letter-spacing: -0.02em;
+        }
+
+        .app-subtitle {
+            font-size: 16px;
+            color: #666;
+            font-weight: 400;
+            line-height: 1.4;
+        }
+
+        /* 登录表单 */
+        .login-form {
+            background: #fff;
+            border-radius: 16px;
+            padding: 32px 24px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            border: 1px solid #F0F0F0;
+            margin-bottom: 32px;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-group:last-child {
+            margin-bottom: 0;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+            letter-spacing: -0.01em;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 16px 16px;
+            border: 1px solid #E0E0E0;
+            border-radius: 12px;
+            font-size: 16px;
+            background: #FAFAFA;
+            transition: all 0.2s ease;
+            -webkit-appearance: none;
+            font-family: inherit;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #000;
+            background: #fff;
+            box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-input::placeholder {
+            color: #999;
+            font-weight: 400;
+        }
+
+        /* 登录按钮 */
+        .login-button {
+            width: 100%;
+            background: #000;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 18px 24px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 8px;
+            font-family: inherit;
+            letter-spacing: -0.01em;
+        }
+
+        .login-button:hover {
+            background: #333;
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .login-button:active {
+            transform: translateY(0) scale(0.98);
+        }
+
+        .login-button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* 语言切换器 */
+        .language-selector {
+            position: absolute;
+            top: 60px;
+            right: 16px;
+            z-index: 200;
+        }
+
+        .language-toggle {
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 8px 16px;
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .language-toggle:hover {
+            background: rgba(0, 0, 0, 0.9);
+            transform: scale(1.05);
+        }
+
+        .language-dropdown {
+            position: absolute;
+            top: 40px;
+            right: 0;
+            background: white;
+            border-radius: 12px;
+            padding: 8px 0;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            min-width: 120px;
+            display: none;
+            z-index: 300;
+        }
+
+        .language-dropdown.show {
+            display: block;
+            animation: dropdownShow 0.3s ease-out;
+        }
+
+        @keyframes dropdownShow {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .language-option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 16px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #333;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: none;
+            background: none;
+            width: 100%;
+            text-align: left;
+        }
+
+        .language-option:hover {
+            background: #f8f8f8;
+        }
+
+        .language-option.active {
+            background: #000;
+            color: white;
+        }
+
+        .language-flag {
+            font-size: 16px;
+        }
+
+        /* Home指示器 */
+        .home-indicator {
+            position: fixed;
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 134px;
+            height: 5px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 3px;
+        }
+
+        /* 版权信息 */
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #999;
+            font-size: 12px;
+        }
+
+        /* 动画 */
+        .fade-in {
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* 加载状态 */
+        .loading {
+            position: relative;
+        }
+
+        .loading::after {
+            content: '';
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: translateY(-50%) rotate(360deg);
+            }
+        }
+
+        /* 触摸反馈 */
+        .clickable {
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .clickable:active {
+            transform: scale(0.98);
+            opacity: 0.8;
+        }
+
+        /* 响应式 */
+        @media (max-width: 375px) {
+            .login-container {
+                padding: 32px 20px;
+            }
+
+            .login-form {
+                padding: 24px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 状态栏 - 苹果设计 -->
+    <div class="status-bar">
+        <div class="status-left">
+            <span class="status-time">9:41</span>
+        </div>
+        <div class="status-center">
+            <div class="dynamic-island">
+                <div class="island-content">🔐</div>
+            </div>
+        </div>
+        <div class="status-right">
+            <div class="signal-bars">
+                <span></span><span></span><span></span><span></span>
+            </div>
+            <i class="fas fa-wifi wifi-icon"></i>
+            <div class="battery">
+                <span class="battery-level">100</span>
+                <div class="battery-icon">
+                    <div class="battery-fill"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 语言切换器 -->
+    <div class="language-selector">
+        <button class="language-toggle" id="languageToggle">
+            🌐 EN
+        </button>
+        <div class="language-dropdown" id="languageDropdown">
+            <button class="language-option active" data-lang="en">
+                <span class="language-flag">🇺🇸</span>
+                <span>English</span>
+            </button>
+            <button class="language-option" data-lang="zh">
+                <span class="language-flag">🇨🇳</span>
+                <span>中文</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- 登录容器 -->
+    <div class="login-container fade-in">
+        <!-- 标题部分 -->
+        <div class="login-header">
+            <div class="app-logo">
+                <img src="logo.png" alt="Logo" style="width: 140px; height: 140px; object-fit: contain;">
+            </div>
+            <h1 class="app-title" data-zh="能源管理系统" data-en="Energy Management System">Energy Management System</h1>
+            <p class="app-subtitle" data-zh="为印度电力行业提供专业的账单管理解决方案" data-en="Professional billing management solutions for the Indian power industry">Professional billing management solutions for the Indian power industry</p>
+        </div>
+
+        <!-- 登录表单 -->
+        <form class="login-form" id="loginForm">
+            <div class="form-group">
+                <label for="username" class="form-label" data-zh="用户名" data-en="Username">Username</label>
+                <input
+                    type="text"
+                    id="username"
+                    name="username"
+                    class="form-input"
+                    placeholder="Enter your username"
+                    data-zh-placeholder="请输入用户名"
+                    data-en-placeholder="Enter your username"
+                    autocomplete="username"
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="password" class="form-label" data-zh="密码" data-en="Password">Password</label>
+                <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    class="form-input"
+                    placeholder="Enter your password"
+                    data-zh-placeholder="请输入密码"
+                    data-en-placeholder="Enter your password"
+                    autocomplete="current-password"
+                >
+            </div>
+
+            <button type="submit" class="login-button clickable" id="loginButton" data-zh="登录" data-en="Login">
+                Login
+            </button>
+        </form>
+
+        <!-- 版权信息 -->
+        <div class="footer">
+            <p data-zh="© 2025 能源管理系统. 专为印度市场设计" data-en="© 2025 Energy Management System. Designed for Indian Market">© 2025 Energy Management System. Designed for Indian Market</p>
+        </div>
+    </div>
+
+    <!-- Home指示器 -->
+    <div class="home-indicator"></div>
+
+    <script>
+        // 全局语言变量
+        let currentLanguage = 'en';
+
+        // 语言切换功能
+        function switchLanguage(lang) {
+            currentLanguage = lang;
+
+            // 更新语言切换器UI
+            const languageToggle = document.getElementById('languageToggle');
+            const languageOptions = document.querySelectorAll('.language-option');
+
+            if (languageToggle) {
+                languageToggle.innerHTML = lang === 'en' ? '🌐 EN' : '🌐 中文';
+            }
+
+            // 更新选项状态
+            languageOptions.forEach(option => {
+                if (option.getAttribute('data-lang') === lang) {
+                    option.classList.add('active');
+                } else {
+                    option.classList.remove('active');
+                }
+            });
+
+            // 更新所有文本
+            updateTexts();
+
+            // 保存语言偏好
+            localStorage.setItem('energy-system-lang', lang);
+        }
+
+        // 更新页面文本
+        function updateTexts() {
+            document.querySelectorAll('[data-zh]').forEach(element => {
+                const text = element.getAttribute(`data-${currentLanguage}`);
+                if (text) {
+                    if (element.tagName === 'INPUT') {
+                        const placeholderAttr = `data-${currentLanguage}-placeholder`;
+                        const placeholder = element.getAttribute(placeholderAttr);
+                        if (placeholder) {
+                            element.placeholder = placeholder;
+                        }
+                    } else {
+                        element.textContent = text;
+                    }
+                }
+            });
+
+            // 更新页面标题
+            const title = document.querySelector('title');
+            if (title) {
+                const titleText = title.getAttribute(`data-${currentLanguage}`);
+                if (titleText) {
+                    title.textContent = titleText;
+                }
+            }
+        }
+
+        // 初始化语言系统
+        function initLanguageSystem() {
+            // 强制使用英文作为默认语言
+            localStorage.setItem('energy-system-lang', 'en');
+            switchLanguage('en');
+
+            // 绑定语言切换事件
+            const languageToggle = document.getElementById('languageToggle');
+            const languageDropdown = document.getElementById('languageDropdown');
+            const languageOptions = document.querySelectorAll('.language-option');
+
+            if (languageToggle && languageDropdown) {
+                // 切换下拉菜单显示/隐藏
+                languageToggle.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    languageDropdown.classList.toggle('show');
+                });
+
+                // 点击页面其他地方关闭下拉菜单
+                document.addEventListener('click', () => {
+                    languageDropdown.classList.remove('show');
+                });
+
+                // 语言选择
+                languageOptions.forEach(option => {
+                    option.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        const lang = option.getAttribute('data-lang');
+                        switchLanguage(lang);
+                        languageDropdown.classList.remove('show');
+                    });
+                });
+            }
+        }
+
+        // 登录功能
+        function handleLogin(event) {
+            event.preventDefault();
+
+            const loginButton = document.getElementById('loginButton');
+
+            // 添加加载状态
+            loginButton.classList.add('loading');
+            loginButton.disabled = true;
+            loginButton.textContent = currentLanguage === 'en' ? 'Logging in...' : '登录中...';
+
+            // 模拟登录延迟
+            setTimeout(() => {
+                // 登录成功，跳转到主页
+                window.location.href = '001.html';
+            }, 1000);
+        }
+
+        // 触摸反馈
+        function addTouchFeedback() {
+            const clickableElements = document.querySelectorAll('.clickable');
+
+            clickableElements.forEach(element => {
+                element.addEventListener('touchstart', function() {
+                    if (!this.disabled) {
+                        this.style.transform = 'scale(0.98)';
+                        this.style.opacity = '0.8';
+                    }
+                }, { passive: true });
+
+                element.addEventListener('touchend', function() {
+                    if (!this.disabled) {
+                        this.style.transform = 'scale(1)';
+                        this.style.opacity = '1';
+                    }
+                }, { passive: true });
+
+                element.addEventListener('touchcancel', function() {
+                    if (!this.disabled) {
+                        this.style.transform = 'scale(1)';
+                        this.style.opacity = '1';
+                    }
+                }, { passive: true });
+            });
+        }
+
+        // 更新当前时间
+        function updateCurrentTime() {
+            const timeElement = document.querySelector('.status-time');
+            if (timeElement) {
+                const now = new Date();
+                const hours = now.getHours().toString().padStart(2, '0');
+                const minutes = now.getMinutes().toString().padStart(2, '0');
+                timeElement.textContent = `${hours}:${minutes}`;
+            }
+        }
+
+        // 页面初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            initLanguageSystem();
+            addTouchFeedback();
+
+            // 绑定登录表单
+            const loginForm = document.getElementById('loginForm');
+            if (loginForm) {
+                loginForm.addEventListener('submit', handleLogin);
+            }
+
+            // 更新时间显示
+            updateCurrentTime();
+            setInterval(updateCurrentTime, 60000);
+
+            // 自动聚焦用户名输入框
+            const usernameInput = document.getElementById('username');
+            if (usernameInput) {
+                setTimeout(() => {
+                    usernameInput.focus();
+                }, 500);
+            }
+        });
+
+        // 防止页面缩放
+        document.addEventListener('touchmove', function(event) {
+            if (event.scale !== 1) {
+                event.preventDefault();
+            }
+        }, { passive: false });
+
+        // 防止双击缩放
+        let lastTouchEnd = 0;
+        document.addEventListener('touchend', function(event) {
+            const now = (new Date()).getTime();
+            if (now - lastTouchEnd <= 300) {
+                event.preventDefault();
+            }
+            lastTouchEnd = now;
+        }, false);
+    </script>
+</body>
+</html>

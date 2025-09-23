@@ -1090,10 +1090,10 @@
         <div class="chart-section">
             <div class="chart-card">
                 <div class="chart-header">
-                    <h3 class="card-title">用电分析</h3>
+                    <h3 class="card-title" data-zh="用电分析" data-en="Usage Analysis">Usage Analysis</h3>
                     <div class="tab-switcher">
-                        <button class="tab-button active" onclick="switchTab('usage')">电量</button>
-                        <button class="tab-button" onclick="switchTab('cost')">金额</button>
+                        <button class="tab-button active" onclick="switchTab('usage')" data-zh="电量" data-en="Usage">Usage</button>
+                        <button class="tab-button" onclick="switchTab('cost')" data-zh="金额" data-en="Cost">Cost</button>
                     </div>
                 </div>
 
@@ -1282,7 +1282,7 @@
             const totalUsage = container.querySelector('.total-usage');
             const totalLabel = container.querySelector('.total-label');
             totalUsage.textContent = unit + total.toLocaleString();
-            totalLabel.textContent = unit.includes('₹') ? '总费用' : '总电量(kWh)';
+            totalLabel.textContent = unit.includes('₹') ? 'Total Cost' : 'Total Usage (kWh)';
         }
 
         // 显示提示框
@@ -1341,16 +1341,16 @@
 
             // 用电量数据
             const usageData = [
-                { value: 150, color: '#ee6666', label: '高峰时段' },
-                { value: 130, color: '#5470c6', label: '平峰时段' },
-                { value: 100, color: '#91cc75', label: '低谷时段' }
+                { value: 150, color: '#ee6666', label: 'Peak Hours' },
+                { value: 130, color: '#5470c6', label: 'Normal Hours' },
+                { value: 100, color: '#91cc75', label: 'Off-peak Hours' }
             ];
 
             // 费用数据
             const costData = [
-                { value: 810, color: '#ee6666', label: '高峰时段' },
-                { value: 633, color: '#91cc75', label: '低谷时段' },
-                { value: 585, color: '#5470c6', label: '平峰时段' }
+                { value: 810, color: '#ee6666', label: 'Peak Hours' },
+                { value: 633, color: '#91cc75', label: 'Off-peak Hours' },
+                { value: 585, color: '#5470c6', label: 'Normal Hours' }
             ];
 
             // 创建环形图

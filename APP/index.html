@@ -31,7 +31,6 @@
             line-height: 1.6;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
-            max-width: 414px;
             margin: 0 auto;
             min-height: 100vh;
             position: relative;
@@ -924,9 +923,9 @@
 
         // 初始化语言系统
         function initLanguageSystem() {
-            // 恢复保存的语言设置
-            const savedLang = localStorage.getItem('energy-system-lang') || 'en';
-            switchLanguage(savedLang);
+            // 强制使用英文作为默认语言
+            localStorage.setItem('energy-system-lang', 'en');
+            switchLanguage('en');
 
             // 绑定语言切换事件
             const languageToggle = document.getElementById('languageToggle');
