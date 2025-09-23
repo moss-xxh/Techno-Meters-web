@@ -896,7 +896,7 @@
         <div class="tab-content active" id="cumulative-tab">
             <!-- 累计图表 -->
             <div class="detail-card">
-                <h3 class="card-title">累计电量与费用趋势</h3>
+                <h3 class="card-title" data-zh="累计电量与费用趋势" data-en="Cumulative Usage & Cost Trend">Cumulative Usage & Cost Trend</h3>
                 <div class="chart-container">
                     <div class="simple-chart" id="simpleChart">
                         <!-- 图表将通过JavaScript生成 -->
@@ -906,11 +906,11 @@
                 <div class="chart-legend">
                     <div class="legend-item" onclick="toggleLine('usage')" id="usage-legend">
                         <div class="legend-color usage"></div>
-                        <span class="legend-text">累计电量 (kWh)</span>
+                        <span class="legend-text" data-zh="累计电量 (kWh)" data-en="Cumulative Usage (kWh)">Cumulative Usage (kWh)</span>
                     </div>
                     <div class="legend-item" onclick="toggleLine('cost')" id="cost-legend">
                         <div class="legend-color cost"></div>
-                        <span class="legend-text">累计费用 (₹)</span>
+                        <span class="legend-text" data-zh="累计费用 (₹)" data-en="Cumulative Cost (₹)">Cumulative Cost (₹)</span>
                     </div>
                 </div>
             </div>
@@ -952,11 +952,11 @@
                 <div class="calendar-legend">
                     <div class="legend-item">
                         <div class="legend-color highest"></div>
-                        <span>本月最高</span>
+                        <span data-zh="本月最高" data-en="Monthly Peak">Monthly Peak</span>
                     </div>
                     <div class="legend-item">
                         <div class="legend-color lowest"></div>
-                        <span>本月最低</span>
+                        <span data-zh="本月最低" data-en="Monthly Low">Monthly Low</span>
                     </div>
                 </div>
             </div>
@@ -1260,15 +1260,15 @@
                 <div style="display: flex; flex-direction: column; gap: 4px;">
                     <div style="display: flex; align-items: center; gap: 8px;">
                         <div style="width: 8px; height: 8px; background: #007AFF; border-radius: 50%;"></div>
-                        <span style="color: #fff; font-size: 12px;">累计电量: ${data.cumulativeUsage} kWh</span>
+                        <span style="color: #fff; font-size: 12px;">Cumulative Usage: ${data.cumulativeUsage} kWh</span>
                     </div>
                     <div style="display: flex; align-items: center; gap: 8px;">
                         <div style="width: 8px; height: 8px; background: #FF6B35; border-radius: 50%;"></div>
-                        <span style="color: #fff; font-size: 12px;">累计费用: ₹${data.cumulativeCost}</span>
+                        <span style="color: #fff; font-size: 12px;">Cumulative Cost: ₹${data.cumulativeCost}</span>
                     </div>
                     <hr style="border: none; border-top: 1px solid rgba(255,255,255,0.3); margin: 6px 0;">
                     <div style="color: #ccc; font-size: 11px; text-align: center;">
-                        日用电: ${dailyUsage} kWh | 日费用: ₹${dailyCost}
+                        Daily Usage: ${dailyUsage} kWh | Daily Cost: ₹${dailyCost}
                     </div>
                 </div>
             `;
