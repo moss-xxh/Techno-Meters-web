@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title data-zh="电费账单详情" data-en="Electricity Bill Details">电费账单详情</title>
+    <title data-zh="电费账单详情" data-en="Electricity Bill Details">Electricity Bill Details</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="light-content">
     <meta name="format-detection" content="telephone=no">
     <meta name="theme-color" content="#26A69A">
     <link rel="apple-touch-icon" href="assets/images/icon-192.png">
-    <meta name="apple-mobile-web-app-title" content="电费账单详情">
+    <meta name="apple-mobile-web-app-title" content="Electricity Bill Details">
     <style>
         /* 重置样式 */
         * {
@@ -982,9 +982,9 @@
     <div class="title-bar">
         <div class="back-btn" onclick="goBack()">
             <i class="fas fa-chevron-left"></i>
-            <span data-zh="返回" data-en="Back">返回</span>
+            <span data-zh="返回" data-en="Back">Back</span>
         </div>
-        <h1 class="page-title" data-zh="电费账单详情" data-en="Bill Details">电费账单详情</h1>
+        <h1 class="page-title" data-zh="电费账单详情" data-en="Bill Details">Bill Details</h1>
         <div></div>
     </div>
 
@@ -993,20 +993,20 @@
         <!-- 账单信息汇总 -->
         <div class="bill-summary-card">
             <div class="bill-month-header">
-                <h2 class="month-title">2025年8月</h2>
+                <h2 class="month-title">August 2025</h2>
             </div>
             <div class="period-item">
-                <span class="period-label">账单周期:</span>
+                <span class="period-label">Bill Period:</span>
                 <span class="period-value">2025/08/01-2025/08/31</span>
             </div>
             <div class="usage-stats-grid">
                 <div class="stat-item">
-                    <div class="stat-label">本期电量</div>
+                    <div class="stat-label">Current Usage</div>
                     <div class="stat-value">380 <span class="stat-unit">kWh</span></div>
                     <div class="stat-reading">(5826 — 6206)</div>
                 </div>
                 <div class="stat-item">
-                    <div class="stat-label">本期电费</div>
+                    <div class="stat-label">Current Bill</div>
                     <div class="stat-value">₹2,450</div>
                 </div>
             </div>
@@ -1014,35 +1014,35 @@
 
         <!-- 费用明细汇总 -->
         <div class="fee-summary-card">
-            <h3 class="card-title">费用明细</h3>
+            <h3 class="card-title">Fee Details</h3>
             <div class="fee-summary-table">
                 <div class="summary-header">
-                    <div class="summary-header-cell">项目</div>
-                    <div class="summary-header-cell">金额（卢比）</div>
-                    <div class="summary-header-cell">说明</div>
+                    <div class="summary-header-cell">Item</div>
+                    <div class="summary-header-cell">Amount (₹)</div>
+                    <div class="summary-header-cell">Description</div>
                 </div>
                 <div class="summary-row">
-                    <div class="summary-cell">电量费</div>
+                    <div class="summary-cell">Electricity Fee</div>
                     <div class="summary-cell amount">₹2,028</div>
-                    <div class="summary-cell description">380 kWh × 分时电价</div>
+                    <div class="summary-cell description">380 kWh × Time-of-Use Rate</div>
                 </div>
                 <div class="summary-row">
-                    <div class="summary-cell">固定费</div>
+                    <div class="summary-cell">Fixed Charge</div>
                     <div class="summary-cell amount">₹50</div>
-                    <div class="summary-cell description">每月固定服务费</div>
+                    <div class="summary-cell description">Monthly Fixed Service Fee</div>
                 </div>
                 <div class="summary-row">
-                    <div class="summary-cell">燃料调整费</div>
+                    <div class="summary-cell">Fuel Adjustment</div>
                     <div class="summary-cell amount">₹81</div>
-                    <div class="summary-cell description">4% × 电量费</div>
+                    <div class="summary-cell description">4% × Electricity Fee</div>
                 </div>
                 <div class="summary-row">
-                    <div class="summary-cell">政府税</div>
+                    <div class="summary-cell">Government Tax</div>
                     <div class="summary-cell amount">₹291</div>
-                    <div class="summary-cell description">5% × (电量费 + 固定费 + 燃料费)</div>
+                    <div class="summary-cell description">5% × (Electricity + Fixed + Fuel)</div>
                 </div>
                 <div class="summary-row total-row">
-                    <div class="summary-cell total-label">总费用</div>
+                    <div class="summary-cell total-label">Electricity Cost</div>
                     <div class="summary-cell total-amount">₹2,450</div>
                     <div class="summary-cell"></div>
                 </div>
@@ -1051,34 +1051,34 @@
 
         <!-- 时段电价详情表格 -->
         <div class="tier-pricing-card">
-            <h3 class="card-title">时段电价详情</h3>
+            <h3 class="card-title">Time-of-Use Rate Details</h3>
             <div class="tier-pricing-table">
                 <div class="pricing-header">
-                    <div class="pricing-header-cell">时段</div>
-                    <div class="pricing-header-cell">用电量(kWh)</div>
-                    <div class="pricing-header-cell">电价(₹/kWh)</div>
-                    <div class="pricing-header-cell">金额(₹)</div>
+                    <div class="pricing-header-cell">Time Period</div>
+                    <div class="pricing-header-cell">Usage (kWh)</div>
+                    <div class="pricing-header-cell">Rate(₹/kWh)</div>
+                    <div class="pricing-header-cell">Amount(₹)</div>
                 </div>
                 <div class="pricing-row">
-                    <div class="pricing-cell tier-name">高峰时段<br/>(12:00-18:00)</div>
+                    <div class="pricing-cell tier-name">Peak Hours<br/>(12:00-18:00)</div>
                     <div class="pricing-cell usage">150</div>
                     <div class="pricing-cell">₹5.40</div>
                     <div class="pricing-cell amount">₹810.00</div>
                 </div>
                 <div class="pricing-row">
-                    <div class="pricing-cell tier-name">平峰时段<br/>(08:00-12:00 & 18:00-23:00)</div>
+                    <div class="pricing-cell tier-name">Normal Hours<br/>(08:00-12:00 & 18:00-23:00)</div>
                     <div class="pricing-cell usage">130</div>
                     <div class="pricing-cell">₹4.50</div>
                     <div class="pricing-cell amount">₹585.00</div>
                 </div>
                 <div class="pricing-row">
-                    <div class="pricing-cell tier-name">低谷时段<br/>(23:00-08:00)</div>
+                    <div class="pricing-cell tier-name">Off-peak Hours<br/>(23:00-08:00)</div>
                     <div class="pricing-cell usage">100</div>
                     <div class="pricing-cell">₹6.33</div>
                     <div class="pricing-cell amount">₹633.00</div>
                 </div>
                 <div class="pricing-row total-row">
-                    <div class="pricing-cell total-label">小计</div>
+                    <div class="pricing-cell total-label">Subtotal</div>
                     <div class="pricing-cell total-usage">380</div>
                     <div class="pricing-cell"></div>
                     <div class="pricing-cell total-amount">₹2,028.00</div>
@@ -1106,26 +1106,26 @@
                             </svg>
                             <div class="chart-center">
                                 <div class="total-usage">380</div>
-                                <div class="total-label">总电量(kWh)</div>
+                                <div class="total-label">Total Usage (kWh)</div>
                             </div>
                             <div class="tooltip" id="usageTooltip"></div>
                         </div>
                         <div class="stats-grid">
                             <div class="stat-card">
                                 <div class="legend-color" style="background: #ee6666;"></div>
-                                <div class="legend-label">高峰时段</div>
+                                <div class="legend-label">Peak Hours</div>
                                 <div class="legend-value">150 kWh</div>
                                 <div class="legend-percentage">39.5%</div>
                             </div>
                             <div class="stat-card">
                                 <div class="legend-color" style="background: #5470c6;"></div>
-                                <div class="legend-label">平峰时段</div>
+                                <div class="legend-label">Normal Hours</div>
                                 <div class="legend-value">130 kWh</div>
                                 <div class="legend-percentage">34.2%</div>
                             </div>
                             <div class="stat-card">
                                 <div class="legend-color" style="background: #91cc75;"></div>
-                                <div class="legend-label">低谷时段</div>
+                                <div class="legend-label">Off-peak Hours</div>
                                 <div class="legend-value">100 kWh</div>
                                 <div class="legend-percentage">26.3%</div>
                             </div>
@@ -1142,7 +1142,7 @@
                             </svg>
                             <div class="chart-center">
                                 <div class="total-usage">₹2,028</div>
-                                <div class="total-label">总费用</div>
+                                <div class="total-label">Electricity Cost</div>
                             </div>
                             <div class="tooltip" id="costTooltip"></div>
                         </div>
@@ -1150,19 +1150,19 @@
                     <div class="stats-grid">
                         <div class="stat-card">
                             <div class="legend-color" style="background: #ee6666;"></div>
-                            <div class="legend-label">高峰时段</div>
+                            <div class="legend-label">Peak Hours</div>
                             <div class="legend-value">₹810</div>
                             <div class="legend-percentage">39.9%</div>
                         </div>
                         <div class="stat-card">
                             <div class="legend-color" style="background: #91cc75;"></div>
-                            <div class="legend-label">低谷时段</div>
+                            <div class="legend-label">Off-peak Hours</div>
                             <div class="legend-value">₹633</div>
                             <div class="legend-percentage">31.2%</div>
                         </div>
                         <div class="stat-card">
                             <div class="legend-color" style="background: #5470c6;"></div>
-                            <div class="legend-label">平峰时段</div>
+                            <div class="legend-label">Normal Hours</div>
                             <div class="legend-value">₹585</div>
                             <div class="legend-percentage">28.9%</div>
                         </div>
@@ -1174,7 +1174,7 @@
         <!-- 查看明细按钮 -->
         <div class="detail-btn-container">
             <button class="detail-btn" onclick="viewUsageDetail()">
-                <span class="detail-btn-text">查看明细</span>
+                <span class="detail-btn-text">View Details</span>
                 <span class="detail-btn-arrow">›</span>
             </button>
         </div>
