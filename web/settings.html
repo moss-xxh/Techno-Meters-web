@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-zh="系统设置" data-en="Settings">系统设置</title>
+    <link rel="stylesheet" href="assets/css/common.css">
+    <link rel="stylesheet" href="assets/css/navbar.css">
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="nav-content">
+            <div class="nav-brand">
+                <img src="logo.png" alt="Logo" class="nav-logo">
+            </div>
+            <div class="nav-menu">
+                <a href="dashboard.html" class="nav-link" data-zh="仪表盘" data-en="Dashboard">仪表盘</a>
+                <a href="pricing-templates.html" class="nav-link" data-zh="电价模版" data-en="Pricing Templates">电价模版</a>
+                <a href="space-management.html" class="nav-link" data-zh="空间管理" data-en="Space Management">空间管理</a>
+                <a href="device-management.html" class="nav-link" data-zh="设备管理" data-en="Device Management">设备管理</a>
+                <a href="user-management.html" class="nav-link" data-zh="用户管理" data-en="User Management">用户管理</a>
+                <a href="bills.html" class="nav-link" data-zh="账单管理" data-en="Bill Management">账单管理</a>
+            </div>
+            <div class="nav-actions">
+                <div class="lang-dropdown">
+                    <select id="language-select" class="form-select lang-select">
+                        <option value="zh" data-zh="中文" data-en="Chinese">中文</option>
+                        <option value="en" data-zh="English" data-en="English">English</option>
+                    </select>
+                </div>
+                <div class="user-menu">
+                    <div class="user-avatar">管</div>
+                    <span data-zh="管理员" data-en="Admin">管理员</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 主内容区域 -->
+    <main class="main-content">
+        <div class="content-layout">
+            <div class="main-container">
+                <!-- 页面标题 -->
+                <div class="page-header">
+                    <h2 data-zh="系统设置" data-en="System Settings">系统设置</h2>
+                    <p data-zh="配置系统参数和账单结算规则" data-en="Configure system parameters and billing rules">配置系统参数和账单结算规则</p>
+                </div>
+
+                <!-- 设置区域 -->
+                <div class="settings-container">
+                    <!-- 账单设置 -->
+                    <div class="settings-section">
+                        <div class="section-header">
+                            <h3 data-zh="账单设置" data-en="Billing Settings">账单设置</h3>
+                            <p data-zh="配置账单生成和结算规则" data-en="Configure billing generation and settlement rules">配置账单生成和结算规则</p>
+                        </div>
+
+                        <div class="settings-form">
+                            <div class="form-group">
+                                <label for="billing-cycle" data-zh="账单结算周期*" data-en="Billing Cycle*">账单结算周期*</label>
+                                <select id="billing-cycle" name="billingCycle" class="form-select">
+                                    <option value="monthly" data-zh="每月结算" data-en="Monthly">每月结算</option>
+                                    <option value="quarterly" data-zh="每季度结算" data-en="Quarterly">每季度结算</option>
+                                    <option value="bi-monthly" data-zh="双月结算" data-en="Bi-monthly">双月结算</option>
+                                </select>
+                                <small class="form-hint" data-zh="设置系统自动生成账单的周期" data-en="Set the period for automatic bill generation">设置系统自动生成账单的周期</small>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="billing-date" data-zh="账单生成日期" data-en="Bill Generation Date">账单生成日期</label>
+                                    <select id="billing-date" name="billingDate" class="form-select">
+                                        <option value="1" selected>1号</option>
+                                        <option value="15">15号</option>
+                                        <option value="last-day" data-zh="月末" data-en="Last day">月末</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="due-days" data-zh="付款期限(天)" data-en="Payment Due(days)">付款期限(天)</label>
+                                    <input type="number" id="due-days" name="dueDays" class="form-input"
+                                           value="30" min="1" max="90">
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="late-fee-rate" data-zh="滞纳金比例(%)" data-en="Late Fee Rate(%)">滞纳金比例(%)</label>
+                                    <input type="number" id="late-fee-rate" name="lateFeeRate" class="form-input"
+                                           value="1.5" min="0" max="10" step="0.1">
+                                </div>
+                                <div class="form-group">
+                                    <label for="grace-period" data-zh="宽限期(天)" data-en="Grace Period(days)">宽限期(天)</label>
+                                    <input type="number" id="grace-period" name="gracePeriod" class="form-input"
+                                           value="7" min="0" max="30">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 电费设置 -->
+                    <div class="settings-section">
+                        <div class="section-header">
+                            <h3 data-zh="电费设置" data-en="Electricity Tariff">电费设置</h3>
+                            <p data-zh="配置电费单价和计算规则" data-en="Configure electricity rates and calculation rules">配置电费单价和计算规则</p>
+                        </div>
+
+                        <div class="settings-form">
+                            <div class="form-group">
+                                <label for="tariff-type" data-zh="电费类型" data-en="Tariff Type">电费类型</label>
+                                <select id="tariff-type" name="tariffType" class="form-select">
+                                    <option value="flat" data-zh="固定单价" data-en="Flat Rate">固定单价</option>
+                                    <option value="tiered" selected data-zh="阶梯电价" data-en="Tiered Rate">阶梯电价</option>
+                                    <option value="time-of-use" data-zh="分时电价" data-en="Time-of-Use">分时电价</option>
+                                </select>
+                            </div>
+
+                            <!-- 阶梯电价设置 -->
+                            <div id="tiered-settings" class="tariff-settings">
+                                <h4 data-zh="阶梯电价设置" data-en="Tiered Rate Settings">阶梯电价设置</h4>
+
+                                <div class="tier-setting">
+                                    <label data-zh="第一阶梯 (0-100 kWh)" data-en="Tier 1 (0-100 kWh)">第一阶梯 (0-100 kWh)</label>
+                                    <div class="tier-input">
+                                        <input type="number" id="tier1-rate" name="tier1Rate" class="form-input"
+                                               value="5.50" min="0" step="0.01">
+                                        <span class="unit">₹/kWh</span>
+                                    </div>
+                                </div>
+
+                                <div class="tier-setting">
+                                    <label data-zh="第二阶梯 (101-300 kWh)" data-en="Tier 2 (101-300 kWh)">第二阶梯 (101-300 kWh)</label>
+                                    <div class="tier-input">
+                                        <input type="number" id="tier2-rate" name="tier2Rate" class="form-input"
+                                               value="7.25" min="0" step="0.01">
+                                        <span class="unit">₹/kWh</span>
+                                    </div>
+                                </div>
+
+                                <div class="tier-setting">
+                                    <label data-zh="第三阶梯 (300+ kWh)" data-en="Tier 3 (300+ kWh)">第三阶梯 (300+ kWh)</label>
+                                    <div class="tier-input">
+                                        <input type="number" id="tier3-rate" name="tier3Rate" class="form-input"
+                                               value="9.00" min="0" step="0.01">
+                                        <span class="unit">₹/kWh</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="fixed-charge" data-zh="固定费用(₹/月)" data-en="Fixed Charge(₹/month)">固定费用(₹/月)</label>
+                                    <input type="number" id="fixed-charge" name="fixedCharge" class="form-input"
+                                           value="150" min="0" step="1">
+                                </div>
+                                <div class="form-group">
+                                    <label for="meter-rent" data-zh="电表租金(₹/月)" data-en="Meter Rent(₹/month)">电表租金(₹/月)</label>
+                                    <input type="number" id="meter-rent" name="meterRent" class="form-input"
+                                           value="25" min="0" step="1">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 税费设置 -->
+                    <div class="settings-section">
+                        <div class="section-header">
+                            <h3 data-zh="税费设置" data-en="Tax Settings">税费设置</h3>
+                            <p data-zh="配置各项税费和附加费" data-en="Configure taxes and additional charges">配置各项税费和附加费</p>
+                        </div>
+
+                        <div class="settings-form">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="gst-rate" data-zh="GST税率(%)" data-en="GST Rate(%)">GST税率(%)</label>
+                                    <input type="number" id="gst-rate" name="gstRate" class="form-input"
+                                           value="18" min="0" max="50" step="0.1">
+                                </div>
+                                <div class="form-group">
+                                    <label for="service-charge" data-zh="服务费(%)" data-en="Service Charge(%)">服务费(%)</label>
+                                    <input type="number" id="service-charge" name="serviceCharge" class="form-input"
+                                           value="2.5" min="0" max="10" step="0.1">
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="fuel-surcharge" data-zh="燃料附加费(%)" data-en="Fuel Surcharge(%)">燃料附加费(%)</label>
+                                    <input type="number" id="fuel-surcharge" name="fuelSurcharge" class="form-input"
+                                           value="1.25" min="0" max="5" step="0.01">
+                                </div>
+                                <div class="form-group">
+                                    <label for="regulatory-charge" data-zh="监管费(%)" data-en="Regulatory Charge(%)">监管费(%)</label>
+                                    <input type="number" id="regulatory-charge" name="regulatoryCharge" class="form-input"
+                                           value="0.5" min="0" max="2" step="0.01">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 系统设置 -->
+                    <div class="settings-section">
+                        <div class="section-header">
+                            <h3 data-zh="系统设置" data-en="System Settings">系统设置</h3>
+                            <p data-zh="配置系统基本参数" data-en="Configure basic system parameters">配置系统基本参数</p>
+                        </div>
+
+                        <div class="settings-form">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="company-name" data-zh="公司名称" data-en="Company Name">公司名称</label>
+                                    <input type="text" id="company-name" name="companyName" class="form-input"
+                                           value="印度能源管理有限公司" placeholder="请输入公司名称">
+                                </div>
+                                <div class="form-group">
+                                    <label for="contact-phone" data-zh="联系电话" data-en="Contact Phone">联系电话</label>
+                                    <input type="tel" id="contact-phone" name="contactPhone" class="form-input"
+                                           value="+91 98765 43210" placeholder="请输入联系电话">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="company-address" data-zh="公司地址" data-en="Company Address">公司地址</label>
+                                <textarea id="company-address" name="companyAddress" class="form-textarea"
+                                          rows="2" placeholder="请输入公司地址">Mumbai, Maharashtra, India</textarea>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="currency" data-zh="默认货币" data-en="Default Currency">默认货币</label>
+                                    <select id="currency" name="currency" class="form-select">
+                                        <option value="INR" selected>₹ 印度卢比 (INR)</option>
+                                        <option value="USD">$ 美元 (USD)</option>
+                                        <option value="EUR">€ 欧元 (EUR)</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="time-zone" data-zh="时区" data-en="Time Zone">时区</label>
+                                    <select id="time-zone" name="timeZone" class="form-select">
+                                        <option value="Asia/Kolkata" selected>Asia/Kolkata (IST)</option>
+                                        <option value="UTC">UTC</option>
+                                        <option value="Asia/Shanghai">Asia/Shanghai (CST)</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 保存按钮 -->
+                    <div class="settings-actions">
+                        <button type="button" class="btn btn-secondary" onclick="resetSettings()">
+                            <span data-zh="重置" data-en="Reset">重置</span>
+                        </button>
+                        <button type="button" class="btn btn-primary" onclick="saveSettings()">
+                            <span data-zh="保存设置" data-en="Save Settings">保存设置</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="assets/js/navbar.js"></script>
+    <script src="assets/js/common.js"></script>
+    <script>
+        // 设置数据
+        const defaultSettings = {
+            billing: {
+                cycle: 'monthly',
+                date: '1',
+                dueDays: 30,
+                lateFeeRate: 1.5,
+                gracePeriod: 7
+            },
+            tariff: {
+                type: 'tiered',
+                tier1Rate: 5.50,
+                tier2Rate: 7.25,
+                tier3Rate: 9.00,
+                fixedCharge: 150,
+                meterRent: 25
+            },
+            tax: {
+                gstRate: 18,
+                serviceCharge: 2.5,
+                fuelSurcharge: 1.25,
+                regulatoryCharge: 0.5
+            },
+            system: {
+                companyName: '印度能源管理有限公司',
+                contactPhone: '+91 98765 43210',
+                companyAddress: 'Mumbai, Maharashtra, India',
+                currency: 'INR',
+                timeZone: 'Asia/Kolkata'
+            }
+        };
+
+        function loadSettings() {
+            const savedSettings = localStorage.getItem('systemSettings');
+            const settings = savedSettings ? JSON.parse(savedSettings) : defaultSettings;
+
+            // 加载账单设置
+            document.getElementById('billing-cycle').value = settings.billing.cycle;
+            document.getElementById('billing-date').value = settings.billing.date;
+            document.getElementById('due-days').value = settings.billing.dueDays;
+            document.getElementById('late-fee-rate').value = settings.billing.lateFeeRate;
+            document.getElementById('grace-period').value = settings.billing.gracePeriod;
+
+            // 加载电费设置
+            document.getElementById('tariff-type').value = settings.tariff.type;
+            document.getElementById('tier1-rate').value = settings.tariff.tier1Rate;
+            document.getElementById('tier2-rate').value = settings.tariff.tier2Rate;
+            document.getElementById('tier3-rate').value = settings.tariff.tier3Rate;
+            document.getElementById('fixed-charge').value = settings.tariff.fixedCharge;
+            document.getElementById('meter-rent').value = settings.tariff.meterRent;
+
+            // 加载税费设置
+            document.getElementById('gst-rate').value = settings.tax.gstRate;
+            document.getElementById('service-charge').value = settings.tax.serviceCharge;
+            document.getElementById('fuel-surcharge').value = settings.tax.fuelSurcharge;
+            document.getElementById('regulatory-charge').value = settings.tax.regulatoryCharge;
+
+            // 加载系统设置
+            document.getElementById('company-name').value = settings.system.companyName;
+            document.getElementById('contact-phone').value = settings.system.contactPhone;
+            document.getElementById('company-address').value = settings.system.companyAddress;
+            document.getElementById('currency').value = settings.system.currency;
+            document.getElementById('time-zone').value = settings.system.timeZone;
+        }
+
+        function saveSettings() {
+            const settings = {
+                billing: {
+                    cycle: document.getElementById('billing-cycle').value,
+                    date: document.getElementById('billing-date').value,
+                    dueDays: parseInt(document.getElementById('due-days').value),
+                    lateFeeRate: parseFloat(document.getElementById('late-fee-rate').value),
+                    gracePeriod: parseInt(document.getElementById('grace-period').value)
+                },
+                tariff: {
+                    type: document.getElementById('tariff-type').value,
+                    tier1Rate: parseFloat(document.getElementById('tier1-rate').value),
+                    tier2Rate: parseFloat(document.getElementById('tier2-rate').value),
+                    tier3Rate: parseFloat(document.getElementById('tier3-rate').value),
+                    fixedCharge: parseInt(document.getElementById('fixed-charge').value),
+                    meterRent: parseInt(document.getElementById('meter-rent').value)
+                },
+                tax: {
+                    gstRate: parseFloat(document.getElementById('gst-rate').value),
+                    serviceCharge: parseFloat(document.getElementById('service-charge').value),
+                    fuelSurcharge: parseFloat(document.getElementById('fuel-surcharge').value),
+                    regulatoryCharge: parseFloat(document.getElementById('regulatory-charge').value)
+                },
+                system: {
+                    companyName: document.getElementById('company-name').value.trim(),
+                    contactPhone: document.getElementById('contact-phone').value.trim(),
+                    companyAddress: document.getElementById('company-address').value.trim(),
+                    currency: document.getElementById('currency').value,
+                    timeZone: document.getElementById('time-zone').value
+                }
+            };
+
+            // 验证必填字段
+            if (!settings.system.companyName) {
+                alert('请填写公司名称');
+                return;
+            }
+
+            try {
+                // 保存到本地存储
+                localStorage.setItem('systemSettings', JSON.stringify(settings));
+
+                // 显示成功提示
+                if (typeof EnergySystem !== 'undefined') {
+                    EnergySystem.showNotification('设置保存成功！', 'success');
+                } else {
+                    alert('设置保存成功！');
+                }
+
+                console.log('设置已保存:', settings);
+            } catch (error) {
+                console.error('保存设置时出错:', error);
+                alert('保存设置失败，请重试');
+            }
+        }
+
+        function resetSettings() {
+            if (confirm('确定要重置所有设置为默认值吗？')) {
+                loadSettingsFromData(defaultSettings);
+                if (typeof EnergySystem !== 'undefined') {
+                    EnergySystem.showNotification('设置已重置为默认值', 'info');
+                } else {
+                    alert('设置已重置为默认值');
+                }
+            }
+        }
+
+        function loadSettingsFromData(settings) {
+            // 加载账单设置
+            document.getElementById('billing-cycle').value = settings.billing.cycle;
+            document.getElementById('billing-date').value = settings.billing.date;
+            document.getElementById('due-days').value = settings.billing.dueDays;
+            document.getElementById('late-fee-rate').value = settings.billing.lateFeeRate;
+            document.getElementById('grace-period').value = settings.billing.gracePeriod;
+
+            // 加载电费设置
+            document.getElementById('tariff-type').value = settings.tariff.type;
+            document.getElementById('tier1-rate').value = settings.tariff.tier1Rate;
+            document.getElementById('tier2-rate').value = settings.tariff.tier2Rate;
+            document.getElementById('tier3-rate').value = settings.tariff.tier3Rate;
+            document.getElementById('fixed-charge').value = settings.tariff.fixedCharge;
+            document.getElementById('meter-rent').value = settings.tariff.meterRent;
+
+            // 加载税费设置
+            document.getElementById('gst-rate').value = settings.tax.gstRate;
+            document.getElementById('service-charge').value = settings.tax.serviceCharge;
+            document.getElementById('fuel-surcharge').value = settings.tax.fuelSurcharge;
+            document.getElementById('regulatory-charge').value = settings.tax.regulatoryCharge;
+
+            // 加载系统设置
+            document.getElementById('company-name').value = settings.system.companyName;
+            document.getElementById('contact-phone').value = settings.system.contactPhone;
+            document.getElementById('company-address').value = settings.system.companyAddress;
+            document.getElementById('currency').value = settings.system.currency;
+            document.getElementById('time-zone').value = settings.system.timeZone;
+        }
+
+        // 初始化页面
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('设置页面加载开始');
+
+            // 检查EnergySystem是否可用
+            if (typeof EnergySystem !== 'undefined') {
+                console.log('EnergySystem可用');
+                EnergySystem.setActiveNavigation('settings.html');
+                EnergySystem.initLanguageSystem();
+            } else {
+                console.log('EnergySystem不可用');
+            }
+
+            // 加载设置
+            loadSettings();
+            console.log('设置页面初始化完成');
+        });
+    </script>
+
+    <script>
+        // 添加设置页面特有样式 - 与bills.html保持一致
+        const style = document.createElement('style');
+        style.textContent = `
+            /* 导航栏样式 - 覆盖common.css */
+            .navbar {
+                height: 56px !important;
+                overflow: hidden !important;
+                background: rgba(255, 255, 255, 0.8) !important;
+                backdrop-filter: blur(20px) !important;
+                border-bottom: var(--border) !important;
+                position: sticky !important;
+                top: 0 !important;
+                z-index: 1000 !important;
+            }
+
+            .nav-content {
+                display: flex !important;
+                align-items: center !important;
+                justify-content: space-between !important;
+                padding: 12px 20px !important;
+                gap: 15px !important;
+                height: 100% !important;
+                max-width: none !important;
+                margin: 0 !important;
+            }
+
+            .nav-brand {
+                display: flex !important;
+                align-items: center !important;
+                flex-shrink: 0 !important;
+            }
+
+            .nav-menu {
+                flex: 1 !important;
+                display: flex !important;
+                justify-content: center !important;
+                gap: 20px !important;
+            }
+
+            .nav-actions {
+                display: flex !important;
+                align-items: center !important;
+                gap: 15px !important;
+            }
+
+            .nav-logo {
+                height: 32px !important;
+                max-width: 150px !important;
+                object-fit: contain !important;
+                transition: all 0.2s ease !important;
+            }
+
+            .nav-logo:hover {
+                transform: scale(1.02) !important;
+            }
+
+            /* 布局系统 */
+            .content-layout {
+                display: flex;
+                max-width: 1600px;
+                margin: 0 auto;
+                padding: var(--space-12) var(--space-8);
+                gap: var(--space-6);
+            }
+
+            .main-container {
+                flex: 1;
+                min-width: 0;
+                padding-top: 0;
+            }
+
+            /* 页面标题 */
+            .page-header {
+                margin-bottom: 32px;
+                padding-bottom: 20px;
+                border-bottom: 2px solid var(--border-color);
+            }
+
+            .page-header h2 {
+                margin: 0 0 8px 0;
+                font-size: 28px;
+                font-weight: 700;
+                color: var(--text-primary);
+            }
+
+            .page-header p {
+                margin: 0;
+                font-size: 16px;
+                color: var(--text-secondary);
+                line-height: 1.5;
+            }
+
+            /* 设置容器 */
+            .settings-container {
+                display: flex;
+                flex-direction: column;
+                gap: 32px;
+            }
+
+            .settings-section {
+                background: var(--background);
+                border: var(--border);
+                border-radius: var(--radius);
+                padding: 32px;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            }
+
+            .section-header {
+                margin-bottom: 24px;
+                padding-bottom: 16px;
+                border-bottom: 2px solid var(--primary);
+            }
+
+            .section-header h3 {
+                margin: 0 0 8px 0;
+                font-size: 20px;
+                font-weight: 600;
+                color: var(--primary);
+                display: flex;
+                align-items: center;
+                gap: 8px;
+            }
+
+            .section-header h3::before {
+                content: '';
+                width: 4px;
+                height: 20px;
+                background: var(--primary);
+                border-radius: 2px;
+            }
+
+            .section-header p {
+                margin: 0;
+                font-size: 14px;
+                color: var(--text-secondary);
+                line-height: 1.5;
+            }
+
+            /* 表单样式 */
+            .settings-form {
+                display: flex;
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .form-row {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                gap: 20px;
+            }
+
+            .form-group {
+                display: flex;
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .form-group label {
+                font-size: 14px;
+                font-weight: 500;
+                color: var(--text-primary);
+                display: flex;
+                align-items: center;
+                gap: 4px;
+            }
+
+            .form-group label[data-zh*="*"]::after,
+            .form-group label[data-en*="*"]::after {
+                content: '*';
+                color: var(--error);
+                font-weight: bold;
+                margin-left: 2px;
+            }
+
+            .form-input,
+            .form-select,
+            .form-textarea {
+                padding: 12px 16px;
+                border: 2px solid var(--border-color);
+                border-radius: var(--radius);
+                background: var(--background);
+                color: var(--text-primary);
+                font-size: 14px;
+                transition: all 0.2s ease;
+                outline: none;
+                font-family: inherit;
+            }
+
+            .form-input:focus,
+            .form-select:focus,
+            .form-textarea:focus {
+                border-color: var(--primary);
+                box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+                background: var(--background);
+            }
+
+            .form-input:hover,
+            .form-select:hover {
+                border-color: var(--accent);
+            }
+
+            .form-textarea {
+                resize: vertical;
+                min-height: 80px;
+                font-family: inherit;
+                line-height: 1.5;
+            }
+
+            .form-hint {
+                font-size: 12px;
+                color: var(--text-secondary);
+                margin-top: 4px;
+                font-style: italic;
+            }
+
+            /* 阶梯电价设置 */
+            .tariff-settings {
+                margin-top: 20px;
+                padding: 20px;
+                background: var(--surface);
+                border-radius: var(--radius);
+                border: 1px solid var(--border-color);
+            }
+
+            .tariff-settings h4 {
+                margin: 0 0 16px 0;
+                font-size: 16px;
+                font-weight: 600;
+                color: var(--text-primary);
+            }
+
+            .tier-setting {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                margin-bottom: 16px;
+                padding: 12px;
+                background: var(--background);
+                border-radius: var(--radius);
+                border: 1px solid var(--border-color);
+            }
+
+            .tier-setting:last-child {
+                margin-bottom: 0;
+            }
+
+            .tier-setting label {
+                font-size: 14px;
+                font-weight: 500;
+                color: var(--text-primary);
+                flex: 1;
+            }
+
+            .tier-input {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                min-width: 150px;
+            }
+
+            .tier-input .form-input {
+                width: 100px;
+                margin: 0;
+            }
+
+            .tier-input .unit {
+                font-size: 14px;
+                color: var(--text-secondary);
+                font-weight: 500;
+            }
+
+            /* 操作按钮 */
+            .settings-actions {
+                display: flex;
+                justify-content: flex-end;
+                gap: 16px;
+                padding: 24px 32px;
+                background: var(--surface);
+                border-top: var(--border);
+                border-radius: 0 0 var(--radius) var(--radius);
+                margin: 32px -32px -32px -32px;
+            }
+
+            /* 语言下拉列表样式 */
+            .lang-dropdown {
+                display: flex;
+                align-items: center;
+            }
+
+            .lang-select {
+                min-width: 100px;
+                padding: var(--space-2) var(--space-3);
+                border: var(--border);
+                border-radius: var(--radius);
+                background: var(--background);
+                font-size: 14px;
+                font-weight: var(--font-weight-medium);
+                cursor: pointer;
+                transition: all 0.15s ease;
+            }
+
+            .lang-select:focus {
+                outline: 2px solid var(--accent);
+                outline-offset: -2px;
+            }
+
+            .lang-select:hover {
+                background: var(--surface);
+            }
+
+            /* 按钮样式 - 与bills.html保持一致 */
+            .btn {
+                padding: var(--space-2) var(--space-4);
+                border: none;
+                border-radius: var(--radius);
+                font-family: inherit;
+                font-size: 14px;
+                font-weight: var(--font-weight-medium);
+                cursor: pointer;
+                transition: all 0.15s ease;
+                text-decoration: none;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                gap: var(--space-2);
+            }
+
+            .btn-primary {
+                background: var(--primary);
+                color: white;
+            }
+
+            .btn-primary:hover {
+                transform: translateY(-1px);
+                box-shadow: var(--shadow-hover);
+            }
+
+            .btn-secondary {
+                background: var(--surface);
+                color: var(--text-primary);
+                border: var(--border);
+            }
+
+            .btn-secondary:hover {
+                background: var(--divider);
+            }
+
+            /* 响应式设计 */
+            @media (max-width: 1200px) {
+                .content-layout {
+                    flex-direction: column;
+                }
+            }
+
+            @media (max-width: 768px) {
+                .content-layout {
+                    padding: var(--space-8) var(--space-4);
+                }
+
+                .settings-section {
+                    padding: 20px;
+                }
+
+                .form-row {
+                    grid-template-columns: 1fr;
+                    gap: 16px;
+                }
+
+                .tier-setting {
+                    flex-direction: column;
+                    align-items: stretch;
+                    gap: 12px;
+                }
+
+                .tier-input {
+                    justify-content: flex-end;
+                }
+
+                .settings-actions {
+                    flex-direction: column;
+                    margin: 24px -20px -20px -20px;
+                    padding: 20px;
+                }
+
+                .nav-menu {
+                    gap: 10px !important;
+                }
+
+                .page-header h2 {
+                    font-size: 24px;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>

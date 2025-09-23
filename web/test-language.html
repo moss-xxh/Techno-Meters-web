@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-zh="语言测试页面" data-en="Language Test Page">语言测试页面</title>
+    <link rel="stylesheet" href="assets/css/common.css">
+    <link rel="stylesheet" href="assets/css/navbar.css">
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="nav-content">
+            <div class="nav-brand">
+                <img src="logo.png" alt="Logo" class="nav-logo">
+            </div>
+            <div class="nav-menu">
+                <a href="dashboard.html" class="nav-link" data-zh="仪表盘" data-en="Dashboard">仪表盘</a>
+                <a href="pricing-templates.html" class="nav-link" data-zh="电价模版" data-en="Pricing Templates">电价模版</a>
+                <a href="space-management.html" class="nav-link" data-zh="空间管理" data-en="Space Management">空间管理</a>
+                <a href="device-management.html" class="nav-link" data-zh="设备管理" data-en="Device Management">设备管理</a>
+                <a href="user-management.html" class="nav-link" data-zh="用户管理" data-en="User Management">用户管理</a>
+                <a href="bills.html" class="nav-link" data-zh="账单管理" data-en="Bill Management">账单管理</a>
+            </div>
+            <div class="nav-actions">
+                <div class="lang-dropdown">
+                    <select id="language-select" class="form-select lang-select">
+                        <option value="zh" data-zh="中文" data-en="Chinese">中文</option>
+                        <option value="en" data-zh="English" data-en="English">English</option>
+                    </select>
+                </div>
+                <div class="user-menu">
+                    <div class="user-avatar">管</div>
+                    <span data-zh="管理员" data-en="Admin">管理员</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 主内容区域 -->
+    <main class="main-content">
+        <div class="content-layout">
+            <div class="main-container">
+                <h1 data-zh="语言同步测试" data-en="Language Sync Test">语言同步测试</h1>
+
+                <div class="table-container">
+                    <h2 data-zh="当前语言状态" data-en="Current Language Status">当前语言状态</h2>
+                    <p data-zh="这个页面用于测试语言切换是否在所有页面间正确同步。" data-en="This page is used to test if language switching syncs correctly across all pages.">这个页面用于测试语言切换是否在所有页面间正确同步。</p>
+
+                    <div id="language-info">
+                        <p><strong data-zh="localStorage中的语言" data-en="Language in localStorage">localStorage中的语言</strong>: <span id="stored-lang"></span></p>
+                        <p><strong data-zh="当前应用的语言" data-en="Currently applied language">当前应用的语言</strong>: <span id="current-lang"></span></p>
+                        <p><strong data-zh="选择器显示的语言" data-en="Selector shows language">选择器显示的语言</strong>: <span id="selector-lang"></span></p>
+                    </div>
+
+                    <button onclick="testLanguageSync()" class="btn btn-primary" data-zh="刷新状态" data-en="Refresh Status">刷新状态</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="assets/js/common.js"></script>
+    <script src="assets/js/navbar.js"></script>
+    <script>
+        function testLanguageSync() {
+            const storedLang = localStorage.getItem('system-lang') || 'zh';
+            const currentLang = navigationManager ? navigationManager.getCurrentLanguage() : 'unknown';
+            const selectorLang = document.getElementById('language-select').value;
+
+            document.getElementById('stored-lang').textContent = storedLang;
+            document.getElementById('current-lang').textContent = currentLang;
+            document.getElementById('selector-lang').textContent = selectorLang;
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // 监听语言变化
+            window.addEventListener('languageChanged', (e) => {
+                console.log('Language changed to:', e.detail.language);
+                testLanguageSync();
+            });
+
+            // 初始化显示
+            setTimeout(testLanguageSync, 100);
+        });
+    </script>
+</body>
+</html>

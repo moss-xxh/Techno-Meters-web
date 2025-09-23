@@ -1,0 +1,1406 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-zh="账单管理" data-en="Bill Management">账单管理</title>
+    <link rel="stylesheet" href="assets/css/common.css">
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="nav-content">
+            <div class="nav-brand">
+                <img src="logo.png" alt="Logo" class="nav-logo">
+            </div>
+            <div class="nav-menu">
+                <a href="dashboard.html" class="nav-link" data-zh="仪表盘" data-en="Dashboard">仪表盘</a>
+                <a href="pricing-templates.html" class="nav-link" data-zh="电价模版" data-en="Pricing Templates">电价模版</a>
+                <a href="space-management.html" class="nav-link" data-zh="空间管理" data-en="Space Management">空间管理</a>
+                <a href="device-management.html" class="nav-link" data-zh="设备管理" data-en="Device Management">设备管理</a>
+                <a href="user-management.html" class="nav-link" data-zh="用户管理" data-en="User Management">用户管理</a>
+                <a href="bills.html" class="nav-link active" data-zh="账单管理" data-en="Bill Management">账单管理</a>
+            </div>
+            <div class="nav-actions">
+                <div class="lang-dropdown">
+                    <select id="language-select" class="form-select lang-select">
+                        <option value="zh" data-zh="中文" data-en="Chinese">中文</option>
+                        <option value="en" data-zh="English" data-en="English">English</option>
+                    </select>
+                </div>
+                <div class="user-menu">
+                    <div class="user-avatar">管</div>
+                    <span data-zh="管理员" data-en="Admin">管理员</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 主内容区域 -->
+    <main class="main-content">
+        <div class="content-layout">
+
+            <!-- 右侧主要内容 -->
+            <div class="main-container">
+                <!-- 时间选择器 -->
+                <div class="time-selector">
+                    <label for="month-select" class="time-label" data-zh="账期" data-en="Billing Period">账期</label>
+                    <select id="month-select" class="form-select">
+                        <option value="2025-08" data-zh="2025年8月" data-en="August 2025">2025年8月</option>
+                        <option value="2025-09" selected data-zh="2025年9月" data-en="September 2025">2025年9月</option>
+                        <option value="2025-10" data-zh="2025年10月" data-en="October 2025">2025年10月</option>
+                        <option value="2025-11" data-zh="2025年11月" data-en="November 2025">2025年11月</option>
+                        <option value="2025-12" data-zh="2025年12月" data-en="December 2025">2025年12月</option>
+                    </select>
+                </div>
+
+                <!-- 账单统计卡片 -->
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-icon">📄</div>
+                        <div class="metric-content">
+                            <div class="metric-value">
+                                <span>8</span>
+                                <span data-zh=" 个" data-en=""></span>
+                            </div>
+                            <div class="metric-label" data-zh="账单数量" data-en="Bill Count">账单数量</div>
+                            <div class="metric-change positive">
+                                <span>+2</span>
+                                <span data-zh="较上月" data-en="vs last month">较上月</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="metric-card">
+                        <div class="metric-icon">⚡</div>
+                        <div class="metric-content">
+                            <div class="metric-value">4,421 kWh</div>
+                            <div class="metric-label" data-zh="用电量" data-en="Power Usage">用电量</div>
+                            <div class="metric-change positive">
+                                <span>+8.2%</span>
+                                <span data-zh="较上月" data-en="vs last month">较上月</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="metric-card">
+                        <div class="metric-icon">💰</div>
+                        <div class="metric-content">
+                            <div class="metric-value">₹2,243.11</div>
+                            <div class="metric-label" data-zh="电费收入" data-en="Revenue">电费收入</div>
+                            <div class="metric-change positive">
+                                <span>+12.3%</span>
+                                <span data-zh="较上月" data-en="vs last month">较上月</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 搜索和操作区域 -->
+                <div class="search-section">
+                    <div class="search-controls">
+                    <input type="text" id="bill-search" class="form-input" placeholder="用户电号/姓名..." data-zh-placeholder="用户电号/姓名..." data-en-placeholder="User ID/Name...">
+                    <select id="business-type-filter" class="form-select">
+                        <option value="all" data-zh="全部业态" data-en="All Business Types">全部业态</option>
+                        <option value="residential" data-zh="居民" data-en="Residential">居民</option>
+                        <option value="industrial" data-zh="工业" data-en="Industrial">工业</option>
+                        <option value="commercial" data-zh="商业" data-en="Commercial">商业</option>
+                        <option value="agricultural" data-zh="农业" data-en="Agricultural">农业</option>
+                    </select>
+                    <select id="billing-method-filter" class="form-select">
+                        <option value="all" data-zh="全部计费方式" data-en="All Billing Methods">全部计费方式</option>
+                        <option value="tiered" data-zh="阶梯电费" data-en="Tiered Pricing">阶梯电费</option>
+                        <option value="time-of-use" data-zh="分时电价" data-en="Time-of-Use">分时电价</option>
+                    </select>
+                </div>
+                <div class="search-actions">
+                    <button class="btn btn-primary" onclick="searchBills()">
+                        <span data-zh="查询" data-en="Search">查询</span>
+                    </button>
+                    <button class="btn btn-secondary" onclick="resetFilters()">
+                        <span data-zh="重置" data-en="Reset">重置</span>
+                    </button>
+                </div>
+                </div>
+
+                <!-- 账单列表表格 -->
+                <div class="table-container">
+
+                    <table class="table" id="bills-table">
+                        <thead>
+                            <tr>
+                                <th data-sortable data-zh="用户" data-en="User">用户</th>
+                                <th data-sortable data-zh="电表号" data-en="Meter No.">电表号</th>
+                                <th data-sortable data-zh="地址" data-en="Address">地址</th>
+                                <th data-sortable data-zh="业态" data-en="Business Type">业态</th>
+                                <th data-sortable data-zh="计费方式" data-en="Billing Method">计费方式</th>
+                                <th data-sortable data-zh="用量 (kWh)" data-en="Usage (kWh)">用量 (kWh)</th>
+                                <th data-sortable data-zh="金额" data-en="Amount">金额</th>
+                                <th data-zh="操作" data-en="Actions">操作</th>
+                            </tr>
+                        </thead>
+                        <tbody id="bills-tbody">
+                            <!-- 数据由JavaScript生成 -->
+                        </tbody>
+                    </table>
+
+                    <!-- 分页 -->
+                    <div class="pagination">
+                        <button class="btn btn-secondary" id="prev-page" disabled>
+                            <span>‹</span>
+                            <span data-zh="上一页" data-en="Previous">上一页</span>
+                        </button>
+                        <div class="page-info">
+                            <span data-zh="第" data-en="Page">第</span>
+                            <span id="current-page">1</span>
+                            <span data-zh="页，共" data-en="of">页，共</span>
+                            <span id="total-pages">142</span>
+                            <span data-zh="页" data-en="pages">页</span>
+                        </div>
+                        <button class="btn btn-secondary" id="next-page">
+                            <span data-zh="下一页" data-en="Next">下一页</span>
+                            <span>›</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+
+    <script src="assets/js/common.js"></script>
+    <script src="assets/js/navbar.js"></script>
+    <script>
+
+        // 账单数据
+        // 生成印度南部4个邦的账单数据
+        const billsData = [];
+        let currentLanguage = 'zh'; // 默认设置为中文，避免初始化时的空值问题
+        const southStates = [
+            { region: 'tamil-nadu', names: ['Ravi Kumar', 'Priya Sharma', 'Arjun Patel', 'Deepika Singh'], avatars: ['R', 'P', 'A', 'D'] },
+            { region: 'karnataka', names: ['Manjunath Gowda', 'Kavitha Reddy', 'Sachin Joshi', 'Anitha Murthy'], avatars: ['M', 'K', 'S', 'A'] },
+            { region: 'andhra-pradesh', names: ['Venkat Rao', 'Lakshmi Devi', 'Suresh Babu', 'Padma Valli'], avatars: ['V', 'L', 'S', 'P'] },
+            { region: 'kerala', names: ['Ajay Nair', 'Meera Pillai', 'Rajesh Kumar', 'Nisha Thomas'], avatars: ['A', 'M', 'R', 'N'] }
+        ];
+
+        const businessTypes = ['residential', 'industrial', 'commercial', 'agricultural'];
+        const billingMethods = ['tiered', 'time-of-use'];
+        const statuses = ['paid', 'pending', 'overdue'];
+
+        let billId = 1;
+
+        // 只生成8条数据记录
+        const specificBills = [
+            { stateIndex: 0, businessIndex: 0, methodIndex: 0, userName: 'Ravi Kumar', usage: 159, amount: 78.38 },
+            { stateIndex: 0, businessIndex: 0, methodIndex: 1, userName: 'Priya Sharma', usage: 229, amount: 112.34 },
+            { stateIndex: 0, businessIndex: 1, methodIndex: 0, userName: 'Priya Sharma', usage: 842, amount: 355.92 },
+            { stateIndex: 0, businessIndex: 1, methodIndex: 1, userName: 'Arjun Patel', usage: 213, amount: 105.21 },
+            { stateIndex: 0, businessIndex: 2, methodIndex: 0, userName: 'Arjun Patel', usage: 702, amount: 510.32 },
+            { stateIndex: 0, businessIndex: 2, methodIndex: 1, userName: 'Deepika Singh', usage: 513, amount: 390.45 },
+            { stateIndex: 0, businessIndex: 3, methodIndex: 0, userName: 'Deepika Singh', usage: 941, amount: 378.62 },
+            { stateIndex: 0, businessIndex: 3, methodIndex: 1, userName: 'Ravi Kumar', usage: 820, amount: 412.55 }
+        ];
+
+        try {
+            specificBills.forEach((bill, index) => {
+                const stateIndex = bill.stateIndex;
+                const businessIndex = bill.businessIndex;
+                const methodIndex = bill.methodIndex;
+                const state = southStates[stateIndex];
+                const businessType = businessTypes[businessIndex];
+                const billingMethod = billingMethods[methodIndex];
+
+                billsData.push({
+                    id: String(billId).padStart(3, '0'),
+                    userId: `${stateIndex + 1}${businessIndex + 1}${methodIndex + 1}${String(billId).padStart(7, '0')}`,
+                    userName: bill.userName,
+                    userNameEn: bill.userName,
+                    avatar: bill.userName.charAt(0),
+                    usage: bill.usage,
+                    amount: bill.amount,
+                    status: statuses[billId % 3],
+                    billDate: '2024-12-01',
+                    dueDate: '2024-12-20',
+                    region: state.region,
+                    businessType: businessType,
+                    billingMethod: billingMethod,
+                    electricNumber: `${stateIndex + 1}${businessIndex + 1}${String(billId).padStart(8, '0')}`
+                });
+                billId++;
+            });
+
+            console.log('账单数据生成完成，共生成', billsData.length, '条记录');
+        } catch (error) {
+            console.error('生成账单数据时发生错误:', error);
+        }
+
+
+        let currentPage = 1;
+        let filteredBills = [];
+
+        // 渲染账单表格
+        function renderBillsTable() {
+            console.log('开始渲染账单表格...');
+            const tbody = document.getElementById('bills-tbody');
+
+            if (!tbody) {
+                console.error('无法找到账单表格tbody元素');
+                return;
+            }
+
+            if (!filteredBills || filteredBills.length === 0) {
+                console.warn('没有可显示的账单数据');
+                tbody.innerHTML = '<tr><td colspan="8" style="text-align: center; padding: 20px;">暂无账单数据</td></tr>';
+                return;
+            }
+
+            const itemsPerPage = 10;
+            const startIndex = (currentPage - 1) * itemsPerPage;
+            const endIndex = startIndex + itemsPerPage;
+            const pageBills = filteredBills.slice(startIndex, endIndex);
+
+            console.log(`正在渲染第${currentPage}页，显示${pageBills.length}条记录`);
+
+
+            const businessTypeTexts = {
+                zh: {
+                    residential: '居民',
+                    industrial: '工业',
+                    commercial: '商业',
+                    agricultural: '农业'
+                },
+                en: {
+                    residential: 'Residential',
+                    industrial: 'Industrial',
+                    commercial: 'Commercial',
+                    agricultural: 'Agricultural'
+                }
+            };
+
+            const billingMethodTexts = {
+                zh: {
+                    tiered: '阶梯电费',
+                    'time-of-use': '分时电价'
+                },
+                en: {
+                    tiered: 'Tiered',
+                    'time-of-use': 'Time-of-Use'
+                }
+            };
+
+            const actionTexts = {
+                zh: { view: '查看', pay: '付费' },
+                en: { view: 'View', pay: 'Pay' }
+            };
+
+            try {
+                tbody.innerHTML = pageBills.map(bill => {
+                    const safeCurrentLanguage = currentLanguage || 'zh';
+                    const displayName = safeCurrentLanguage === 'zh' ? bill.userName : bill.userNameEn;
+                    const amountClass = bill.amount > 300 ? 'amount-high' : bill.amount > 150 ? 'amount-medium' : 'amount-low';
+
+                    const businessTypeText = businessTypeTexts[safeCurrentLanguage] && businessTypeTexts[safeCurrentLanguage][bill.businessType]
+                        ? businessTypeTexts[safeCurrentLanguage][bill.businessType]
+                        : bill.businessType;
+
+                    const billingMethodText = billingMethodTexts[safeCurrentLanguage] && billingMethodTexts[safeCurrentLanguage][bill.billingMethod]
+                        ? billingMethodTexts[safeCurrentLanguage][bill.billingMethod]
+                        : bill.billingMethod;
+
+                    const actionText = actionTexts[safeCurrentLanguage] && actionTexts[safeCurrentLanguage].view
+                        ? actionTexts[safeCurrentLanguage].view
+                        : '查看';
+
+                    return `
+                        <tr>
+                            <td>
+                                <span class="user-name">${displayName || bill.userName}</span>
+                            </td>
+                            <td>
+                                <span class="meter-number">${bill.electricNumber}</span>
+                            </td>
+                            <td>
+                                <span class="address">${bill.region}</span>
+                            </td>
+                            <td>
+                                <span class="business-type business-${bill.businessType}">
+                                    ${businessTypeText}
+                                </span>
+                            </td>
+                            <td>
+                                <span class="billing-method">
+                                    ${billingMethodText}
+                                </span>
+                            </td>
+                            <td>${bill.usage.toLocaleString()}</td>
+                            <td>
+                                <span class="amount ${amountClass}">₹${bill.amount.toFixed(2)}</span>
+                            </td>
+                            <td>
+                                <div class="actions">
+                                    <button class="btn btn-primary btn-sm" onclick="viewBill('${bill.id}')">
+                                        ${actionText}
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    `;
+                }).join('');
+
+                console.log('账单表格渲染完成');
+            } catch (error) {
+                console.error('渲染账单表格时发生错误:', error);
+                tbody.innerHTML = '<tr><td colspan="8" style="text-align: center; padding: 20px;">渲染账单数据时发生错误</td></tr>';
+            }
+
+            updatePagination();
+        }
+
+        // 更新分页
+        function updatePagination() {
+            const totalPages = Math.ceil(filteredBills.length / 10);
+            document.getElementById('current-page').textContent = currentPage;
+            document.getElementById('total-pages').textContent = totalPages;
+
+            document.getElementById('prev-page').disabled = currentPage === 1;
+            document.getElementById('next-page').disabled = currentPage === totalPages;
+        }
+
+
+        // 搜索和过滤
+        function handleFilter() {
+            const searchTerm = document.getElementById('bill-search').value.toLowerCase();
+            const businessTypeFilter = document.getElementById('business-type-filter').value;
+            const billingMethodFilter = document.getElementById('billing-method-filter').value;
+
+            filteredBills = billsData.filter(bill => {
+                // 用户信息搜索（名称、电号）
+                const nameMatch = bill.userName.toLowerCase().includes(searchTerm) ||
+                                 bill.userNameEn.toLowerCase().includes(searchTerm) ||
+                                 bill.electricNumber.includes(searchTerm);
+
+                // 业态过滤
+                const businessTypeMatch = businessTypeFilter === 'all' || bill.businessType === businessTypeFilter;
+
+                // 计费方式过滤
+                const billingMethodMatch = billingMethodFilter === 'all' || bill.billingMethod === billingMethodFilter;
+
+                return nameMatch && businessTypeMatch && billingMethodMatch;
+            });
+
+            currentPage = 1;
+            renderBillsTable();
+        }
+
+        // 账单操作函数
+        function viewBill(billId) {
+            // 获取当前选择的月份
+            const selectedMonth = document.getElementById('month-select').value;
+
+            // 跳转到账单详情页面
+            window.location.href = `bill-detail.html?id=${billId}&month=${selectedMonth}`;
+        }
+
+        function downloadBill() {
+            EnergySystem.showNotification('账单下载功能开发中...', 'info');
+        }
+
+        function payBill() {
+            EnergySystem.showNotification('跳转到付费页面...', 'info');
+        }
+
+        function processBill(billId) {
+            const bill = billsData.find(b => b.id === billId);
+            if (bill) {
+                EnergySystem.showNotification(`处理账单: ${bill.userName} - 付费`, 'info');
+            }
+        }
+
+        function searchBills() {
+            handleFilter();
+            if (window.EnergySystem && EnergySystem.showNotification) {
+                EnergySystem.showNotification('查询完成', 'success');
+            }
+        }
+
+        function resetFilters() {
+            // 重置所有筛选条件
+            const billSearch = document.getElementById('bill-search');
+            const businessTypeFilter = document.getElementById('business-type-filter');
+            const billingMethodFilter = document.getElementById('billing-method-filter');
+
+            if (billSearch) billSearch.value = '';
+            if (businessTypeFilter) businessTypeFilter.value = 'all';
+            if (billingMethodFilter) billingMethodFilter.value = 'all';
+
+            // 重新应用过滤器
+            handleFilter();
+
+            if (window.EnergySystem && EnergySystem.showNotification) {
+                EnergySystem.showNotification('筛选条件已重置', 'success');
+            }
+        }
+
+        function updateStatistics(selectedMonth) {
+            // 根据实际数据计算统计信息
+            const totalUsage = billsData.reduce((sum, bill) => sum + bill.usage, 0);
+            const totalAmount = billsData.reduce((sum, bill) => sum + bill.amount, 0);
+            const billCount = billsData.length;
+
+            // 根据选择的月份更新统计数据
+            const monthData = {
+                '2025-08': {
+                    bills: { value: '6', change: '+1', comparison: currentLanguage === 'zh' ? '较上月' : 'vs last month' },
+                    usage: { value: `${(totalUsage * 0.9).toLocaleString()} kWh`, change: '+5.1%', comparison: currentLanguage === 'zh' ? '较上月' : 'vs last month' },
+                    revenue: { value: `₹${(totalAmount * 0.9).toFixed(2)}`, change: '+8.7%', comparison: currentLanguage === 'zh' ? '较上月' : 'vs last month' }
+                },
+                '2025-09': {
+                    bills: { value: billCount.toString(), change: '+2', comparison: currentLanguage === 'zh' ? '较上月' : 'vs last month' },
+                    usage: { value: `${totalUsage.toLocaleString()} kWh`, change: '+8.2%', comparison: currentLanguage === 'zh' ? '较上月' : 'vs last month' },
+                    revenue: { value: `₹${totalAmount.toFixed(2)}`, change: '+12.3%', comparison: currentLanguage === 'zh' ? '较上月' : 'vs last month' }
+                },
+                '2025-10': {
+                    bills: { value: '10', change: '+2', comparison: currentLanguage === 'zh' ? '较上月' : 'vs last month' },
+                    usage: { value: `${(totalUsage * 1.1).toLocaleString()} kWh`, change: '+8.5%', comparison: currentLanguage === 'zh' ? '较上月' : 'vs last month' },
+                    revenue: { value: `₹${(totalAmount * 1.1).toFixed(2)}`, change: '+9.5%', comparison: currentLanguage === 'zh' ? '较上月' : 'vs last month' }
+                },
+                '2025-11': {
+                    bills: { value: '12', change: '+2', comparison: currentLanguage === 'zh' ? '较上月' : 'vs last month' },
+                    usage: { value: `${(totalUsage * 1.2).toLocaleString()} kWh`, change: '+6.1%', comparison: currentLanguage === 'zh' ? '较上月' : 'vs last month' },
+                    revenue: { value: `₹${(totalAmount * 1.2).toFixed(2)}`, change: '+7.1%', comparison: currentLanguage === 'zh' ? '较上月' : 'vs last month' }
+                },
+                '2025-12': {
+                    bills: { value: '15', change: '+3', comparison: currentLanguage === 'zh' ? '较上月' : 'vs last month' },
+                    usage: { value: `${(totalUsage * 1.3).toLocaleString()} kWh`, change: '+6.9%', comparison: currentLanguage === 'zh' ? '较上月' : 'vs last month' },
+                    revenue: { value: `₹${(totalAmount * 1.3).toFixed(2)}`, change: '+7.2%', comparison: currentLanguage === 'zh' ? '较上月' : 'vs last month' }
+                }
+            };
+
+            const data = monthData[selectedMonth] || monthData['2025-09'];
+
+            // 更新卡片数据
+            const cards = document.querySelectorAll('.metric-card');
+            if (cards.length >= 3) {
+                // 第一个卡片 - 只更新数字部分，保留语言切换的"个"字
+                cards[0].querySelector('.metric-value span:first-child').textContent = data.bills.value;
+                cards[0].querySelector('.metric-change span:first-child').textContent = data.bills.change;
+                cards[0].querySelector('.metric-change span:last-child').textContent = data.bills.comparison;
+
+                // 第二个卡片
+                cards[1].querySelector('.metric-value').textContent = data.usage.value;
+                cards[1].querySelector('.metric-change span:first-child').textContent = data.usage.change;
+                cards[1].querySelector('.metric-change span:last-child').textContent = data.usage.comparison;
+
+                // 第三个卡片
+                cards[2].querySelector('.metric-value').textContent = data.revenue.value;
+                cards[2].querySelector('.metric-change span:first-child').textContent = data.revenue.change;
+                cards[2].querySelector('.metric-change span:last-child').textContent = data.revenue.comparison;
+            }
+        }
+
+        function refreshBills() {
+            EnergySystem.showLoading(document.querySelector('.table-container'));
+
+            setTimeout(() => {
+                EnergySystem.hideLoading(document.querySelector('.table-container'));
+                renderBillsTable();
+                EnergySystem.showNotification('账单数据已刷新', 'success');
+            }, 1000);
+        }
+
+        // 地区搜索功能
+        function handleRegionSearch() {
+            const searchTerm = document.getElementById('region-search').value.toLowerCase();
+            const container = document.getElementById('region-tree');
+            const nodes = container.querySelectorAll('.region-node');
+
+            nodes.forEach(node => {
+                const regionName = node.querySelector('.region-name').textContent.toLowerCase();
+                const matches = regionName.includes(searchTerm);
+                node.style.display = matches ? 'block' : 'none';
+            });
+        }
+
+        // 保持从其他页面继承的语言设置
+
+        // 获取当前语言设置
+        function getCurrentLanguage() {
+            // 先从语言选择器获取，如果没有则从localStorage获取，最后默认中文
+            try {
+                const selectValue = document.getElementById('language-select')?.value;
+                const storedValue = localStorage.getItem('system-lang');
+                return selectValue || storedValue || 'zh';
+            } catch (error) {
+                console.warn('获取语言设置失败，使用默认值:', error);
+                return 'zh';
+            }
+        }
+
+        // 初始化页面
+        document.addEventListener('DOMContentLoaded', function() {
+            try {
+                // 设置当前页面导航
+                if (window.EnergySystem && EnergySystem.setActiveNavigation) {
+                    EnergySystem.setActiveNavigation('bills.html');
+                }
+
+                // 更新当前语言
+                currentLanguage = getCurrentLanguage();
+                console.log('当前语言设置:', currentLanguage);
+
+                // 更新页面文本翻译
+                if (window.EnergySystem && EnergySystem.updateTexts) {
+                    EnergySystem.updateTexts();
+                }
+
+                // 初始化筛选数据
+                filteredBills = [...billsData];
+                console.log('初始化账单数据:', filteredBills.length, '条记录');
+
+                // 渲染初始内容
+                renderBillsTable();
+
+                // 绑定搜索和过滤事件
+                const billSearch = document.getElementById('bill-search');
+                const businessTypeFilter = document.getElementById('business-type-filter');
+                const billingMethodFilter = document.getElementById('billing-method-filter');
+
+                if (billSearch) {
+                    if (window.EnergySystem && EnergySystem.debounce) {
+                        billSearch.addEventListener('input', EnergySystem.debounce(handleFilter, 300));
+                    } else {
+                        billSearch.addEventListener('input', handleFilter);
+                    }
+                }
+                if (businessTypeFilter) {
+                    businessTypeFilter.addEventListener('change', handleFilter);
+                }
+                if (billingMethodFilter) {
+                    billingMethodFilter.addEventListener('change', handleFilter);
+                }
+
+                // 绑定月份选择器事件
+                const monthSelect = document.getElementById('month-select');
+                if (monthSelect) {
+                    monthSelect.addEventListener('change', function() {
+                        const selectedMonth = this.value;
+                        updateStatistics(selectedMonth);
+                        if (window.EnergySystem && EnergySystem.showNotification) {
+                            EnergySystem.showNotification(`已切换到${selectedMonth}月份数据`, 'success');
+                        }
+                    });
+                }
+
+                // 分页事件
+                const prevPage = document.getElementById('prev-page');
+                const nextPage = document.getElementById('next-page');
+
+                if (prevPage) {
+                    prevPage.addEventListener('click', () => {
+                        if (currentPage > 1) {
+                            currentPage--;
+                            renderBillsTable();
+                        }
+                    });
+                }
+
+                if (nextPage) {
+                    nextPage.addEventListener('click', () => {
+                        const totalPages = Math.ceil(filteredBills.length / 10);
+                        if (currentPage < totalPages) {
+                            currentPage++;
+                            renderBillsTable();
+                        }
+                    });
+                }
+
+                // 启用表格排序
+                if (window.EnergySystem && EnergySystem.createTableSort) {
+                    EnergySystem.createTableSort('bills-table');
+                }
+
+
+                // 监听语言变化
+                window.addEventListener('languageChanged', () => {
+                    // 更新当前语言
+                    currentLanguage = getCurrentLanguage();
+                    renderBillsTable();
+                    // 同时更新所有静态文本
+                    if (window.EnergySystem && EnergySystem.updateTexts) {
+                        EnergySystem.updateTexts();
+                    }
+                    // 重新更新统计卡片数据以应用语言变化
+                    const monthSelect = document.getElementById('month-select');
+                    if (monthSelect) {
+                        updateStatistics(monthSelect.value);
+                    }
+                });
+
+            } catch (error) {
+                console.error('页面初始化过程中发生错误:', error);
+                // 即使出现错误，也要尝试渲染基本的账单数据
+                filteredBills = [...billsData];
+                renderBillsTable();
+            }
+        });
+
+        // 添加账单页面特有样式
+        const style = document.createElement('style');
+        style.textContent = `
+            /* 导航栏样式 - 覆盖common.css */
+            .navbar {
+                height: 56px !important;
+                overflow: hidden !important;
+                background: rgba(255, 255, 255, 0.8) !important;
+                backdrop-filter: blur(20px) !important;
+                border-bottom: var(--border) !important;
+                position: sticky !important;
+                top: 0 !important;
+                z-index: 1000 !important;
+            }
+
+            .nav-content {
+                display: flex !important;
+                align-items: center !important;
+                justify-content: space-between !important;
+                padding: 12px 20px !important;
+                gap: 15px !important;
+                height: 100% !important;
+                max-width: none !important;
+                margin: 0 !important;
+            }
+
+            .nav-brand {
+                display: flex !important;
+                align-items: center !important;
+                flex-shrink: 0 !important;
+            }
+
+            .nav-menu {
+                flex: 1 !important;
+                display: flex !important;
+                justify-content: center !important;
+            }
+
+            .nav-actions {
+                display: flex !important;
+                align-items: center !important;
+                gap: 15px !important;
+            }
+
+            .nav-logo {
+                height: 32px !important;
+                max-width: 150px !important;
+                object-fit: contain !important;
+                transition: all 0.2s ease !important;
+            }
+
+            .nav-logo:hover {
+                transform: scale(1.02) !important;
+            }
+
+            /* 布局系统 */
+            .content-layout {
+                display: flex;
+                max-width: 1600px;
+                margin: 0 auto;
+                padding: var(--space-12) var(--space-8);
+                gap: var(--space-6);
+            }
+
+
+            .main-container {
+                flex: 1;
+                min-width: 0;
+                padding-top: 0;
+            }
+
+            /* 侧边栏样式 */
+            .sidebar-header {
+                padding: var(--space-6);
+                border-bottom: var(--border);
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            .sidebar-header h3 {
+                font-size: 16px;
+                font-weight: var(--font-weight-medium);
+                margin: 0;
+            }
+
+
+
+            .expand-btn {
+                background: none;
+                border: none;
+                padding: var(--space-1);
+                cursor: pointer;
+                color: var(--text-tertiary);
+                font-size: 12px;
+                transition: all 0.15s ease;
+                width: 16px;
+                height: 16px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .expand-btn:hover {
+                color: var(--text-primary);
+                background: var(--surface);
+                border-radius: 2px;
+            }
+
+            .expand-btn.expanded {
+                transform: rotate(0deg);
+            }
+
+            .no-expand {
+                width: 16px;
+                height: 16px;
+            }
+
+
+            .stat-item {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: var(--space-3);
+            }
+
+            .stat-item:last-child {
+                margin-bottom: 0;
+            }
+
+            .stat-label {
+                font-size: 13px;
+                color: var(--text-secondary);
+            }
+
+            .stat-value {
+                font-size: 14px;
+                font-weight: var(--font-weight-medium);
+                color: var(--text-primary);
+            }
+
+            /* 页面头部调整 */
+            .page-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: flex-start;
+                margin-bottom: var(--space-12);
+                gap: var(--space-6);
+            }
+
+            .header-content {
+                flex: 1;
+            }
+
+            .header-region {
+                flex-shrink: 0;
+            }
+
+
+            #current-region-name {
+                font-weight: var(--font-weight-medium);
+                color: var(--accent);
+            }
+
+            /* 响应式设计 */
+            @media (max-width: 1200px) {
+                .content-layout {
+                    flex-direction: column;
+                }
+
+            }
+
+            @media (max-width: 768px) {
+                .content-layout {
+                    padding: var(--space-8) var(--space-4);
+                }
+
+                .page-header {
+                    flex-direction: column;
+                    align-items: stretch;
+                }
+
+                .sidebar-header {
+                    flex-direction: column;
+                    gap: var(--space-3);
+                    align-items: stretch;
+                }
+            }
+
+            /* 时间选择器样式 */
+            .time-selector {
+                display: flex;
+                align-items: center;
+                gap: var(--space-3);
+                margin-bottom: var(--space-6);
+                padding: var(--space-4) 0;
+            }
+
+            .time-label {
+                font-size: 14px;
+                font-weight: var(--font-weight-medium);
+                color: var(--text-primary);
+                white-space: nowrap;
+            }
+
+            .time-selector .form-select {
+                min-width: 160px;
+                width: auto;
+            }
+
+
+            .search-section {
+                background: var(--background);
+                border: var(--border);
+                border-radius: var(--radius);
+                padding: var(--space-6);
+                margin-bottom: var(--space-6);
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                gap: var(--space-4);
+            }
+
+            .search-controls {
+                display: flex;
+                gap: var(--space-4);
+                flex: 1;
+            }
+
+            .search-controls .form-input {
+                min-width: 300px;
+            }
+
+            .search-actions {
+                display: flex;
+                gap: var(--space-3);
+            }
+
+            .actions {
+                display: flex;
+                gap: var(--space-2);
+            }
+
+            .btn-sm {
+                padding: var(--space-1) var(--space-2);
+                font-size: 12px;
+            }
+
+            .user-details {
+                font-size: 12px;
+                color: var(--text-tertiary);
+                margin-top: var(--space-1);
+            }
+
+            .amount-high { color: #000000; }
+            .amount-medium { color: #000000; }
+            .amount-low { color: #000000; }
+
+            /* 语言下拉列表样式 */
+            .lang-dropdown {
+                display: flex;
+                align-items: center;
+            }
+
+            .lang-select {
+                min-width: 100px;
+                padding: var(--space-2) var(--space-3);
+                border: var(--border);
+                border-radius: var(--radius);
+                background: var(--background);
+                font-size: 14px;
+                font-weight: var(--font-weight-medium);
+                cursor: pointer;
+                transition: all 0.15s ease;
+            }
+
+            .lang-select:focus {
+                outline: 2px solid var(--accent);
+                outline-offset: -2px;
+            }
+
+            .lang-select:hover {
+                background: var(--surface);
+            }
+
+            .pagination {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                gap: var(--space-4);
+                padding: var(--space-6);
+                background: var(--surface);
+                border-top: var(--border);
+            }
+
+            .page-info {
+                font-size: 14px;
+                color: var(--text-secondary);
+            }
+
+            @media (max-width: 768px) {
+                .search-section {
+                    flex-direction: column;
+                    align-items: stretch;
+                }
+
+                .search-controls {
+                    flex-direction: column;
+                }
+
+                .search-controls .form-input {
+                    min-width: auto;
+                }
+
+                .actions {
+                    flex-direction: column;
+                }
+            }
+
+
+            /* 业态和计费方式样式 */
+            .business-type {
+                padding: var(--space-1) var(--space-2);
+                border-radius: calc(var(--radius) / 2);
+                font-size: 12px;
+                font-weight: var(--font-weight-medium);
+                display: inline-block;
+                min-width: 48px;
+                text-align: center;
+            }
+
+            .business-residential {
+                background: rgba(40, 167, 69, 0.1);
+                color: var(--success);
+            }
+
+            .business-industrial {
+                background: rgba(255, 149, 0, 0.1);
+                color: var(--warning);
+            }
+
+            .business-commercial {
+                background: rgba(0, 102, 204, 0.1);
+                color: var(--accent);
+            }
+
+            .business-agricultural {
+                background: rgba(139, 69, 19, 0.1);
+                color: #8B4513;
+            }
+
+            .billing-method {
+                font-size: 13px;
+                color: var(--text-secondary);
+                background: var(--surface);
+                padding: var(--space-1) var(--space-2);
+                border-radius: calc(var(--radius) / 2);
+            }
+
+            /* 电表号和地址样式 */
+            .meter-number {
+                font-family: 'Monaco', 'Courier New', monospace;
+                font-size: 13px;
+                color: var(--text-primary);
+                font-weight: var(--font-weight-medium);
+            }
+
+            .address {
+                font-size: 13px;
+                color: var(--text-secondary);
+            }
+
+
+            /* 分时电价模态窗口样式 */
+            .time-of-use-modal {
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                z-index: 1000;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .modal-overlay {
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(0, 0, 0, 0.5);
+                backdrop-filter: blur(4px);
+            }
+
+            .modal-content {
+                position: relative;
+                background: var(--background);
+                border-radius: var(--radius);
+                box-shadow: var(--shadow-elevated);
+                max-width: 800px;
+                width: 90%;
+                max-height: 80vh;
+                overflow: hidden;
+                display: flex;
+                flex-direction: column;
+            }
+
+            .modal-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: var(--space-6);
+                border-bottom: var(--border);
+                background: var(--surface);
+            }
+
+            .modal-header h3 {
+                margin: 0;
+                font-size: 18px;
+                font-weight: var(--font-weight-medium);
+            }
+
+            .modal-close {
+                background: none;
+                border: none;
+                font-size: 24px;
+                cursor: pointer;
+                color: var(--text-secondary);
+                padding: var(--space-2);
+                line-height: 1;
+                transition: all 0.15s ease;
+            }
+
+            .modal-close:hover {
+                color: var(--text-primary);
+                background: var(--divider);
+                border-radius: 50%;
+            }
+
+            .modal-body {
+                flex: 1;
+                overflow-y: auto;
+                padding: var(--space-6);
+            }
+
+            .user-info {
+                margin-bottom: var(--space-6);
+                padding: var(--space-4);
+                background: var(--surface);
+                border-radius: var(--radius);
+            }
+
+            .user-info h4 {
+                margin: 0 0 var(--space-2) 0;
+                font-size: 16px;
+                font-weight: var(--font-weight-medium);
+            }
+
+            .user-info p {
+                margin: 0;
+                font-size: 14px;
+                color: var(--text-secondary);
+            }
+
+            .pricing-info {
+                margin-bottom: var(--space-8);
+            }
+
+            .pricing-info h5 {
+                margin: 0 0 var(--space-4) 0;
+                font-size: 16px;
+                font-weight: var(--font-weight-medium);
+            }
+
+            .pricing-rules {
+                display: flex;
+                flex-direction: column;
+                gap: var(--space-3);
+            }
+
+            .rule-item {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: var(--space-4);
+                border-radius: var(--radius);
+                border-left: 4px solid;
+            }
+
+            .rule-item.peak {
+                background: rgba(220, 53, 69, 0.1);
+                border-left-color: var(--error);
+            }
+
+            .rule-item.standard {
+                background: rgba(0, 102, 204, 0.1);
+                border-left-color: var(--accent);
+            }
+
+            .rule-item.valley {
+                background: rgba(40, 167, 69, 0.1);
+                border-left-color: var(--success);
+            }
+
+            .rule-time {
+                font-weight: var(--font-weight-medium);
+                flex: 1;
+            }
+
+            .rule-price {
+                font-size: 14px;
+                color: var(--text-secondary);
+                background: var(--background);
+                padding: var(--space-1) var(--space-2);
+                border-radius: calc(var(--radius) / 2);
+            }
+
+            .daily-breakdown h5 {
+                margin: 0 0 var(--space-4) 0;
+                font-size: 16px;
+                font-weight: var(--font-weight-medium);
+            }
+
+            .daily-list {
+                max-height: 300px;
+                overflow-y: auto;
+                border: var(--border);
+                border-radius: var(--radius);
+            }
+
+            .daily-item {
+                border-bottom: var(--border);
+                background: var(--background);
+                transition: all 0.15s ease;
+            }
+
+            .daily-item:last-child {
+                border-bottom: none;
+            }
+
+            .daily-item:hover {
+                background: var(--surface);
+            }
+
+            .daily-summary {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: var(--space-4);
+                cursor: pointer;
+            }
+
+            .daily-date {
+                display: flex;
+                align-items: center;
+                gap: var(--space-3);
+                flex: 1;
+            }
+
+            .date-text {
+                font-weight: var(--font-weight-medium);
+                min-width: 40px;
+            }
+
+            .daily-total {
+                font-family: 'Monaco', 'Courier New', monospace;
+                font-size: 14px;
+                color: var(--text-secondary);
+            }
+
+            .daily-cost {
+                font-family: 'Monaco', 'Courier New', monospace;
+                font-weight: var(--font-weight-medium);
+                margin-right: var(--space-4);
+            }
+
+            .expand-icon {
+                font-size: 12px;
+                color: var(--text-tertiary);
+                transition: transform 0.15s ease;
+            }
+
+            .hourly-breakdown {
+                background: var(--surface);
+                border-top: var(--border);
+            }
+
+            .hourly-header {
+                display: grid;
+                grid-template-columns: 1.5fr 1fr 1fr 1fr;
+                gap: var(--space-3);
+                padding: var(--space-3) var(--space-4);
+                background: var(--divider);
+                font-size: 12px;
+                font-weight: var(--font-weight-semibold);
+                color: var(--text-secondary);
+            }
+
+            .hourly-item {
+                display: grid;
+                grid-template-columns: 1.5fr 1fr 1fr 1fr;
+                gap: var(--space-3);
+                padding: var(--space-3) var(--space-4);
+                border-bottom: 1px solid var(--divider);
+                font-size: 13px;
+                border-left: 3px solid;
+            }
+
+            .hourly-item:last-child {
+                border-bottom: none;
+            }
+
+            .hourly-item.peak {
+                border-left-color: var(--error);
+            }
+
+            .hourly-item.standard {
+                border-left-color: var(--accent);
+            }
+
+            .hourly-item.valley {
+                border-left-color: var(--success);
+            }
+
+            .period-name {
+                font-weight: var(--font-weight-medium);
+            }
+
+            .hourly-usage,
+            .hourly-rate,
+            .hourly-cost {
+                font-family: 'Monaco', 'Courier New', monospace;
+                text-align: right;
+            }
+
+            /* 滚动条样式 */
+            .daily-list::-webkit-scrollbar,
+            .modal-body::-webkit-scrollbar {
+                width: 6px;
+            }
+
+            .daily-list::-webkit-scrollbar-track,
+            .modal-body::-webkit-scrollbar-track {
+                background: var(--surface);
+            }
+
+            .daily-list::-webkit-scrollbar-thumb,
+            .modal-body::-webkit-scrollbar-thumb {
+                background: var(--divider);
+                border-radius: 3px;
+            }
+
+            .daily-list::-webkit-scrollbar-thumb:hover,
+            .modal-body::-webkit-scrollbar-thumb:hover {
+                background: var(--text-tertiary);
+            }
+
+            /* 响应式设计 */
+            @media (max-width: 768px) {
+                .modal-content {
+                    width: 95%;
+                    max-height: 90vh;
+                }
+
+                .pricing-rules {
+                    gap: var(--space-2);
+                }
+
+                .rule-item {
+                    flex-direction: column;
+                    align-items: stretch;
+                    gap: var(--space-2);
+                }
+
+                .daily-summary {
+                    flex-direction: column;
+                    align-items: stretch;
+                    gap: var(--space-2);
+                }
+
+                .daily-date {
+                    justify-content: space-between;
+                }
+
+                .hourly-header,
+                .hourly-item {
+                    grid-template-columns: 1fr;
+                    gap: var(--space-2);
+                    text-align: left;
+                }
+
+                .hourly-usage,
+                .hourly-rate,
+                .hourly-cost {
+                    text-align: left;
+                }
+
+                .hourly-header span::before,
+                .hourly-item span::before {
+                    font-weight: bold;
+                    margin-right: var(--space-2);
+                }
+
+                .hourly-header span:nth-child(1)::before { content: "时段: "; }
+                .hourly-header span:nth-child(2)::before { content: "用电量: "; }
+                .hourly-header span:nth-child(3)::before { content: "电价: "; }
+                .hourly-header span:nth-child(4)::before { content: "费用: "; }
+            }
+
+                }
+
+                .daily-usage-grid {
+                    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+                    gap: var(--space-3);
+                }
+
+                .table-header-fullscreen,
+                .table-row-fullscreen {
+                    grid-template-columns: 1fr;
+                    gap: var(--space-2);
+                    text-align: left;
+                }
+
+                .table-row-fullscreen {
+                    padding: var(--space-4);
+                    background: var(--surface);
+                    margin-bottom: var(--space-2);
+                    border-radius: var(--radius);
+                    border: var(--border);
+                }
+
+                .table-row-fullscreen:last-child {
+                    margin-bottom: 0;
+                }
+
+                .date-cell-fullscreen::before { content: "日期: "; font-weight: bold; }
+                .usage-cell-fullscreen::before { content: "用电量: "; font-weight: bold; }
+                .tier-cell-fullscreen::before { content: "阶梯用量: "; font-weight: bold; }
+                .cost-cell-fullscreen::before { content: "费用: "; font-weight: bold; }
+
+                .usage-cell-fullscreen,
+                .tier-cell-fullscreen,
+                .cost-cell-fullscreen {
+                    text-align: left;
+                    display: block;
+                    margin-bottom: var(--space-1);
+                }
+
+                .chart-legend-fullscreen {
+                    flex-direction: column;
+                    gap: var(--space-3);
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>

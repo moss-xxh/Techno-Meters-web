@@ -1,0 +1,1877 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-zh="设备详情" data-en="Device Details">设备详情</title>
+    <link rel="stylesheet" href="assets/css/common.css">
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="nav-content">
+            <div class="nav-brand">
+                <img src="logo.png" alt="Logo" class="nav-logo">
+            </div>
+            <div class="nav-menu">
+                <a href="dashboard.html" class="nav-link" data-zh="仪表盘" data-en="Dashboard">仪表盘</a>
+                <a href="pricing-templates.html" class="nav-link" data-zh="电价模版" data-en="Pricing Templates">电价模版</a>
+                <a href="space-management.html" class="nav-link" data-zh="空间管理" data-en="Space Management">空间管理</a>
+                <a href="device-management.html" class="nav-link active" data-zh="设备管理" data-en="Device Management">设备管理</a>
+                <a href="user-management.html" class="nav-link" data-zh="用户管理" data-en="User Management">用户管理</a>
+                <a href="bills.html" class="nav-link" data-zh="账单管理" data-en="Bill Management">账单管理</a>
+            </div>
+            <div class="nav-actions">
+                <div class="lang-dropdown">
+                    <select id="language-select" class="form-select lang-select">
+                        <option value="zh" data-zh="中文" data-en="Chinese">中文</option>
+                        <option value="en" data-zh="English" data-en="English">English</option>
+                    </select>
+                </div>
+                <div class="user-menu">
+                    <div class="user-avatar">管</div>
+                    <span data-zh="管理员" data-en="Admin">管理员</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 主内容区域 -->
+    <main class="main-content">
+        <div class="content-layout">
+            <div class="main-container">
+                <!-- 返回按钮 -->
+                <div class="page-header">
+                    <div class="header-actions">
+                        <button class="btn btn-secondary" onclick="goBack()">
+                            <span data-zh="← 返回设备管理" data-en="← Back to Device Management">← 返回设备管理</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 设备基础信息卡片 -->
+                <div class="device-info-card">
+                    <div class="device-info-header">
+                        <h3 data-zh="设备信息" data-en="Device Information">设备信息</h3>
+                        <span id="device-status" class="device-status status-online" data-zh="在线" data-en="Online">在线</span>
+                    </div>
+                    <div class="device-info-grid">
+                        <div class="info-item">
+                            <label data-zh="设备ID" data-en="Device ID">设备ID</label>
+                            <span id="device-id-display">-</span>
+                        </div>
+                        <div class="info-item">
+                            <label data-zh="设备名称" data-en="Device Name">设备名称</label>
+                            <span id="device-name-display">-</span>
+                        </div>
+                        <div class="info-item">
+                            <label data-zh="位置" data-en="Position">位置</label>
+                            <span id="device-position-display">-</span>
+                        </div>
+                        <div class="info-item">
+                            <label data-zh="倍率" data-en="Ratio">倍率</label>
+                            <span id="device-ratio-display">-</span>
+                        </div>
+                        <div class="info-item">
+                            <label data-zh="备注" data-en="Remarks">备注</label>
+                            <span id="device-remarks-display">-</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 时间选择和读数表格 -->
+                <div class="readings-section">
+                    <div class="section-header">
+                        <div class="header-left">
+                            <h3 id="readings-title" data-zh="电表读数" data-en="Meter Readings">电表读数</h3>
+                            <select id="year-picker" class="form-select">
+                                <option value="2023" data-zh="2023年" data-en="2023">2023年</option>
+                                <option value="2024" data-zh="2024年" data-en="2024">2024年</option>
+                                <option value="2025" data-zh="2025年" data-en="2025" selected>2025年</option>
+                                <option value="2026" data-zh="2026年" data-en="2026">2026年</option>
+                            </select>
+                        </div>
+                        <div class="header-right">
+                            <button class="btn btn-primary" onclick="exportData()">
+                                <span data-zh="导出数据" data-en="Export Data">导出数据</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="table-container">
+                        <table class="table" id="readings-table">
+                            <thead id="table-head">
+                                <!-- 表头由JavaScript生成 -->
+                            </thead>
+                            <tbody id="readings-tbody">
+                                <!-- 数据由JavaScript生成 -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- 分页 -->
+                    <div class="pagination">
+                        <button class="btn btn-secondary" id="prev-page" disabled>
+                            <span>‹</span>
+                            <span data-zh="上一页" data-en="Previous">上一页</span>
+                        </button>
+                        <div class="page-info">
+                            <span data-zh="第" data-en="Page">第</span>
+                            <span id="current-page">1</span>
+                            <span data-zh="页，共" data-en="of">页，共</span>
+                            <span id="total-pages">1</span>
+                            <span data-zh="页" data-en="pages">页</span>
+                        </div>
+                        <button class="btn btn-secondary" id="next-page">
+                            <span data-zh="下一页" data-en="Next">下一页</span>
+                            <span>›</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="assets/js/common.js"></script>
+    <script>
+        // 获取当前语言
+        function getDeviceDetailLanguage() {
+            return document.getElementById('language-select')?.value || 'zh';
+        }
+
+        // 强制翻译所有静态文本
+        function forceTranslateStaticText() {
+            const currentLang = getDeviceDetailLanguage();
+            console.log('强制翻译静态文本，当前语言:', currentLang);
+
+            // 翻译所有带有data-zh和data-en属性的元素
+            document.querySelectorAll('[data-zh][data-en]').forEach(element => {
+                const zhText = element.getAttribute('data-zh');
+                const enText = element.getAttribute('data-en');
+                if (zhText && enText) {
+                    element.textContent = currentLang === 'en' ? enText : zhText;
+                }
+            });
+
+            console.log('静态文本翻译完成');
+        }
+
+        // 设备详情数据
+        let deviceData = null;
+        let readingsData = [];
+        let currentPage = 1;
+        let currentTimeType = 'daily';
+        let itemsPerPage = 12; // 按小时显示12小时，按月显示12个月
+
+        // 从URL参数获取设备ID
+        function getDeviceIdFromUrl() {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get('id');
+        }
+
+        // 生成模拟每小时读数数据
+        function generateHourlyData(selectedDate) {
+            const readings = [];
+            const date = new Date(selectedDate);
+            const startOfDay = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+
+            // 生成24小时的数据
+            for (let hour = 0; hour < 24; hour++) {
+                const time = new Date(startOfDay.getTime() + hour * 60 * 60 * 1000);
+                const voltage = (220 + Math.random() * 10 - 5).toFixed(1); // 220V ± 5V
+                const current = (Math.random() * 10 + 5).toFixed(2); // 5-15A
+                const power = (voltage * current / 1000).toFixed(3); // kW
+                const energy = (Math.random() * 2 + 1).toFixed(3); // 1-3 kWh
+                const totalEnergy = (hour * 2.5 + Math.random() * 5).toFixed(3); // 累计
+
+                readings.push({
+                    time: time.toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' }),
+                    voltage: voltage,
+                    current: current,
+                    power: power,
+                    energy: energy,
+                    totalEnergy: totalEnergy
+                });
+            }
+            return readings;
+        }
+
+        // 生成模拟每月读数数据
+        function generateMonthlyData(selectedYear) {
+            const readings = [];
+            const year = parseInt(selectedYear);
+
+            // 年初始读数
+            let currentReading = 1000 + Math.random() * 100;
+
+            // 生成12个月的数据
+            for (let month = 0; month < 12; month++) {
+                const monthNumber = (month + 1).toString().padStart(2, '0');
+                const monthName = `${year}/${monthNumber}`;
+                const startReading = currentReading; // 开始读数 = 上月结束读数
+                const monthlyUsage = 300 + Math.random() * 200; // 月用电量 300-500 kWh
+                const endReading = startReading + monthlyUsage; // 结束读数 = 开始读数 + 用电量
+
+                readings.push({
+                    month: monthName,
+                    startReading: startReading.toFixed(1),
+                    endReading: endReading.toFixed(1),
+                    usage: monthlyUsage.toFixed(1)
+                });
+
+                // 下个月的开始读数 = 本月的结束读数
+                currentReading = endReading;
+            }
+            return readings.reverse();
+        }
+
+        // 渲染表头
+        function renderTableHeader() {
+            const currentLang = getDeviceDetailLanguage();
+            const thead = document.getElementById('table-head');
+            thead.innerHTML = `
+                <tr>
+                    <th>${currentLang === 'en' ? 'Month' : '月份'}</th>
+                    <th>${currentLang === 'en' ? 'Start Reading (kWh)' : '开始读数 (kWh)'}</th>
+                    <th>${currentLang === 'en' ? 'End Reading (kWh)' : '结束读数 (kWh)'}</th>
+                    <th>${currentLang === 'en' ? 'Usage (kWh)' : '用电量 (kWh)'}</th>
+                    <th>${currentLang === 'en' ? 'Actions' : '操作'}</th>
+                </tr>
+            `;
+        }
+
+        // 渲染读数表格
+        function renderReadingsTable() {
+            renderTableHeader();
+
+            const tbody = document.getElementById('readings-tbody');
+            const startIndex = (currentPage - 1) * itemsPerPage;
+            const endIndex = startIndex + itemsPerPage;
+            const pageReadings = readingsData.slice(startIndex, endIndex);
+
+            const currentLang = getDeviceDetailLanguage();
+            tbody.innerHTML = pageReadings.map((reading, index) => `
+                <tr>
+                    <td><strong>${reading.month}</strong></td>
+                    <td>${reading.startReading}</td>
+                    <td>${reading.endReading}</td>
+                    <td><strong>${reading.usage}</strong></td>
+                    <td>
+                        <button class="btn btn-sm btn-primary" onclick="showMonthlyDetail('${reading.month}', ${reading.startReading}, ${reading.endReading}, ${reading.usage})">
+                            ${currentLang === 'en' ? 'Details' : '详情'}
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
+
+            updatePagination();
+        }
+
+        // 更新分页
+        function updatePagination() {
+            const totalPages = Math.ceil(readingsData.length / itemsPerPage);
+            document.getElementById('current-page').textContent = currentPage;
+            document.getElementById('total-pages').textContent = totalPages;
+            document.getElementById('prev-page').disabled = currentPage === 1;
+            document.getElementById('next-page').disabled = currentPage === totalPages;
+        }
+
+        // 返回设备管理页面
+        function goBack() {
+            window.location.href = 'device-management.html';
+        }
+
+        // 加载年度数据
+        function loadYearlyData() {
+            const yearPicker = document.getElementById('year-picker');
+            const selectedYear = yearPicker.value || new Date().getFullYear().toString();
+
+            readingsData = generateMonthlyData(selectedYear);
+            itemsPerPage = 12; // 12个月每页
+            renderReadingsTable();
+        }
+
+        // 导出数据功能
+        function exportData() {
+            if (!readingsData.length) {
+                alert('没有数据可导出');
+                return;
+            }
+
+            // 创建CSV内容
+            const currentLang = getDeviceDetailLanguage();
+            const headers = currentLang === 'en' ?
+                ['Month', 'Start Reading (kWh)', 'End Reading (kWh)', 'Usage (kWh)'] :
+                ['月份', '开始读数(kWh)', '结束读数(kWh)', '用电量(kWh)'];
+            const csvContent = [
+                headers.join(','),
+                ...readingsData.map(row => [
+                    row.month,
+                    row.startReading,
+                    row.endReading,
+                    row.usage
+                ].join(','))
+            ].join('\n');
+
+            // 添加BOM以支持中文
+            const bom = '\uFEFF';
+            const blob = new Blob([bom + csvContent], { type: 'text/csv;charset=utf-8' });
+
+            // 创建下载链接
+            const link = document.createElement('a');
+            const url = URL.createObjectURL(blob);
+            link.href = url;
+
+            // 设置文件名
+            const deviceName = deviceData ?
+                (currentLang === 'en' ? (deviceData.nameEn || deviceData.name) : deviceData.name) :
+                (currentLang === 'en' ? 'Device' : '设备');
+            const yearPicker = document.getElementById('year-picker');
+            const selectedYear = yearPicker.value || new Date().getFullYear().toString();
+            link.download = currentLang === 'en' ?
+                `${deviceName}_${selectedYear}_Meter_Readings.csv` :
+                `${deviceName}_${selectedYear}年电表度数.csv`;
+
+            // 触发下载
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+
+            alert(currentLang === 'en' ? 'Data exported successfully!' : '数据导出成功！');
+        }
+
+        // 显示月度详情 - 完全按照bill-detail.html复制
+        function showMonthlyDetail(month, startReading, endReading, usage) {
+            console.log('显示月度详情:', month);
+
+            const currentLang = getDeviceDetailLanguage();
+
+            // 创建右侧抽屉 - 完全按照bill-detail.html的结构
+            const drawer = document.createElement('div');
+            drawer.className = 'right-drawer';
+            drawer.innerHTML = `
+                <div class="drawer-overlay" onclick="closeMonthlyDetail()"></div>
+                <div class="drawer-content">
+                    <div class="drawer-header">
+                        <h3>${currentLang === 'en' ? `Electricity Usage Details — ${month}` : `电量费明细——${month}`}</h3>
+                        <button class="drawer-close" onclick="closeMonthlyDetail()">×</button>
+                    </div>
+                    <div class="drawer-body">
+                        <!-- 模块 -->
+                        <div class="drawer-usage-module">
+                            <div class="drawer-module-header">
+                                <div class="drawer-header-left">
+                                </div>
+                                <div class="drawer-header-right">
+                                    <button class="drawer-export-btn" onclick="exportDrawerData()">
+                                        📊 <span>${currentLang === 'en' ? 'Export' : '导出'}</span>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- 表格视图 -->
+                            <div id="drawer-table-view" class="drawer-usage-view active">
+                                <div class="drawer-table-container">
+                                    <div class="drawer-daily-table">
+                                        <div class="drawer-daily-table-header" id="drawer-table-header">
+                                            <span>${currentLang === 'en' ? 'Date' : '日期'}</span>
+                                            <span>${currentLang === 'en' ? 'Start Reading' : '开始读数'}</span>
+                                            <span>${currentLang === 'en' ? 'End Reading' : '结束读数'}</span>
+                                            <span>${currentLang === 'en' ? 'Usage (kWh)' : '用电量(kWh)'}</span>
+                                            <span></span>
+                                        </div>
+                                        <div class="drawer-daily-table-body" id="drawer-table-body">
+                                            <!-- 数据将从主页面复制 -->
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- 每小时详情面板（在表格视图中，用于右侧显示） -->
+                                <div id="drawer-hourly-details-panel" class="drawer-hourly-details-panel" style="display: none;">
+                                    <div class="drawer-hourly-header">
+                                        <h4 id="drawer-selected-date-title">${currentLang === 'en' ? 'Hourly Details' : '每小时明细'}</h4>
+                                        <button class="drawer-hourly-close" onclick="closeDrawerHourlyDetails()">×</button>
+                                    </div>
+                                    <div class="drawer-hourly-content" id="drawer-hourly-details-content">
+                                        <!-- 每小时数据将在这里显示 -->
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            document.body.appendChild(drawer);
+
+            // 阻止抽屉内的滚动事件冒泡到主页面
+            const drawerContent = drawer.querySelector('.drawer-content');
+            if (drawerContent) {
+                drawerContent.addEventListener('wheel', function(e) {
+                    e.stopPropagation();
+                }, { passive: false });
+
+                drawerContent.addEventListener('touchmove', function(e) {
+                    e.stopPropagation();
+                }, { passive: false });
+            }
+
+            // 复制数据到抽屉
+            copyDataToDrawer(month, usage);
+
+            // 添加显示动画
+            setTimeout(() => {
+                drawer.classList.add('show');
+                // 禁用主页面滚动
+                document.body.style.overflow = 'hidden';
+            }, 10);
+        }
+
+        // 复制数据到抽屉 - 按照bill-detail.html实现
+        function copyDataToDrawer(month, totalUsage) {
+            const drawerTableBody = document.getElementById('drawer-table-body');
+            if (!drawerTableBody) {
+                console.error('drawer-table-body not found!');
+                return;
+            }
+
+            // 生成月度数据
+            const year = month.split('/')[0];
+            const monthNum = parseInt(month.split('/')[1]);
+            const daysInMonth = new Date(year, monthNum, 0).getDate();
+
+            drawerTableBody.innerHTML = '';
+
+            for (let day = 1; day <= daysInMonth; day++) {
+                const dailyUsage = (totalUsage / daysInMonth).toFixed(1);
+                const dailyCost = (dailyUsage * 6.5).toFixed(2);
+                const dateStr = `${month}/${day.toString().padStart(2, '0')}`;
+
+                const newRow = document.createElement('div');
+                newRow.className = 'drawer-daily-table-row';
+                newRow.style.cursor = 'pointer';
+                newRow.setAttribute('data-date', dateStr);
+                const startReading = Math.floor(Math.random() * 1000) + 5000;
+                const endReading = startReading + parseFloat(dailyUsage);
+
+                newRow.innerHTML = `
+                    <span class="drawer-daily-date">${dateStr}</span>
+                    <span class="drawer-start-reading">${startReading.toFixed(1)}</span>
+                    <span class="drawer-end-reading">${endReading.toFixed(1)}</span>
+                    <span class="drawer-daily-usage">${dailyUsage}</span>
+                    <span class="drawer-expand-icon">▶</span>
+                `;
+
+                // 添加点击事件 - 点击整行触发toggle
+                newRow.addEventListener('click', function() {
+                    console.log('Table row clicked, date:', dateStr);
+                    toggleDrawerHourlyDetails(dateStr, dailyUsage, day);
+                });
+
+                drawerTableBody.appendChild(newRow);
+            }
+        }
+
+
+        // 切换每小时详情显示/隐藏 - 按照bills.html的toggle逻辑
+        function toggleDrawerHourlyDetails(date, dailyUsage, day) {
+            console.log('toggleDrawerHourlyDetails called:', date, dailyUsage);
+
+            const clickedRow = document.querySelector(`[data-date="${date}"]`);
+            const expandIcon = clickedRow ? clickedRow.querySelector('.drawer-expand-icon') : null;
+            const hourlyPanel = document.getElementById('drawer-hourly-details-panel');
+            const drawer = document.querySelector('.right-drawer');
+
+            if (!clickedRow || !expandIcon || !hourlyPanel || !drawer) {
+                console.error('Required elements not found');
+                return;
+            }
+
+            // 检查当前状态
+            const isExpanded = drawer.classList.contains('expanded') && hourlyPanel.style.display === 'block';
+
+            if (!isExpanded) {
+                // 展开状态：显示详情
+
+                // 清除所有选中状态和图标
+                document.querySelectorAll('.drawer-daily-table-row').forEach(rowEl => {
+                    rowEl.classList.remove('selected');
+                    const icon = rowEl.querySelector('.drawer-expand-icon');
+                    if (icon) {
+                        icon.textContent = '▶';
+                    }
+                });
+
+                // 设置当前行为选中状态
+                clickedRow.classList.add('selected');
+                expandIcon.textContent = '▼';
+
+                // 扩展抽屉
+                drawer.classList.add('expanded');
+
+                // 显示每小时详情面板
+                hourlyPanel.style.display = 'block';
+
+                // 更新详情面板标题
+                const title = document.getElementById('drawer-selected-date-title');
+                if (title) {
+                    const currentLang = getDeviceDetailLanguage();
+                    title.textContent = currentLang === 'en' ? `${date} Hourly Details` : `${date} 每小时明细`;
+                }
+
+                // 生成每小时数据
+                generateHourlyDetailsContent(date, dailyUsage);
+
+            } else {
+                // 收起状态：隐藏详情
+
+                // 清除选中状态
+                clickedRow.classList.remove('selected');
+                expandIcon.textContent = '▶';
+
+                // 收缩抽屉
+                drawer.classList.remove('expanded');
+
+                // 隐藏详情面板
+                hourlyPanel.style.display = 'none';
+            }
+        }
+
+        // 生成每小时详情内容
+        function generateHourlyDetailsContent(date, dailyUsage) {
+            const content = document.getElementById('drawer-hourly-details-content');
+            if (!content) {
+                console.error('Hourly details content not found');
+                return;
+            }
+
+            const currentLang = getDeviceDetailLanguage();
+
+            let hourlyHTML = `
+                <div class="drawer-hourly-table">
+                    <div class="drawer-hourly-table-header">
+                        <span>${currentLang === 'en' ? 'Time' : '时间'}</span>
+                        <span>${currentLang === 'en' ? 'Start Reading' : '开始读数'}</span>
+                        <span>${currentLang === 'en' ? 'End Reading' : '结束读数'}</span>
+                        <span>${currentLang === 'en' ? 'Usage (kWh)' : '用电量(kWh)'}</span>
+                    </div>
+                    <div class="drawer-hourly-table-body">
+            `;
+
+            for (let hour = 0; hour < 24; hour++) {
+                const hourlyUsage = (parseFloat(dailyUsage) / 24).toFixed(2);
+                let rate, period, cost;
+
+                // 分时电价逻辑
+                if ((hour >= 9 && hour < 12) || (hour >= 18 && hour < 22)) {
+                    period = currentLang === 'en' ? 'Peak' : '峰时';
+                    rate = '8.50';
+                    cost = (hourlyUsage * 8.50).toFixed(2);
+                } else if ((hour >= 6 && hour < 9) || (hour >= 12 && hour < 18)) {
+                    period = currentLang === 'en' ? 'Standard' : '平时';
+                    rate = '6.20';
+                    cost = (hourlyUsage * 6.20).toFixed(2);
+                } else {
+                    period = currentLang === 'en' ? 'Valley' : '谷时';
+                    rate = '3.80';
+                    cost = (hourlyUsage * 3.80).toFixed(2);
+                }
+
+                const baseReading = 5000 + hour * 10 + Math.random() * 5;
+                const hourlyStartReading = baseReading.toFixed(1);
+                const hourlyEndReading = (baseReading + parseFloat(hourlyUsage)).toFixed(1);
+
+                hourlyHTML += `
+                    <div class="drawer-hourly-table-row">
+                        <span>${hour.toString().padStart(2, '0')}:00</span>
+                        <span>${hourlyStartReading}</span>
+                        <span>${hourlyEndReading}</span>
+                        <span>${hourlyUsage}</span>
+                    </div>
+                `;
+            }
+
+            hourlyHTML += `
+                    </div>
+                </div>
+            `;
+
+            content.innerHTML = hourlyHTML;
+        }
+
+        // 关闭每小时详情 - 按照bills.html的收缩逻辑
+        function closeDrawerHourlyDetails() {
+            // 收缩抽屉
+            const drawer = document.querySelector('.right-drawer');
+            drawer.classList.remove('expanded');
+
+            // 隐藏详情面板
+            const hourlyPanel = document.getElementById('drawer-hourly-details-panel');
+            if (hourlyPanel) {
+                hourlyPanel.style.display = 'none';
+            }
+
+            // 清除选中状态
+            document.querySelectorAll('.drawer-daily-table-row').forEach(rowEl => {
+                rowEl.classList.remove('selected');
+            });
+        }
+
+
+        // 导出抽屉数据
+        function exportDrawerData() {
+            console.log('exportDrawerData called');
+            alert('导出功能开发中...');
+        }
+
+        // 关闭月度详情
+        function closeMonthlyDetail() {
+            const drawer = document.querySelector('.right-drawer');
+            if (drawer) {
+                drawer.classList.add('hide');
+                // 恢复主页面滚动
+                document.body.style.overflow = '';
+                setTimeout(() => {
+                    document.body.removeChild(drawer);
+                }, 300);
+            }
+        }
+
+        // 初始化页面
+        function initPage() {
+            const deviceId = getDeviceIdFromUrl();
+            if (!deviceId) {
+                alert('设备ID不存在');
+                goBack();
+                return;
+            }
+
+            // 模拟设备数据（实际应从后端获取）
+            deviceData = {
+                id: deviceId,
+                name: deviceId === 'MTR001' ? '1号楼主电表' : deviceId === 'MTR002' ? '2号楼主电表' : deviceId === 'MTR003' ? '3层东侧分电表' : `设备 ${deviceId}`,
+                nameEn: deviceId === 'MTR001' ? 'Building 1 Main Meter' : deviceId === 'MTR002' ? 'Building 2 Main Meter' : deviceId === 'MTR003' ? 'Floor 3 East Sub-meter' : `Device ${deviceId}`,
+                position: deviceId === 'MTR001' ? 'building-1' : deviceId === 'MTR002' ? 'building-2' : deviceId === 'MTR003' ? 'building-1' : 'building-1',
+                ratio: deviceId === 'MTR003' ? '10' : '1',
+                remarks: '主要监控设备',
+                remarksEn: 'Main monitoring device',
+                status: deviceId === 'MTR003' ? 'offline' : 'online'
+            };
+
+            // 填充设备信息（支持语言切换）
+            const currentLang = getDeviceDetailLanguage();
+            document.getElementById('device-id-display').textContent = deviceData.id;
+            document.getElementById('device-name-display').textContent = currentLang === 'en' ? (deviceData.nameEn || deviceData.name) : deviceData.name;
+
+            // 位置翻译
+            const positionMap = currentLang === 'en' ? {
+                'building-1': 'Building 1',
+                'building-2': 'Building 2',
+                'parking': 'Parking',
+                'outdoor': 'Outdoor Area'
+            } : {
+                'building-1': '1号楼',
+                'building-2': '2号楼',
+                'parking': '停车场',
+                'outdoor': '室外区域'
+            };
+            document.getElementById('device-position-display').textContent = positionMap[deviceData.position] || deviceData.position || '-';
+            document.getElementById('device-ratio-display').textContent = deviceData.ratio || '1';
+            document.getElementById('device-remarks-display').textContent = currentLang === 'en' ? (deviceData.remarksEn || deviceData.remarks) : deviceData.remarks || '-';
+
+            // 设置状态
+            const statusElement = document.getElementById('device-status');
+            statusElement.textContent = deviceData.status === 'online' ?
+                (currentLang === 'en' ? 'Online' : '在线') :
+                (currentLang === 'en' ? 'Offline' : '离线');
+            statusElement.className = `device-status ${deviceData.status === 'online' ? 'status-online' : 'status-offline'}`;
+
+            // 页面标题已删除
+
+            // 初始化年份选择器
+            const currentYear = new Date().getFullYear().toString();
+            document.getElementById('year-picker').value = currentYear;
+
+            // 初始化事件监听
+            document.getElementById('year-picker').addEventListener('change', loadYearlyData);
+
+            // 强制翻译静态文本
+            setTimeout(forceTranslateStaticText, 50);
+
+            // 添加语言切换事件监听器
+            const languageSelect = document.getElementById('language-select');
+            if (languageSelect) {
+                languageSelect.addEventListener('change', function() {
+                    console.log('语言切换到:', this.value);
+                    // 重新翻译静态文本
+                    forceTranslateStaticText();
+                    // 重新渲染表格以应用新语言
+                    renderReadingsTable();
+                });
+            }
+
+            // 默认加载当前年份数据
+            loadYearlyData();
+
+            // 分页事件
+            document.getElementById('prev-page').addEventListener('click', () => {
+                if (currentPage > 1) {
+                    currentPage--;
+                    renderReadingsTable();
+                }
+            });
+
+            document.getElementById('next-page').addEventListener('click', () => {
+                const totalPages = Math.ceil(readingsData.length / itemsPerPage);
+                if (currentPage < totalPages) {
+                    currentPage++;
+                    renderReadingsTable();
+                }
+            });
+        }
+
+        // 页面加载完成后初始化
+        document.addEventListener('DOMContentLoaded', initPage);
+    </script>
+
+    <style>
+        /* 核心布局样式 - 与其他页面保持一致 */
+        .content-layout {
+            display: flex;
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: var(--space-12) var(--space-8);
+            gap: var(--space-6);
+        }
+
+        .main-container {
+            flex: 1;
+            min-width: 0;
+        }
+
+        /* 修复导航栏logo样式 */
+        .nav-logo {
+            height: 32px;
+            width: auto;
+        }
+
+        /* 页面特定样式 */
+        .page-header {
+            margin-bottom: var(--space-8);
+        }
+
+        .header-actions {
+            margin-bottom: var(--space-4);
+        }
+
+        .page-header h2 {
+            font-size: 28px;
+            font-weight: var(--font-weight-medium);
+            margin: 0 0 var(--space-2) 0;
+            color: var(--text-primary);
+        }
+
+        .page-header p {
+            color: var(--text-secondary);
+            margin: 0;
+            font-size: 16px;
+        }
+
+        /* 设备信息卡片 */
+        .device-info-card {
+            background: var(--background);
+            border: var(--border);
+            border-radius: var(--radius);
+            padding: var(--space-6);
+            margin-bottom: var(--space-8);
+        }
+
+        .device-info-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--space-6);
+        }
+
+        .device-info-header h3 {
+            font-size: 20px;
+            font-weight: var(--font-weight-medium);
+            margin: 0;
+            color: var(--text-primary);
+        }
+
+        .device-info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--space-5);
+        }
+
+        .info-item {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-2);
+        }
+
+        .info-item label {
+            font-size: 14px;
+            color: var(--text-secondary);
+            font-weight: var(--font-weight-medium);
+        }
+
+        .info-item span {
+            font-size: 16px;
+            color: var(--text-primary);
+            font-weight: var(--font-weight-regular);
+        }
+
+        /* 读数区域 */
+        .readings-section {
+            background: var(--background);
+            border: var(--border);
+            border-radius: var(--radius);
+            overflow: hidden;
+        }
+
+        /* 确保表格容器样式与其他页面一致 */
+        .readings-section .table-container {
+            border: none;
+            border-radius: 0;
+        }
+
+        .section-header {
+            padding: var(--space-6);
+            border-bottom: var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: var(--space-4);
+            flex-wrap: nowrap;
+            white-space: nowrap;
+        }
+
+        .header-left h3 {
+            font-size: 20px;
+            font-weight: var(--font-weight-medium);
+            margin: 0;
+            color: var(--text-primary);
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .header-left .form-select {
+            min-width: 120px;
+            flex-shrink: 0;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+        }
+
+        .header-right .btn {
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .year-display {
+            font-size: 16px;
+            font-weight: var(--font-weight-medium);
+            color: var(--text-primary);
+            padding: var(--space-2) var(--space-3);
+            background: var(--surface);
+            border: var(--border);
+            border-radius: var(--radius);
+            white-space: nowrap;
+        }
+
+        /* 设备状态样式 */
+        .device-status {
+            padding: var(--space-1) var(--space-2);
+            border-radius: calc(var(--radius) / 2);
+            font-size: 12px;
+            font-weight: var(--font-weight-medium);
+            display: inline-block;
+            min-width: 48px;
+            text-align: center;
+        }
+
+        .status-online {
+            background: rgba(40, 167, 69, 0.1);
+            color: var(--success);
+        }
+
+        .status-offline {
+            background: rgba(255, 149, 0, 0.1);
+            color: var(--warning);
+        }
+
+        /* 表格样式增强 */
+        .table td:first-child {
+            font-weight: var(--font-weight-medium);
+            color: var(--text-primary);
+        }
+
+        .table th:not(:first-child),
+        .table td:not(:first-child) {
+            font-family: var(--font-primary);
+            text-align: right;
+            font-variant-numeric: tabular-nums;
+        }
+
+        /* 分页样式 */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: var(--space-4);
+            padding: var(--space-6);
+            background: var(--surface);
+            border-top: var(--border);
+        }
+
+        .page-info {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        /* 右侧抽屉样式 */
+        .right-drawer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+
+        .right-drawer.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .right-drawer.hide {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .drawer-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(4px);
+        }
+
+        .drawer-content {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 900px;
+            max-width: 90vw;
+            height: 100%;
+            background: var(--background);
+            box-shadow: var(--shadow-elevated);
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            overscroll-behavior: contain;
+        }
+
+        .right-drawer.show .drawer-content {
+            transform: translateX(0);
+        }
+
+        .drawer-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: var(--space-6);
+            border-bottom: var(--border);
+            flex-shrink: 0;
+            background: var(--surface);
+        }
+
+        .drawer-header h3 {
+            margin: 0;
+            font-size: 18px;
+            font-weight: var(--font-weight-medium);
+        }
+
+        .drawer-close {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--text-secondary);
+            padding: var(--space-2);
+            line-height: 1;
+            transition: all 0.15s ease;
+            border-radius: 50%;
+        }
+
+        .drawer-close:hover {
+            color: var(--text-primary);
+            background: var(--divider);
+        }
+
+        .drawer-body {
+            flex: 1;
+            overflow-y: auto;
+            padding: var(--space-6);
+        }
+
+        /* Tab导航样式 */
+        .drawer-view-tabs {
+            display: flex;
+            background: var(--surface);
+            border-bottom: var(--border);
+        }
+
+        .drawer-tab-btn {
+            flex: 1;
+            padding: var(--space-4) var(--space-6);
+            border: none;
+            background: transparent;
+            color: var(--text-secondary);
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: var(--font-weight-medium);
+            cursor: pointer;
+            transition: all 0.15s ease;
+            border-bottom: 3px solid transparent;
+        }
+
+        .drawer-tab-btn:hover {
+            color: var(--text-primary);
+            background: rgba(0, 0, 0, 0.05);
+        }
+
+        .drawer-tab-btn.active {
+            color: var(--accent);
+            background: var(--background);
+            border-bottom-color: var(--accent);
+        }
+
+        /* Tab内容样式 */
+        .drawer-usage-view {
+            display: none;
+        }
+
+        .drawer-usage-view.active {
+            display: block;
+        }
+
+
+        /* 详情内容样式 */
+        .detail-summary {
+            background: var(--surface);
+            border: var(--border);
+            border-radius: var(--radius);
+            padding: var(--space-6);
+            margin-bottom: var(--space-6);
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: var(--space-3) 0;
+            border-bottom: 1px solid var(--divider);
+        }
+
+        .summary-item:last-child {
+            border-bottom: none;
+        }
+
+        .summary-item.highlight {
+            background: rgba(0, 102, 204, 0.05);
+            margin: 0 calc(-1 * var(--space-6));
+            padding: var(--space-3) var(--space-6);
+            border-radius: var(--radius);
+        }
+
+        .summary-item label {
+            font-weight: var(--font-weight-medium);
+            color: var(--text-secondary);
+        }
+
+        .summary-item span {
+            font-weight: var(--font-weight-medium);
+            color: var(--text-primary);
+        }
+
+        .time-of-use-section {
+            margin-bottom: var(--space-6);
+        }
+
+        .time-of-use-section h4 {
+            margin: 0 0 var(--space-4) 0;
+            font-size: 16px;
+            font-weight: var(--font-weight-medium);
+        }
+
+        .detail-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--background);
+            border: var(--border);
+            border-radius: var(--radius);
+            overflow: hidden;
+        }
+
+        .detail-table th {
+            background: var(--surface);
+            padding: var(--space-3) var(--space-4);
+            text-align: left;
+            font-weight: var(--font-weight-medium);
+            font-size: 14px;
+            color: var(--text-secondary);
+            border-bottom: var(--border);
+        }
+
+        .detail-table td {
+            padding: var(--space-3) var(--space-4);
+            border-bottom: var(--border);
+            font-size: 14px;
+        }
+
+        .detail-table tbody tr:hover {
+            background: var(--surface);
+        }
+
+        .detail-table .total-row {
+            background: var(--surface);
+            font-weight: var(--font-weight-medium);
+        }
+
+        .detail-table .total-row:hover {
+            background: var(--surface);
+        }
+
+        .time-period {
+            padding: var(--space-1) var(--space-2);
+            border-radius: calc(var(--radius) / 2);
+            font-size: 12px;
+            font-weight: var(--font-weight-medium);
+            text-align: center;
+            display: inline-block;
+            min-width: 40px;
+        }
+
+        .time-period.peak {
+            background: rgba(220, 53, 69, 0.1);
+            color: var(--error);
+        }
+
+        .time-period.normal {
+            background: rgba(255, 149, 0, 0.1);
+            color: var(--warning);
+        }
+
+        .time-period.valley {
+            background: rgba(40, 167, 69, 0.1);
+            color: var(--success);
+        }
+
+        .fee-breakdown {
+            background: var(--surface);
+            border: var(--border);
+            border-radius: var(--radius);
+            padding: var(--space-6);
+        }
+
+        .fee-breakdown h4 {
+            margin: 0 0 var(--space-4) 0;
+            font-size: 16px;
+            font-weight: var(--font-weight-medium);
+        }
+
+        .fee-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: var(--space-3) 0;
+            border-bottom: 1px solid var(--divider);
+        }
+
+        .fee-item:last-child {
+            border-bottom: none;
+        }
+
+        .fee-item.total {
+            background: rgba(0, 102, 204, 0.05);
+            margin: var(--space-3) calc(-1 * var(--space-6)) 0;
+            padding: var(--space-3) var(--space-6);
+            border-radius: var(--radius);
+            border-bottom: none;
+        }
+
+        .fee-item label {
+            color: var(--text-secondary);
+        }
+
+        .fee-item span {
+            color: var(--text-primary);
+            font-weight: var(--font-weight-medium);
+        }
+
+        /* 从bills.html复制的样式 */
+        .user-info {
+            margin-bottom: var(--space-6);
+            padding: var(--space-4);
+            background: var(--surface);
+            border-radius: var(--radius);
+        }
+
+        .user-info h4 {
+            margin: 0 0 var(--space-2) 0;
+            font-size: 16px;
+            font-weight: var(--font-weight-medium);
+        }
+
+        .user-info p {
+            margin: 0;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .pricing-info {
+            margin-bottom: var(--space-8);
+        }
+
+        .pricing-info h5 {
+            margin: 0 0 var(--space-4) 0;
+            font-size: 16px;
+            font-weight: var(--font-weight-medium);
+        }
+
+        .pricing-rules {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-3);
+        }
+
+        .rule-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: var(--space-4);
+            border-radius: var(--radius);
+            border-left: 4px solid;
+        }
+
+        .rule-item.peak {
+            background: rgba(220, 53, 69, 0.1);
+            border-left-color: var(--error);
+        }
+
+        .rule-item.standard {
+            background: rgba(0, 102, 204, 0.1);
+            border-left-color: var(--accent);
+        }
+
+        .rule-item.valley {
+            background: rgba(40, 167, 69, 0.1);
+            border-left-color: var(--success);
+        }
+
+        .rule-time {
+            font-weight: var(--font-weight-medium);
+            flex: 1;
+        }
+
+        .rule-price {
+            font-size: 14px;
+            color: var(--text-secondary);
+            background: var(--background);
+            padding: var(--space-1) var(--space-2);
+            border-radius: calc(var(--radius) / 2);
+        }
+
+        .daily-breakdown h5 {
+            margin: 0 0 var(--space-4) 0;
+            font-size: 16px;
+            font-weight: var(--font-weight-medium);
+        }
+
+        .daily-list {
+            max-height: 300px;
+            overflow-y: auto;
+            border: var(--border);
+            border-radius: var(--radius);
+        }
+
+        .daily-item {
+            border-bottom: var(--border);
+            background: var(--background);
+            transition: all 0.15s ease;
+        }
+
+        .daily-item:last-child {
+            border-bottom: none;
+        }
+
+        .daily-item:hover {
+            background: var(--surface);
+        }
+
+        .daily-summary {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: var(--space-4);
+            cursor: pointer;
+        }
+
+        .daily-date {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            flex: 1;
+        }
+
+        .date-text {
+            font-weight: var(--font-weight-medium);
+            min-width: 40px;
+        }
+
+        .daily-total {
+            font-family: 'Monaco', 'Courier New', monospace;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .daily-cost {
+            font-family: 'Monaco', 'Courier New', monospace;
+            font-weight: var(--font-weight-medium);
+            margin-right: var(--space-4);
+        }
+
+        .expand-icon {
+            font-size: 12px;
+            color: var(--text-tertiary);
+            transition: transform 0.15s ease;
+        }
+
+        .hourly-breakdown {
+            background: var(--surface);
+            border-top: var(--border);
+        }
+
+        .hourly-header {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr 1fr 1fr;
+            gap: var(--space-3);
+            padding: var(--space-3) var(--space-4);
+            background: var(--divider);
+            font-size: 12px;
+            font-weight: var(--font-weight-semibold);
+            color: var(--text-secondary);
+        }
+
+        .hourly-item {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr 1fr 1fr;
+            gap: var(--space-3);
+            padding: var(--space-3) var(--space-4);
+            border-bottom: 1px solid var(--divider);
+            font-size: 13px;
+            border-left: 3px solid;
+        }
+
+        .hourly-item:last-child {
+            border-bottom: none;
+        }
+
+        .hourly-item.peak {
+            border-left-color: var(--error);
+        }
+
+        .hourly-item.standard {
+            border-left-color: var(--accent);
+        }
+
+        .hourly-item.valley {
+            border-left-color: var(--success);
+        }
+
+        .period-name {
+            font-weight: var(--font-weight-medium);
+        }
+
+        .hourly-usage,
+        .hourly-rate,
+        .hourly-cost {
+            font-family: 'Monaco', 'Courier New', monospace;
+            text-align: right;
+        }
+
+        /* 滚动条样式 */
+        .daily-list::-webkit-scrollbar,
+        .drawer-body::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .daily-list::-webkit-scrollbar-track,
+        .drawer-body::-webkit-scrollbar-track {
+            background: var(--surface);
+        }
+
+        .daily-list::-webkit-scrollbar-thumb,
+        .drawer-body::-webkit-scrollbar-thumb {
+            background: var(--divider);
+            border-radius: 3px;
+        }
+
+        .daily-list::-webkit-scrollbar-thumb:hover,
+        .drawer-body::-webkit-scrollbar-thumb:hover {
+            background: var(--text-tertiary);
+        }
+
+        /* 抽屉表格和内容样式 - 从bill-detail.html完全复制 */
+        .drawer-table-container {
+            background: var(--background);
+            border: var(--border);
+            border-radius: var(--radius);
+            padding: var(--space-6);
+            box-shadow: var(--shadow);
+        }
+
+        .drawer-daily-table {
+            border: var(--border);
+            border-radius: var(--radius);
+            overflow: hidden;
+        }
+
+        .drawer-daily-table-header {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1.2fr 30px;
+            gap: var(--space-3);
+            background: var(--surface);
+            padding: var(--space-4);
+            font-weight: var(--font-weight-medium);
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .drawer-daily-table-body {
+            max-height: 550px;
+            overflow-y: auto;
+        }
+
+        .drawer-daily-table-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1.2fr 30px;
+            gap: var(--space-3);
+            padding: var(--space-4);
+            border-bottom: var(--border);
+            font-size: 14px;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .drawer-daily-table-row:hover {
+            background: var(--surface);
+        }
+
+        .drawer-daily-table-row:last-child {
+            border-bottom: none;
+        }
+
+        .drawer-daily-table-row.selected {
+            background: #000000 !important;
+            color: white !important;
+            transform: scale(1.02);
+        }
+
+        .drawer-daily-table-row.selected span {
+            color: white !important;
+        }
+
+        .drawer-expand-icon {
+            font-size: 14px;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: transform 0.15s ease;
+            font-weight: bold;
+        }
+
+        .drawer-daily-table-row.selected .drawer-expand-icon {
+            color: white !important;
+        }
+
+
+        /* 抽屉扩展功能 - 按照bills.html复制 */
+        .right-drawer {
+            transition: all 0.3s ease;
+        }
+
+        .right-drawer.expanded .drawer-content {
+            width: 1150px; /* 表格600px + 详情500px + 间隙50px */
+            max-width: 90vw;
+        }
+
+        .right-drawer.expanded .drawer-usage-view.active {
+            display: flex;
+            gap: var(--space-6);
+        }
+
+        .right-drawer.expanded .drawer-table-container {
+            flex: 0 0 auto;
+            width: 600px; /* 固定宽度，保持原来大小 */
+            height: 100%;
+        }
+
+        /* 视图展开时的特殊样式 - 只对激活的视图应用flex布局 */
+        .right-drawer.expanded #drawer-table-view.active {
+            display: flex !important;
+            gap: var(--space-6);
+        }
+
+        /* 每小时详情面板 */
+        .drawer-hourly-details-panel {
+            flex: 0 0 auto;
+            width: 500px; /* 固定宽度的详情面板 */
+            background: var(--background);
+            border: var(--border);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            height: fit-content;
+            align-self: flex-start;
+        }
+
+        .drawer-hourly-header {
+            padding: var(--space-4) var(--space-6);
+            border-bottom: var(--border);
+            background: var(--surface);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .drawer-hourly-header h4 {
+            margin: 0;
+            font-size: 16px;
+            font-weight: var(--font-weight-medium);
+        }
+
+        .drawer-hourly-close {
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            color: var(--text-secondary);
+            padding: 0;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.15s ease;
+        }
+
+        .drawer-hourly-close:hover {
+            background: var(--divider);
+            color: var(--text-primary);
+        }
+
+        .drawer-hourly-content {
+            padding: var(--space-6);
+            max-height: calc(100% - 80px);
+            overflow-y: auto;
+        }
+
+        .drawer-hourly-table {
+            border: var(--border);
+            border-radius: var(--radius);
+            overflow: hidden;
+        }
+
+        .drawer-hourly-table-header {
+            display: grid;
+            grid-template-columns: 80px 100px 100px 100px;
+            gap: var(--space-2);
+            background: var(--surface);
+            padding: var(--space-3);
+            font-weight: var(--font-weight-medium);
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .drawer-hourly-table-row {
+            display: grid;
+            grid-template-columns: 80px 100px 100px 100px;
+            gap: var(--space-2);
+            padding: var(--space-3);
+            border-bottom: var(--border);
+            font-size: 13px;
+            align-items: center;
+        }
+
+        .drawer-hourly-table-row:last-child {
+            border-bottom: none;
+        }
+
+        .drawer-hourly-table-row:hover {
+            background: var(--surface);
+        }
+
+        .drawer-hourly-table-row.peak {
+            background: rgba(220, 53, 69, 0.05);
+            border-left: 3px solid var(--error);
+        }
+
+        .drawer-hourly-table-row.standard {
+            background: rgba(0, 102, 204, 0.05);
+            border-left: 3px solid var(--accent);
+        }
+
+        .drawer-hourly-table-row.valley {
+            background: rgba(40, 167, 69, 0.05);
+            border-left: 3px solid var(--success);
+        }
+
+        .rate-badge {
+            padding: 2px 6px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: var(--font-weight-medium);
+            text-align: center;
+        }
+
+        .rate-badge.peak {
+            background: rgba(220, 53, 69, 0.1);
+            color: var(--error);
+        }
+
+        .rate-badge.standard {
+            background: rgba(0, 102, 204, 0.1);
+            color: var(--accent);
+        }
+
+        .rate-badge.valley {
+            background: rgba(40, 167, 69, 0.1);
+            color: var(--success);
+        }
+
+        /* 抽屉日历样式 */
+        .drawer-calendar-container {
+            background: var(--background);
+            border: var(--border);
+            border-radius: var(--radius);
+            padding: var(--space-6);
+            box-shadow: var(--shadow);
+        }
+
+        .drawer-calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--space-6);
+        }
+
+        .drawer-calendar-header h3 {
+            margin: 0;
+            font-size: 18px;
+            font-weight: var(--font-weight-medium);
+        }
+
+        .drawer-calendar-toggle {
+            display: flex;
+            background: var(--surface);
+            border-radius: var(--radius);
+            padding: var(--space-1);
+        }
+
+        .drawer-calendar-toggle-btn {
+            padding: var(--space-2) var(--space-4);
+            border: none;
+            background: transparent;
+            border-radius: calc(var(--radius) - 2px);
+            font-size: 14px;
+            font-weight: var(--font-weight-medium);
+            cursor: pointer;
+            transition: all 0.15s ease;
+            color: var(--text-secondary);
+        }
+
+        .drawer-calendar-toggle-btn.active {
+            background: var(--primary);
+            color: white;
+            box-shadow: var(--shadow);
+        }
+
+        .drawer-calendar-weekdays {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: var(--space-2);
+            margin-bottom: var(--space-2);
+        }
+
+        .drawer-weekday {
+            text-align: center;
+            font-size: 12px;
+            font-weight: var(--font-weight-semibold);
+            color: var(--text-secondary);
+            padding: var(--space-2);
+        }
+
+        .drawer-calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: var(--space-2);
+            margin-bottom: var(--space-4);
+        }
+
+        .drawer-calendar-day {
+            aspect-ratio: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border: var(--border);
+            border-radius: var(--radius);
+            background: var(--surface);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+            min-height: 50px;
+        }
+
+        .drawer-calendar-day:hover {
+            background: var(--divider);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .drawer-calendar-legend {
+            display: flex;
+            justify-content: center;
+            gap: var(--space-4);
+            margin-top: var(--space-4);
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+        }
+
+        .legend-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .legend-dot.low-usage {
+            background: var(--success);
+        }
+
+        .legend-dot.medium-usage {
+            background: var(--warning);
+        }
+
+        .legend-dot.high-usage {
+            background: var(--error);
+        }
+
+        /* 抽屉图表样式 */
+        .drawer-chart-container {
+            background: var(--background);
+            border: var(--border);
+            border-radius: var(--radius);
+            padding: var(--space-6);
+            box-shadow: var(--shadow);
+        }
+
+        .drawer-export-btn {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+            padding: var(--space-2) var(--space-4);
+            background: var(--surface);
+            border: var(--border);
+            border-radius: var(--radius);
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .drawer-export-btn:hover {
+            background: var(--divider);
+        }
+
+        .drawer-header-left h3 {
+            margin: 0;
+            color: var(--text-primary);
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 1200px) {
+            .content-layout {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .content-layout {
+                padding: var(--space-8) var(--space-4);
+            }
+
+            .device-info-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .section-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: var(--space-4);
+            }
+
+            .header-left {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: var(--space-2);
+            }
+
+            .header-right {
+                align-self: stretch;
+                justify-content: flex-start;
+            }
+
+            .table {
+                font-size: 14px;
+            }
+
+            .table th,
+            .table td {
+                padding: var(--space-3) var(--space-2);
+            }
+
+            .page-header h2 {
+                font-size: 24px;
+            }
+        }
+    </style>
+</body>
+</html>
