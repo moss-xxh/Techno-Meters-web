@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title data-zh="设备管理" data-en="Device Management">设备管理</title>
+    <title data-zh="设备管理" data-en="Device Management">Device Management</title>
     <link rel="stylesheet" href="assets/css/common.css">
     <link rel="stylesheet" href="assets/css/navbar.css">
 </head>
@@ -25,13 +25,13 @@
             <div class="nav-actions">
                 <div class="lang-dropdown">
                     <select id="language-select" class="form-select lang-select">
-                        <option value="zh" data-zh="中文" data-en="Chinese">中文</option>
                         <option value="en" data-zh="English" data-en="English">English</option>
+                        <option value="zh" data-zh="中文" data-en="Chinese">中文</option>
                     </select>
                 </div>
                 <div class="user-menu">
                     <div class="user-avatar">管</div>
-                    <span data-zh="管理员" data-en="Admin">管理员</span>
+                    <span data-zh="管理员" data-en="Admin">Admin</span>
                 </div>
             </div>
         </div>
@@ -45,25 +45,25 @@
                 <!-- 搜索和操作区域 -->
                 <div class="search-section">
                     <div class="search-controls">
-                        <input type="text" id="device-search" class="form-input" placeholder="设备ID/名称/位置..." data-zh-placeholder="设备ID/名称/位置..." data-en-placeholder="Device ID/Name/Location...">
+                        <input type="text" id="device-search" class="form-input" placeholder="Device ID/Name/Location..." data-zh-placeholder="设备ID/名称/位置..." data-en-placeholder="Device ID/Name/Location...">
                         <select id="device-type-filter" class="form-select">
-                            <option value="all" data-zh="全部类型" data-en="All Types">全部类型</option>
-                            <option value="single-phase" data-zh="单相电表" data-en="Single Phase">单相电表</option>
-                            <option value="three-phase" data-zh="三相电表" data-en="Three Phase">三相电表</option>
+                            <option value="all" data-zh="全部类型" data-en="All Types">All Types</option>
+                            <option value="single-phase" data-zh="单相电表" data-en="Single Phase">Single Phase</option>
+                            <option value="three-phase" data-zh="三相电表" data-en="Three Phase">Three Phase</option>
                         </select>
                         <select id="device-status-filter" class="form-select">
-                            <option value="all" data-zh="全部状态" data-en="All Status">全部状态</option>
-                            <option value="online" data-zh="在线" data-en="Online">在线</option>
-                            <option value="offline" data-zh="离线" data-en="Offline">离线</option>
-                            <option value="error" data-zh="故障" data-en="Error">故障</option>
+                            <option value="all" data-zh="全部状态" data-en="All Status">All Status</option>
+                            <option value="online" data-zh="在线" data-en="Online">Online</option>
+                            <option value="offline" data-zh="离线" data-en="Offline">Offline</option>
+                            <option value="error" data-zh="故障" data-en="Error">Error</option>
                         </select>
                     </div>
                     <div class="search-actions">
                         <button class="btn btn-primary" onclick="searchDevices()">
-                            <span data-zh="查询" data-en="Search">查询</span>
+                            <span data-zh="查询" data-en="Search">Search</span>
                         </button>
                         <button class="btn btn-secondary" onclick="resetFilters()">
-                            <span data-zh="重置" data-en="Reset">重置</span>
+                            <span data-zh="重置" data-en="Reset">Reset</span>
                         </button>
                     </div>
                 </div>
@@ -73,13 +73,13 @@
                     <div class="table-header">
                         <div class="table-actions-left">
                             <button class="btn btn-success" onclick="showAddDeviceModal()">
-                                <span data-zh="+ 添加设备" data-en="+ Add Device">+ 添加设备</span>
+                                <span data-zh="+ 添加设备" data-en="+ Add Device">+ Add Device</span>
                             </button>
                         </div>
                         <div class="table-actions-right" id="batch-actions">
-                            <span class="selected-count" id="selected-count">已选择 0 个设备</span>
+                            <span class="selected-count" id="selected-count">Selected 0 devices</span>
                             <button class="btn btn-primary" id="ota-upgrade-btn" onclick="showOtaUpgradeModal()" disabled>
-                                <span data-zh="OTA升级" data-en="OTA Upgrade">OTA升级</span>
+                                <span data-zh="OTA升级" data-en="OTA Upgrade">OTA Upgrade</span>
                             </button>
                         </div>
                     </div>
@@ -89,12 +89,12 @@
                                 <th style="width: 50px;">
                                     <input type="checkbox" id="select-all-devices" onchange="toggleSelectAll()">
                                 </th>
-                                <th data-sortable data-zh="设备ID" data-en="Device ID">设备ID</th>
-                                <th data-sortable data-zh="设备名称" data-en="Device Name">设备名称</th>
-                                <th data-sortable data-zh="位置" data-en="Position">位置</th>
-                                <th data-sortable data-zh="倍率" data-en="Ratio">倍率</th>
-                                <th data-sortable data-zh="状态" data-en="Status">状态</th>
-                                <th data-zh="操作" data-en="Actions">操作</th>
+                                <th data-sortable data-zh="设备ID" data-en="Device ID">Device ID</th>
+                                <th data-sortable data-zh="设备名称" data-en="Device Name">Device Name</th>
+                                <th data-sortable data-zh="位置" data-en="Position">Position</th>
+                                <th data-sortable data-zh="倍率" data-en="Ratio">Ratio</th>
+                                <th data-sortable data-zh="状态" data-en="Status">Status</th>
+                                <th data-zh="操作" data-en="Actions">Actions</th>
                             </tr>
                         </thead>
                         <tbody id="devices-tbody">
@@ -770,7 +770,7 @@
         // 简单的语言系统初始化
         function initLanguageSystem() {
             const languageSelect = document.getElementById('language-select');
-            const savedLanguage = localStorage.getItem('selectedLanguage') || 'zh';
+            const savedLanguage = localStorage.getItem('selectedLanguage') || 'en';
 
             languageSelect.value = savedLanguage;
             updateLanguage(savedLanguage);
