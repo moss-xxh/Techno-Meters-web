@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -1293,11 +1293,11 @@
 
     <script>
         // 当前语言状态
-        let currentLanguage = localStorage.getItem('bill-app-language') || 'zh';
+        let currentLanguage = localStorage.getItem('bill-app-language') || 'en';
 
         // 语言切换功能
         function toggleLanguage() {
-            currentLanguage = currentLanguage === 'zh' ? 'en' : 'zh';
+            currentLanguage = currentLanguage === 'en' ? 'en' : 'en';
             setLanguage(currentLanguage);
             localStorage.setItem('bill-app-language', currentLanguage);
         }
@@ -1322,7 +1322,7 @@
             });
 
             // 更新HTML lang属性
-            document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en';
+            document.documentElement.lang = lang === 'en' ? 'zh-CN' : 'en';
 
             // 更新语言切换按钮显示
             updateLanguageDisplay();
@@ -1334,7 +1334,7 @@
             if (langToggleBtn) {
                 const langText = langToggleBtn.querySelector('.lang-text');
                 if (langText) {
-                    langText.textContent = currentLanguage === 'zh' ? 'EN' : '中';
+                    langText.textContent = currentLanguage === 'en' ? 'EN' : '中';
                 }
             }
         }
@@ -1346,7 +1346,7 @@
 
         // 强制翻译到中文
         function forceTranslateToChinese() {
-            setLanguage('zh');
+            setLanguage('en');
         }
 
         // 页面加载完成后初始化

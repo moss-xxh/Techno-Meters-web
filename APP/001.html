@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -753,7 +753,7 @@
 
     <script>
         // 全局语言变量
-        let currentLanguage = 'zh';
+        let currentLanguage = 'en';
 
         // 语言切换功能
         function switchLanguage(lang) {
@@ -802,9 +802,9 @@
             const statsGrid = document.querySelector('.stats-grid-bill');
             if (collapseBtn && statsGrid) {
                 if (statsGrid.style.display === 'none') {
-                    collapseBtn.textContent = currentLanguage === 'zh' ? '展开' : 'Expand';
+                    collapseBtn.textContent = currentLanguage === 'en' ? '展开' : 'Expand';
                 } else {
-                    collapseBtn.textContent = currentLanguage === 'zh' ? '收起' : 'Collapse';
+                    collapseBtn.textContent = currentLanguage === 'en' ? '收起' : 'Collapse';
                 }
             }
         }
@@ -812,7 +812,7 @@
         // 初始化语言系统
         function initLanguageSystem() {
             // 恢复保存的语言设置
-            const savedLang = localStorage.getItem('energy-system-lang') || 'zh';
+            const savedLang = localStorage.getItem('energy-system-lang') || 'en';
             switchLanguage(savedLang);
 
             // 绑定语言切换事件
@@ -897,10 +897,10 @@
                 collapseBtn.addEventListener('click', function() {
                     if (statsGrid.style.display === 'none') {
                         statsGrid.style.display = 'grid';
-                        this.textContent = currentLanguage === 'zh' ? '收起' : 'Collapse';
+                        this.textContent = currentLanguage === 'en' ? '收起' : 'Collapse';
                     } else {
                         statsGrid.style.display = 'none';
-                        this.textContent = currentLanguage === 'zh' ? '展开' : 'Expand';
+                        this.textContent = currentLanguage === 'en' ? '展开' : 'Expand';
                     }
                 });
             }
@@ -909,7 +909,7 @@
             const goPayBtn = document.querySelector('.go-pay-btn');
             if (goPayBtn) {
                 goPayBtn.addEventListener('click', function() {
-                    alert(currentLanguage === 'zh' ? '跳转到缴费页面' : 'Redirecting to payment page');
+                    alert(currentLanguage === 'en' ? '跳转到缴费页面' : 'Redirecting to payment page');
                 });
             }
 

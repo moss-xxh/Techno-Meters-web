@@ -1,16 +1,16 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title data-zh="能源管理系统" data-en="Energy Management System">能源管理系统</title>
+    <title data-zh="能源管理系统" data-en="Energy Management System">Energy Management System</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="light-content">
     <meta name="format-detection" content="telephone=no">
     <meta name="theme-color" content="#26A69A">
     <link rel="apple-touch-icon" href="assets/images/icon-192.png">
-    <meta name="apple-mobile-web-app-title" content="能源管理系统">
+    <meta name="apple-mobile-web-app-title" content="Energy Management System">
     <style>
         /* 重置样式 */
         * {
@@ -634,6 +634,91 @@
             border-radius: 3px;
         }
 
+        /* 语言切换器 */
+        .language-selector {
+            position: fixed;
+            top: 60px;
+            right: 16px;
+            z-index: 200;
+        }
+
+        .language-toggle {
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 8px 16px;
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .language-toggle:hover {
+            background: rgba(0, 0, 0, 0.9);
+            transform: scale(1.05);
+        }
+
+        .language-dropdown {
+            position: absolute;
+            top: 40px;
+            right: 0;
+            background: white;
+            border-radius: 12px;
+            padding: 8px 0;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            min-width: 120px;
+            display: none;
+            z-index: 300;
+        }
+
+        .language-dropdown.show {
+            display: block;
+            animation: dropdownShow 0.3s ease-out;
+        }
+
+        @keyframes dropdownShow {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .language-option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 16px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #333;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: none;
+            background: none;
+            width: 100%;
+            text-align: left;
+        }
+
+        .language-option:hover {
+            background: #f8f8f8;
+        }
+
+        .language-option.active {
+            background: #000;
+            color: white;
+        }
+
+        .language-flag {
+            font-size: 16px;
+        }
+
         /* 动画 */
         .fade-in {
             animation: fadeIn 0.5s ease-out;
@@ -693,6 +778,23 @@
         </div>
     </div>
 
+    <!-- 语言切换器 -->
+    <div class="language-selector">
+        <button class="language-toggle" id="languageToggle">
+            🌐 EN
+        </button>
+        <div class="language-dropdown" id="languageDropdown">
+            <button class="language-option active" data-lang="en">
+                <span class="language-flag">🇺🇸</span>
+                <span>English</span>
+            </button>
+            <button class="language-option" data-lang="zh">
+                <span class="language-flag">🇨🇳</span>
+                <span>中文</span>
+            </button>
+        </div>
+    </div>
+
     <!-- 电费卡片 -->
     <div class="bill-card fade-in">
         <div class="bill-header">
@@ -701,26 +803,26 @@
                 <div class="bill-avatar">
                     <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face" alt="Kumar" />
                 </div>
-                <div class="bill-family-name">库马尔家庭</div>
+                <div class="bill-family-name" data-zh="库马尔家庭" data-en="Kumar Family">Kumar Family</div>
             </div>
 
             <div class="bill-header-content">
                 <div style="display: flex; justify-content: space-between; align-items: baseline;">
                     <div>
-                        <h2 class="bill-title" data-zh="2025年9月账单" data-en="September 2025 Bill">2025年9月账单</h2>
-                        <div class="bill-period" data-zh="（9月1日-9月30日）" data-en="(Sep 1 - Sep 30)">(9月1日-9月30日)</div>
+                        <h2 class="bill-title" data-zh="2025年9月账单" data-en="September 2025 Bill">September 2025 Bill</h2>
+                        <div class="bill-period" data-zh="（9月1日-9月30日）" data-en="(Sep 1 - Sep 30)">(Sep 1 - Sep 30)</div>
                     </div>
                     <a href="bill-detail-new.html?month=2025-09" class="bill-detail-btn">
-                        详情 >
+                        <span data-zh="详情 >" data-en="Details >">Details ></span>
                     </a>
                 </div>
                 <div class="bill-data-grid">
                     <div class="bill-data-item">
-                        <div class="current-bill-label" data-zh="用电量" data-en="Usage">用电量</div>
+                        <div class="current-bill-label" data-zh="用电量" data-en="Usage">Usage</div>
                         <div class="current-bill-value">450 <span class="unit">kWh</span></div>
                     </div>
                     <div class="bill-data-item">
-                        <div class="current-bill-label" data-zh="电费" data-en="Bill Amount">电费</div>
+                        <div class="current-bill-label" data-zh="电费" data-en="Bill Amount">Bill Amount</div>
                         <div class="current-bill-value">₹2,840 <span class="unit">INR</span></div>
                     </div>
                 </div>
@@ -730,11 +832,11 @@
         <div class="stats-grid-bill">
             <div class="stat-item">
                 <div class="stat-value">380 kWh</div>
-                <div class="stat-label" data-zh="上期电量" data-en="Last Usage">上期电量</div>
+                <div class="stat-label" data-zh="上期电量" data-en="Last Usage">Last Usage</div>
             </div>
             <div class="stat-item">
                 <div class="stat-value">₹2,450 INR</div>
-                <div class="stat-label" data-zh="上期电费" data-en="Last Bill">上期电费</div>
+                <div class="stat-label" data-zh="上期电费" data-en="Last Bill">Last Bill</div>
             </div>
         </div>
     </div>
@@ -745,7 +847,7 @@
 
     <!-- 底部圆角按钮 -->
     <a href="home-app.html" class="bottom-bill-btn clickable">
-        📄 账单管理
+        <span data-zh="📄 账单管理" data-en="📄 Bill Management">📄 Bill Management</span>
     </a>
 
     <!-- Home指示器 -->
@@ -753,17 +855,28 @@
 
     <script>
         // 全局语言变量
-        let currentLanguage = 'zh';
+        let currentLanguage = 'en';
 
         // 语言切换功能
         function switchLanguage(lang) {
             currentLanguage = lang;
 
-            // 更新下拉选择器
-            const languageSelect = document.getElementById('language-select');
-            if (languageSelect) {
-                languageSelect.value = lang;
+            // 更新语言切换器UI
+            const languageToggle = document.getElementById('languageToggle');
+            const languageOptions = document.querySelectorAll('.language-option');
+
+            if (languageToggle) {
+                languageToggle.innerHTML = lang === 'en' ? '🌐 EN' : '🌐 中文';
             }
+
+            // 更新选项状态
+            languageOptions.forEach(option => {
+                if (option.getAttribute('data-lang') === lang) {
+                    option.classList.add('active');
+                } else {
+                    option.classList.remove('active');
+                }
+            });
 
             // 更新所有文本
             updateTexts();
@@ -812,14 +925,41 @@
         // 初始化语言系统
         function initLanguageSystem() {
             // 恢复保存的语言设置
-            const savedLang = localStorage.getItem('energy-system-lang') || 'zh';
+            const savedLang = localStorage.getItem('energy-system-lang') || 'en';
             switchLanguage(savedLang);
 
             // 绑定语言切换事件
-            const languageSelect = document.getElementById('language-select');
-            if (languageSelect) {
-                languageSelect.addEventListener('change', () => {
-                    switchLanguage(languageSelect.value);
+            const languageToggle = document.getElementById('languageToggle');
+            const languageDropdown = document.getElementById('languageDropdown');
+            const languageOptions = document.querySelectorAll('.language-option');
+
+            if (languageToggle && languageDropdown) {
+                // 切换下拉菜单显示/隐藏
+                languageToggle.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    languageDropdown.classList.toggle('show');
+                });
+
+                // 点击页面其他地方关闭下拉菜单
+                document.addEventListener('click', () => {
+                    languageDropdown.classList.remove('show');
+                });
+
+                // 语言选择
+                languageOptions.forEach(option => {
+                    option.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        const lang = option.getAttribute('data-lang');
+                        switchLanguage(lang);
+                        languageDropdown.classList.remove('show');
+
+                        // 更新按钮状态
+                        languageOptions.forEach(opt => opt.classList.remove('active'));
+                        option.classList.add('active');
+
+                        // 更新切换按钮文本
+                        languageToggle.innerHTML = lang === 'en' ? '🌐 EN' : '🌐 中文';
+                    });
                 });
             }
         }
