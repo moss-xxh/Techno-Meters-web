@@ -1278,15 +1278,6 @@
             </button>
         </div>
 
-        <!-- 强制翻译按钮（调试用） -->
-        <div class="detail-btn-container" style="margin-top: 10px;">
-            <button class="detail-btn" onclick="forceTranslateToEnglish()" style="background: #007AFF; color: white; margin-right: 10px;">
-                Force English
-            </button>
-            <button class="detail-btn" onclick="forceTranslateToChinese()" style="background: #FF3B30; color: white;">
-                强制中文
-            </button>
-        </div>
 
     </div>
 
@@ -1450,13 +1441,13 @@
                 segment.classList.remove('active');
             });
 
-            if (data.currentTier === '第一阶梯') {
+            if (data.currentTier === 'Tier 1') {
                 progressIndicator.style.left = '25%';
-            } else if (data.currentTier === '第二阶梯') {
+            } else if (data.currentTier === 'Tier 2') {
                 progressIndicator.style.left = '50%';
-            } else if (data.currentTier === '第三阶梯') {
+            } else if (data.currentTier === 'Tier 3') {
                 progressIndicator.style.left = '75%';
-            } else if (data.currentTier === '第四阶梯') {
+            } else if (data.currentTier === 'Tier 4') {
                 progressIndicator.style.left = '95%';
             }
 
@@ -1517,7 +1508,7 @@
         function getExtendedBillData() {
             return {
                 '2025-09': {
-                    monthTitle: '2025年9月',
+                    monthTitle: 'September 2025',
                     billCycle: '2025/09/01-2025/09/30',
                     currentUsage: '450',
                     currentBill: '₹2,840',
@@ -1529,16 +1520,16 @@
                     tierRate: '0.05',
                     tierAmount: '0',
                     cumulativeUsage: '450',
-                    currentTier: '第四阶梯',
+                    currentTier: 'Tier 4',
                     tierPricing: [
-                        { name: '第一阶梯', range: '0-100', price: '₹3.35', usage: '100', amount: '₹335.00' },
-                        { name: '第二阶梯', range: '101-200', price: '₹4.60', usage: '100', amount: '₹460.00' },
-                        { name: '第三阶梯', range: '201-400', price: '₹6.85', usage: '200', amount: '₹1,370.00' },
-                        { name: '第四阶梯', range: '400+', price: '₹8.15', usage: '50', amount: '₹407.00' }
+                        { name: 'Tier 1', range: '0-100', price: '₹3.35', usage: '100', amount: '₹335.00' },
+                        { name: 'Tier 2', range: '101-200', price: '₹4.60', usage: '100', amount: '₹460.00' },
+                        { name: 'Tier 3', range: '201-400', price: '₹6.85', usage: '200', amount: '₹1,370.00' },
+                        { name: 'Tier 4', range: '400+', price: '₹8.15', usage: '50', amount: '₹407.00' }
                     ]
                 },
                 '2025-08': {
-                    monthTitle: '2025年8月',
+                    monthTitle: 'August 2025',
                     billCycle: '2025/08/01-2025/08/31',
                     currentUsage: '380',
                     currentBill: '₹2,450',
@@ -1550,16 +1541,16 @@
                     tierRate: '0.05',
                     tierAmount: '0',
                     cumulativeUsage: '380',
-                    currentTier: '第三阶梯',
+                    currentTier: 'Tier 3',
                     tierPricing: [
-                        { name: '第一阶梯', range: '0-100', price: '₹3.35', usage: '100', amount: '₹335.00' },
-                        { name: '第二阶梯', range: '101-200', price: '₹4.60', usage: '100', amount: '₹460.00' },
-                        { name: '第三阶梯', range: '201-400', price: '₹6.85', usage: '180', amount: '₹1,233.00' },
-                        { name: '第四阶梯', range: '400+', price: '₹8.15', usage: '0', amount: '₹0.00' }
+                        { name: 'Tier 1', range: '0-100', price: '₹3.35', usage: '100', amount: '₹335.00' },
+                        { name: 'Tier 2', range: '101-200', price: '₹4.60', usage: '100', amount: '₹460.00' },
+                        { name: 'Tier 3', range: '201-400', price: '₹6.85', usage: '180', amount: '₹1,233.00' },
+                        { name: 'Tier 4', range: '400+', price: '₹8.15', usage: '0', amount: '₹0.00' }
                     ]
                 },
                 '2025-07': {
-                    monthTitle: '2025年7月',
+                    monthTitle: 'July 2025',
                     billCycle: '2025/07/01-2025/07/31',
                     currentUsage: '382',
                     currentBill: '₹184.31',
@@ -1571,16 +1562,16 @@
                     tierRate: '0.05',
                     tierAmount: '2.1',
                     cumulativeUsage: '382',
-                    currentTier: '第二阶梯',
+                    currentTier: 'Tier 2',
                     tierPricing: [
-                        { name: '第一阶梯', range: '0-100', price: '₹3.35', usage: '100', amount: '₹335.00' },
-                        { name: '第二阶梯', range: '101-200', price: '₹4.60', usage: '100', amount: '₹460.00' },
-                        { name: '第三阶梯', range: '201-400', price: '₹6.85', usage: '169', amount: '₹1157.65' },
-                        { name: '第四阶梯', range: '400+', price: '₹8.15', usage: '0', amount: '₹0.00' }
+                        { name: 'Tier 1', range: '0-100', price: '₹3.35', usage: '100', amount: '₹335.00' },
+                        { name: 'Tier 2', range: '101-200', price: '₹4.60', usage: '100', amount: '₹460.00' },
+                        { name: 'Tier 3', range: '201-400', price: '₹6.85', usage: '169', amount: '₹1157.65' },
+                        { name: 'Tier 4', range: '400+', price: '₹8.15', usage: '0', amount: '₹0.00' }
                     ]
                 },
                 '2025-06': {
-                    monthTitle: '2025年6月',
+                    monthTitle: 'June 2025',
                     billCycle: '2025/06/01-2025/06/30',
                     currentUsage: '268',
                     currentBill: '₹156.42',
@@ -1592,16 +1583,16 @@
                     tierRate: '0.05',
                     tierAmount: '0',
                     cumulativeUsage: '268',
-                    currentTier: '第一阶梯',
+                    currentTier: 'Tier 1',
                     tierPricing: [
-                        { name: '第一阶梯', range: '0-100', price: '₹3.35', usage: '100', amount: '₹335.00' },
-                        { name: '第二阶梯', range: '101-200', price: '₹4.60', usage: '100', amount: '₹460.00' },
-                        { name: '第三阶梯', range: '201-400', price: '₹6.85', usage: '68', amount: '₹465.80' },
-                        { name: '第四阶梯', range: '400+', price: '₹8.15', usage: '0', amount: '₹0.00' }
+                        { name: 'Tier 1', range: '0-100', price: '₹3.35', usage: '100', amount: '₹335.00' },
+                        { name: 'Tier 2', range: '101-200', price: '₹4.60', usage: '100', amount: '₹460.00' },
+                        { name: 'Tier 3', range: '201-400', price: '₹6.85', usage: '68', amount: '₹465.80' },
+                        { name: 'Tier 4', range: '400+', price: '₹8.15', usage: '0', amount: '₹0.00' }
                     ]
                 },
                 '2025-05': {
-                    monthTitle: '2025年5月',
+                    monthTitle: 'May 2025',
                     billCycle: '2025/05/01-2025/05/31',
                     currentUsage: '312',
                     currentBill: '₹168.75',
@@ -1613,16 +1604,16 @@
                     tierRate: '0.05',
                     tierAmount: '0',
                     cumulativeUsage: '312',
-                    currentTier: '第一阶梯',
+                    currentTier: 'Tier 1',
                     tierPricing: [
-                        { name: '第一阶梯', range: '0-100', price: '₹3.35', usage: '100', amount: '₹335.00' },
-                        { name: '第二阶梯', range: '101-200', price: '₹4.60', usage: '100', amount: '₹460.00' },
-                        { name: '第三阶梯', range: '201-400', price: '₹6.85', usage: '112', amount: '₹767.20' },
-                        { name: '第四阶梯', range: '400+', price: '₹8.15', usage: '0', amount: '₹0.00' }
+                        { name: 'Tier 1', range: '0-100', price: '₹3.35', usage: '100', amount: '₹335.00' },
+                        { name: 'Tier 2', range: '101-200', price: '₹4.60', usage: '100', amount: '₹460.00' },
+                        { name: 'Tier 3', range: '201-400', price: '₹6.85', usage: '112', amount: '₹767.20' },
+                        { name: 'Tier 4', range: '400+', price: '₹8.15', usage: '0', amount: '₹0.00' }
                     ]
                 },
                 '2025-04': {
-                    monthTitle: '2025年4月',
+                    monthTitle: 'April 2025',
                     billCycle: '2025/04/01-2025/04/30',
                     currentUsage: '234',
                     currentBill: '₹134.22',
@@ -1634,16 +1625,16 @@
                     tierRate: '0.05',
                     tierAmount: '0',
                     cumulativeUsage: '234',
-                    currentTier: '第一阶梯',
+                    currentTier: 'Tier 1',
                     tierPricing: [
-                        { name: '第一阶梯', range: '0-100', price: '₹3.35', usage: '100', amount: '₹335.00' },
-                        { name: '第二阶梯', range: '101-200', price: '₹4.60', usage: '100', amount: '₹460.00' },
-                        { name: '第三阶梯', range: '201-400', price: '₹6.85', usage: '34', amount: '₹232.90' },
-                        { name: '第四阶梯', range: '400+', price: '₹8.15', usage: '0', amount: '₹0.00' }
+                        { name: 'Tier 1', range: '0-100', price: '₹3.35', usage: '100', amount: '₹335.00' },
+                        { name: 'Tier 2', range: '101-200', price: '₹4.60', usage: '100', amount: '₹460.00' },
+                        { name: 'Tier 3', range: '201-400', price: '₹6.85', usage: '34', amount: '₹232.90' },
+                        { name: 'Tier 4', range: '400+', price: '₹8.15', usage: '0', amount: '₹0.00' }
                     ]
                 },
                 '2025-03': {
-                    monthTitle: '2025年3月',
+                    monthTitle: 'March 2025',
                     billCycle: '2025/03/01-2025/03/31',
                     currentUsage: '289',
                     currentBill: '₹152.89',
@@ -1655,12 +1646,12 @@
                     tierRate: '0.05',
                     tierAmount: '0',
                     cumulativeUsage: '289',
-                    currentTier: '第一阶梯',
+                    currentTier: 'Tier 1',
                     tierPricing: [
-                        { name: '第一阶梯', range: '0-100', price: '₹3.35', usage: '100', amount: '₹335.00' },
-                        { name: '第二阶梯', range: '101-200', price: '₹4.60', usage: '100', amount: '₹460.00' },
-                        { name: '第三阶梯', range: '201-400', price: '₹6.85', usage: '89', amount: '₹609.65' },
-                        { name: '第四阶梯', range: '400+', price: '₹8.15', usage: '0', amount: '₹0.00' }
+                        { name: 'Tier 1', range: '0-100', price: '₹3.35', usage: '100', amount: '₹335.00' },
+                        { name: 'Tier 2', range: '101-200', price: '₹4.60', usage: '100', amount: '₹460.00' },
+                        { name: 'Tier 3', range: '201-400', price: '₹6.85', usage: '89', amount: '₹609.65' },
+                        { name: 'Tier 4', range: '400+', price: '₹8.15', usage: '0', amount: '₹0.00' }
                     ]
                 }
             };

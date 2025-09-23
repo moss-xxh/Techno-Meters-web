@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title data-zh="用电明细" data-en="Usage Details">用电明细</title>
+    <title data-zh="用电明细" data-en="Usage Details">Usage Details</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="light-content">
     <meta name="format-detection" content="telephone=no">
     <meta name="theme-color" content="#26A69A">
     <link rel="apple-touch-icon" href="assets/images/icon-192.png">
-    <meta name="apple-mobile-web-app-title" content="用电明细">
+    <meta name="apple-mobile-web-app-title" content="Usage Details">
     <style>
         /* 重置样式 */
         * {
@@ -877,15 +877,15 @@
         <button class="back-btn" onclick="goBack()">
             <i class="fas fa-chevron-left"></i>
         </button>
-        <div class="page-title">用电明细</div>
+        <div class="page-title">Usage Details</div>
         <div class="title-spacer"></div>
     </div>
 
     <!-- Tab 导航 -->
     <div class="tab-container">
         <div class="tab-nav">
-            <button class="tab-item active" onclick="switchTab('cumulative')">累计趋势</button>
-            <button class="tab-item" onclick="switchTab('daily')">每日明细</button>
+            <button class="tab-item active" onclick="switchTab('cumulative')">Cumulative Trend</button>
+            <button class="tab-item" onclick="switchTab('daily')">Daily Details</button>
         </div>
     </div>
 
@@ -921,7 +921,7 @@
             <!-- 日历视图 -->
             <div class="detail-card">
                 <div class="calendar-title-row">
-                    <h3 class="card-title">2025年7月</h3>
+                    <h3 class="card-title">July 2025</h3>
                     <div class="data-type-selector">
                         <button class="data-type-btn active" onclick="switchDataType('usage')" id="usage-btn">
                             <i class="fas fa-bolt"></i>
@@ -933,13 +933,13 @@
                 </div>
                 <div class="calendar-container">
                     <div class="calendar-header">
-                        <div class="weekday">日</div>
-                        <div class="weekday">一</div>
-                        <div class="weekday">二</div>
-                        <div class="weekday">三</div>
-                        <div class="weekday">四</div>
-                        <div class="weekday">五</div>
-                        <div class="weekday">六</div>
+                        <div class="weekday">Sun</div>
+                        <div class="weekday">Mon</div>
+                        <div class="weekday">Tue</div>
+                        <div class="weekday">Wed</div>
+                        <div class="weekday">Thu</div>
+                        <div class="weekday">Fri</div>
+                        <div class="weekday">Sat</div>
                     </div>
                     <div class="calendar-grid" id="calendarGrid">
                         <!-- 日历格子将通过JavaScript生成 -->
