@@ -31,7 +31,7 @@
             line-height: 1.6;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
-            max-width: 414px;
+            max-width: 450px;
             margin: 0 auto;
             min-height: 100vh;
             position: relative;
@@ -272,6 +272,9 @@
             gap: 20px;
         }
 
+
+
+
         .stat-item {
             text-align: center;
             padding: 16px;
@@ -504,7 +507,7 @@
         .tier-pricing-card {
             background-color: #fff;
             margin: 0 0 20px 0;
-            border-radius: 16px;
+            border-radius: 12px;
             padding: 20px;
             box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
         }
@@ -569,7 +572,7 @@
 
         .pricing-cell.usage {
             font-weight: 600;
-            color: #007AFF;
+            color: #000;
         }
 
         .pricing-cell.amount {
@@ -590,7 +593,7 @@
 
         .pricing-cell.total-usage {
             font-weight: 700;
-            color: #007AFF;
+            color: #000;
             font-size: 14px;
         }
 
@@ -603,18 +606,17 @@
         /* 图表样式 */
         .chart-section {
             padding: 20px;
-            display: flex;
-            justify-content: center;
         }
 
         .chart-card {
             background-color: #fff;
-            margin: -20px 0 20px 0;
-            border-radius: 16px;
+            border-radius: 12px;
             padding: 20px;
+            margin-bottom: 20px;
             box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
-            width: 374px;
-            flex-shrink: 0;
+            width: calc(100% + 40px);
+            margin-left: -20px;
+            margin-right: -20px;
         }
 
         .chart-container {
@@ -777,19 +779,21 @@
 
         /* 简化的统计卡片 */
         .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 16px;
+            display: flex;
+            gap: 8px;
             margin-top: 24px;
         }
 
         .stat-card {
+            flex: 1;
             text-align: center;
-            padding: 16px 12px;
+            padding: 12px 6px;
             background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
             border-radius: 12px;
             border: 1px solid rgba(0, 0, 0, 0.06);
             transition: all 0.3s ease;
+            min-width: 0;
+            box-sizing: border-box;
         }
 
         .stat-card:hover {
@@ -804,26 +808,26 @@
         }
 
         .stat-card .legend-label {
-            font-size: 12px;
+            font-size: 10px;
             color: #666;
-            margin-bottom: 8px;
-            line-height: 1.2;
+            margin-bottom: 4px;
+            line-height: 1.1;
         }
 
         .stat-card .legend-value {
-            font-size: 16px;
+            font-size: 12px;
             font-weight: 600;
             color: #333;
-            margin-bottom: 6px;
-            line-height: 1.2;
+            margin-bottom: 2px;
+            line-height: 1.1;
             white-space: nowrap;
         }
 
         .stat-card .legend-percentage {
-            font-size: 11px;
+            font-size: 10px;
             color: #999;
             margin-top: 0;
-            line-height: 1.2;
+            line-height: 1.1;
         }
 
         /* Tab切换样式 */
@@ -868,13 +872,13 @@
 
         /* 图表内容切换 */
         .chart-content {
-            display: none;
+            display: none !important;
             opacity: 0;
             transition: opacity 0.3s ease-in-out;
         }
 
         .chart-content.active {
-            display: block;
+            display: block !important;
             opacity: 1;
         }
 
@@ -945,11 +949,555 @@
             }
         }
 
+        /* Tab 导航样式 */
+        .tab-nav {
+            display: flex;
+            justify-content: space-around;
+            position: relative;
+        }
+
+        .tab-item {
+            flex: 1;
+            padding: 16px 0;
+            text-align: center;
+            background: none;
+            border: none;
+            font-size: 16px;
+            font-weight: 500;
+            color: #666;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .tab-item.active {
+            color: #000;
+            font-weight: 600;
+        }
+
+        .tab-item.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: #000;
+            border-radius: 1px;
+        }
+
+        .tab-item:hover {
+            color: #000;
+        }
+
+        /* Tab 内容区域 */
+        .tab-content-area {
+            padding: 0;
+            margin-top: 16px;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* 详情卡片样式 */
+        .detail-card {
+            background: #fff;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        /* 详情页图表样式 - 恢复灰色背景 */
+        .chart-container {
+            height: 250px;
+            margin: 0;
+            position: relative;
+            padding: 0;
+            overflow: visible;
+        }
+
+        /* 账单卡片内图表容器样式 */
+        .detail-chart-container {
+            height: 320px;
+            background: #F8F9FA;
+            border-radius: 12px;
+            margin: 16px 0;
+            position: relative;
+            padding: 5px;
+            overflow: visible;
+        }
+
+        .simple-chart {
+            width: 100%;
+            height: 310px;
+            position: relative;
+            padding: 10px 30px 5px 30px;
+            overflow: visible;
+        }
+
+        .chart-line {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .chart-line:hover {
+            transform: scale(1.5);
+        }
+
+        .chart-line.usage {
+            background: #007AFF;
+            z-index: 2;
+        }
+
+        .chart-line.cost {
+            background: #FF6B35;
+            z-index: 2;
+        }
+
+        .chart-line.hidden {
+            display: none;
+        }
+
+        .chart-path {
+            position: absolute;
+            height: 2px;
+            transform-origin: left center;
+            transition: opacity 0.3s ease;
+        }
+
+        .chart-path.usage {
+            background: #007AFF;
+            z-index: 1;
+        }
+
+        .chart-path.cost {
+            background: #FF6B35;
+            z-index: 1;
+        }
+
+        .chart-path.hidden {
+            opacity: 0;
+        }
+
+        .axis-label {
+            position: absolute;
+            font-size: 10px;
+            color: #666;
+        }
+
+        .axis-label.x {
+            bottom: -15px;
+            transform: translateX(-50%);
+        }
+
+        .axis-label.y-left {
+            left: -35px;
+            color: #007AFF;
+            font-weight: 600;
+        }
+
+        .axis-label.y-right {
+            right: -35px;
+            color: #FF6B35;
+            font-weight: 600;
+        }
+
+        .chart-svg {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        .chart-line-usage {
+            stroke: #007AFF;
+            stroke-width: 3;
+            fill: none;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .chart-line-cost {
+            stroke: #FF6B35;
+            stroke-width: 3;
+            fill: none;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .chart-area-usage {
+            fill: url(#gradientUsage);
+            opacity: 0.3;
+        }
+
+        .chart-area-cost {
+            fill: url(#gradientCost);
+            opacity: 0.2;
+        }
+
+        .chart-dot {
+            r: 4;
+            cursor: pointer;
+            transition: r 0.2s ease;
+        }
+
+        .chart-dot:hover {
+            r: 6;
+        }
+
+        .chart-dot-usage {
+            fill: #007AFF;
+        }
+
+        .chart-dot-cost {
+            fill: #FF6B35;
+        }
+
+        .chart-legend {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            margin-top: 16px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            padding: 8px 12px;
+            border-radius: 20px;
+            transition: all 0.2s ease;
+            background: #F8F9FA;
+            border: 1px solid #E5E5E7;
+        }
+
+        .legend-item:hover {
+            background: #E5E5E7;
+            transform: translateY(-1px);
+        }
+
+        .legend-item.disabled {
+            opacity: 0.5;
+            background: #F0F0F0;
+        }
+
+        .legend-color {
+            width: 12px;
+            height: 12px;
+            border-radius: 2px;
+            transition: opacity 0.2s ease;
+        }
+
+        .legend-color.usage {
+            background: #007AFF;
+        }
+
+        .legend-color.cost {
+            background: #FF6B35;
+        }
+
+        .legend-text {
+            font-size: 14px;
+            color: #666;
+            transition: color 0.2s ease;
+        }
+
+        .legend-item.disabled .legend-text {
+            color: #999;
+        }
+
+        /* 数据类型切换按钮 */
+        .data-type-selector {
+            display: flex;
+            gap: 6px;
+        }
+
+        .data-type-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            background: #F0F0F0;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 12px;
+            color: #666;
+        }
+
+        .data-type-btn:hover {
+            background: #E5E5E7;
+            transform: scale(1.05);
+        }
+
+        .data-type-btn.active {
+            background: #000;
+            color: #fff;
+            transform: scale(1.05);
+        }
+
+        .data-type-btn i {
+            font-size: 12px;
+        }
+
+        /* 日历相关样式 */
+        .calendar-title-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .calendar-container {
+            margin: 20px 0;
+        }
+
+        .calendar-header {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 1px;
+            margin-bottom: 8px;
+        }
+
+        .calendar-container-wrapper {
+            margin: 16px 0;
+        }
+
+        .weekday {
+            padding: 12px 4px;
+            text-align: center;
+            font-size: 14px;
+            font-weight: 600;
+            color: #666;
+            background: #F8F9FA;
+            border-radius: 6px;
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 0;
+        }
+
+        .calendar-day {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 8px 4px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            min-height: 40px;
+            background: transparent;
+        }
+
+        .calendar-day:hover {
+            background: #F8F9FA;
+        }
+
+        .calendar-day.empty {
+            background: transparent;
+            cursor: default;
+        }
+
+        .day-number {
+            font-size: 14px;
+            font-weight: 600;
+            color: #000;
+            margin-bottom: 2px;
+        }
+
+        .day-value {
+            font-size: 10px;
+            font-weight: 400;
+            color: #666;
+        }
+
+        /* 日历高亮 */
+        .calendar-day.highest {
+            background: #FFE8E8;
+            border-radius: 4px;
+        }
+
+        .calendar-day.lowest {
+            background: #E8F4E8;
+            border-radius: 4px;
+        }
+
+        .calendar-day.highest:hover {
+            background: #FFD6D6;
+        }
+
+        .calendar-day.lowest:hover {
+            background: #D6EAD6;
+        }
+
+        /* 日历图例 */
+        .calendar-legend {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 16px;
+        }
+
+        .calendar-legend .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+            color: #666;
+        }
+
+        .calendar-legend .legend-color {
+            width: 16px;
+            height: 16px;
+            border-radius: 4px;
+        }
+
+        .calendar-legend .legend-color.highest {
+            background: #FFE8E8;
+        }
+
+        .calendar-legend .legend-color.lowest {
+            background: #E8F4E8;
+        }
+
+        /* 图表工具提示 */
+        .chart-tooltip {
+            position: absolute;
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-size: 12px;
+            pointer-events: none;
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 20;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transform: translateY(10px);
+        }
+
+        .chart-tooltip.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .chart-tooltip::before {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 6px solid transparent;
+            border-right: 6px solid transparent;
+            border-top: 6px solid rgba(0, 0, 0, 0.9);
+        }
+
         /* 响应式设计 */
         @media (max-width: 375px) {
             .usage-section {
                 padding: 16px;
             }
+
+            .tab-content-area {
+                padding: 16px;
+            }
+
+            .detail-card {
+                padding: 16px;
+                margin-bottom: 16px;
+            }
+        }
+
+        /* Tab 样式 */
+        .tab-nav {
+            display: flex;
+            justify-content: space-around;
+            position: relative;
+        }
+
+        .tab-item {
+            flex: 1;
+            padding: 16px 0;
+            text-align: center;
+            background: none;
+            border: none;
+            font-size: 16px;
+            font-weight: 500;
+            color: #666;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .tab-item.active {
+            color: #000;
+            font-weight: 600;
+        }
+
+        .tab-item.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: #000;
+            border-radius: 1px;
+        }
+
+        .tab-item:hover {
+            color: #000;
+        }
+
+        .tab-content-area {
+            padding: 0;
+            margin-top: 16px;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+        }
+
+        .chart-tooltip {
+            position: absolute;
+            background: rgba(0, 0, 0, 0.85);
+            color: #fff;
+            padding: 12px 16px;
+            border-radius: 10px;
+            font-size: 12px;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+            z-index: 1000;
+            max-width: 200px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .chart-tooltip.show {
+            opacity: 1;
         }
     </style>
 </head>
@@ -991,6 +1539,9 @@
     <!-- 账单信息 -->
     <div class="usage-section">
         <!-- 账单信息汇总 -->
+
+
+        <!-- August 2025账单摘要 -->
         <div class="bill-summary-card">
             <div class="bill-month-header">
                 <h2 class="month-title">August 2025</h2>
@@ -1010,6 +1561,71 @@
                     <div class="stat-value">₹2,450</div>
                 </div>
             </div>
+
+            <!-- Tab 导航 -->
+            <div class="tab-nav" style="margin-top: 20px; padding-top: 16px; border-top: 1px solid #F0F0F0;">
+                <button class="tab-item active" onclick="switchDetailTab('cumulative')">Cumulative Trend</button>
+                <button class="tab-item" onclick="switchDetailTab('daily')">Daily Details</button>
+            </div>
+
+            <!-- Tab 内容区域 -->
+            <div class="tab-content-area" style="padding: 0; margin-top: -14px;">
+                <!-- 累计趋势 Tab -->
+                <div class="tab-content active" id="cumulative-detail-tab">
+                    <!-- 累计图表 -->
+                    <div class="chart-container">
+                        <div class="simple-chart" id="detailSimpleChart">
+                            <!-- 图表将通过JavaScript生成 -->
+                        </div>
+                        <div class="chart-tooltip" id="detailChartTooltip"></div>
+                    </div>
+                </div>
+
+                <!-- 每日明细 Tab -->
+                <div class="tab-content" id="daily-detail-tab">
+                    <!-- 日历视图 -->
+                    <div class="calendar-container-wrapper">
+                        <div class="calendar-title-row" style="margin-bottom: 12px;">
+                            <h3 class="card-title" id="calendar-month-title" style="margin-bottom: 0;">August 2025</h3>
+                            <div class="data-type-selector">
+                                <button class="data-type-btn active" onclick="switchDetailDataType('usage')" id="detail-usage-btn">
+                                    <i class="fas fa-bolt"></i>
+                                </button>
+                                <button class="data-type-btn" onclick="switchDetailDataType('cost')" id="detail-cost-btn">
+                                    <i class="fas fa-rupee-sign"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="calendar-container">
+                            <div class="calendar-header">
+                                <div class="weekday" data-zh="日" data-en="Sun">Sun</div>
+                                <div class="weekday" data-zh="一" data-en="Mon">Mon</div>
+                                <div class="weekday" data-zh="二" data-en="Tue">Tue</div>
+                                <div class="weekday" data-zh="三" data-en="Wed">Wed</div>
+                                <div class="weekday" data-zh="四" data-en="Thu">Thu</div>
+                                <div class="weekday" data-zh="五" data-en="Fri">Fri</div>
+                                <div class="weekday" data-zh="六" data-en="Sat">Sat</div>
+                            </div>
+                            <div class="calendar-grid" id="detailCalendarGrid">
+                                <!-- 日历格子将通过JavaScript生成 -->
+                            </div>
+                        </div>
+
+                        <!-- 图例 -->
+                        <div class="calendar-legend">
+                            <div class="legend-item">
+                                <div class="legend-color highest"></div>
+                                <span data-zh="月度峰值" data-en="Monthly Peak">Monthly Peak</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-color lowest"></div>
+                                <span data-zh="月度低值" data-en="Monthly Low">Monthly Low</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
 
         <!-- 费用明细汇总 -->
@@ -1110,25 +1726,25 @@
                             </div>
                             <div class="tooltip" id="usageTooltip"></div>
                         </div>
-                        <div class="stats-grid">
-                            <div class="stat-card">
-                                <div class="legend-color" style="background: #ee6666;"></div>
-                                <div class="legend-label">Peak Hours</div>
-                                <div class="legend-value">150 kWh</div>
-                                <div class="legend-percentage">39.5%</div>
-                            </div>
-                            <div class="stat-card">
-                                <div class="legend-color" style="background: #5470c6;"></div>
-                                <div class="legend-label">Normal Hours</div>
-                                <div class="legend-value">130 kWh</div>
-                                <div class="legend-percentage">34.2%</div>
-                            </div>
-                            <div class="stat-card">
-                                <div class="legend-color" style="background: #91cc75;"></div>
-                                <div class="legend-label">Off-peak Hours</div>
-                                <div class="legend-value">100 kWh</div>
-                                <div class="legend-percentage">26.3%</div>
-                            </div>
+                    </div>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="legend-color" style="background: #ee6666;"></div>
+                            <div class="legend-label">Peak Hours</div>
+                            <div class="legend-value">150 kWh</div>
+                            <div class="legend-percentage">39.5%</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="legend-color" style="background: #5470c6;"></div>
+                            <div class="legend-label">Normal Hours</div>
+                            <div class="legend-value">130 kWh</div>
+                            <div class="legend-percentage">34.2%</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="legend-color" style="background: #91cc75;"></div>
+                            <div class="legend-label">Off-peak Hours</div>
+                            <div class="legend-value">100 kWh</div>
+                            <div class="legend-percentage">26.3%</div>
                         </div>
                     </div>
                 </div>
@@ -1171,31 +1787,11 @@
             </div>
         </div>
 
-        <!-- 查看明细按钮 -->
-        <div class="detail-btn-container">
-            <button class="detail-btn" onclick="viewUsageDetail()">
-                <span class="detail-btn-text">View Details</span>
-                <span class="detail-btn-arrow">›</span>
-            </button>
-        </div>
 
     </div>
 
-    <script>
-        // 返回功能
-        function goBack() {
-            if (window.history.length > 1) {
-                window.history.back();
-            } else {
-                window.location.href = 'home-app.html';
-            }
-        }
 
-        // 查看使用明细
-        function viewUsageDetail() {
-            // 跳转到明细页面，传递8月参数
-            window.location.href = `usage-detail.html?month=2025-08`;
-        }
+    <script>
 
         // 创建环形图
         function createDonutChart(containerId, data, total, unit) {
@@ -1364,6 +1960,9 @@
                     card.classList.add('fade-in');
                 }, index * 100);
             });
+
+            // 初始化详情页面tab（默认显示累计趋势）
+            initializeDetailCumulative();
         });
 
         // 触摸反馈
@@ -1384,6 +1983,379 @@
 
         // 初始化触摸反馈
         addTouchFeedback();
+
+
+        // 当前数据类型
+        let currentDataType = 'usage';
+        let currentDetailDataType = 'usage';
+
+        // 切换数据类型
+        function switchDataType(type) {
+            currentDataType = type;
+
+            document.querySelectorAll('.usage-data-type-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.getElementById(type + '-btn').classList.add('active');
+
+            const dailyData = generateUsageDailyData();
+            renderUsageCalendar(dailyData);
+        }
+
+        // 切换详情数据类型
+        function switchDetailDataType(type) {
+            currentDetailDataType = type;
+
+            document.querySelectorAll('.data-type-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.getElementById('detail-' + type + '-btn').classList.add('active');
+
+            const dailyData = generateDetailDailyData();
+            renderUsageCalendar(dailyData);
+        }
+
+        // 生成August详情每日数据
+        function generateDetailDailyData() {
+            const data = [];
+            const daysInMonth = 31; // August有31天
+            const monthlyTarget = 380; // August总用电量380kWh
+
+            for (let i = 1; i <= daysInMonth; i++) {
+                // August夏季用电模式
+                const baseDaily = monthlyTarget / daysInMonth;
+                const seasonalFactor = 1.2; // 夏季用电高
+                const weekdayFactor = (i % 7 === 0 || i % 7 === 6) ? 0.8 : 1.1; // 周末用电少
+                const timeVariation = Math.sin((i - 1) / 30 * Math.PI) * 0.3; // 月内波动
+                const randomNoise = (Math.random() - 0.5) * 0.4;
+
+                const usage = baseDaily * seasonalFactor * weekdayFactor * (1 + timeVariation + randomNoise);
+                const finalUsage = Math.max(5, Math.round(usage * 10) / 10);
+
+                data.push({
+                    day: i,
+                    usage: finalUsage,
+                    cost: Math.round(finalUsage * 6.45 * 100) / 100,
+                    rate: 6.45
+                });
+            }
+
+            return data;
+        }
+
+        // 渲染使用量日历
+        function renderUsageCalendar(data) {
+            const calendarGrid = document.getElementById('detailCalendarGrid');
+            if (!calendarGrid) return;
+
+            calendarGrid.innerHTML = '';
+
+            // August 1, 2025 是周四(4)
+            const firstDayOfWeek = 4;
+
+            // 添加空白格子
+            for (let i = 0; i < firstDayOfWeek; i++) {
+                const emptyDay = document.createElement('div');
+                emptyDay.className = 'calendar-day empty';
+                calendarGrid.appendChild(emptyDay);
+            }
+
+            // 计算最高最低值
+            const values = data.map(d => currentDetailDataType === 'usage' ? d.usage : d.cost);
+            const maxValue = Math.max(...values);
+            const minValue = Math.min(...values);
+
+            // 找到最高最低值对应的日期
+            const maxItem = data.find(d => (currentDetailDataType === 'usage' ? d.usage : d.cost) === maxValue);
+            const minItem = data.find(d => (currentDetailDataType === 'usage' ? d.usage : d.cost) === minValue);
+
+            // 添加日期数据
+            data.forEach(dayData => {
+                const dayElement = document.createElement('div');
+                dayElement.className = 'calendar-day';
+
+                const currentType = currentDetailDataType;
+                const currentValue = currentType === 'usage' ? dayData.usage : dayData.cost;
+
+                // 添加高亮类 - 只标记第一个最高值和第一个最低值
+                if (dayData.day === maxItem.day) {
+                    dayElement.classList.add('highest');
+                } else if (dayData.day === minItem.day) {
+                    dayElement.classList.add('lowest');
+                }
+
+                dayElement.innerHTML = `
+                    <div class="day-number">${dayData.day}</div>
+                    <div class="day-value">${currentType === 'usage' ? dayData.usage + ' kWh' : '₹' + dayData.cost}</div>
+                `;
+
+                calendarGrid.appendChild(dayElement);
+            });
+        }
+
+        // 详情页面Tab切换功能
+        function switchDetailTab(tabType) {
+            // 更新按钮状态
+            const buttons = document.querySelectorAll('.tab-item');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            // 更新内容显示
+            const cumulativeDiv = document.getElementById('cumulative-detail-tab');
+            const dailyDiv = document.getElementById('daily-detail-tab');
+
+            if (tabType === 'cumulative') {
+                cumulativeDiv.classList.add('active');
+                dailyDiv.classList.remove('active');
+                const cumulativeData = generateDetailCumulativeData();
+                renderDetailCumulativeChart(cumulativeData);
+            } else {
+                cumulativeDiv.classList.remove('active');
+                dailyDiv.classList.add('active');
+                const dailyData = generateDetailDailyData();
+                renderUsageCalendar(dailyData);
+            }
+        }
+
+        // 生成August详情累计数据
+        function generateDetailCumulativeData() {
+            const data = [];
+            let cumulativeUsage = 0;
+            const daysInMonth = 31; // August有31天
+            const targetUsage = 380; // August总用电量380kWh
+            const dailyBaseUsage = targetUsage / daysInMonth;
+
+            for (let day = 1; day <= daysInMonth; day++) {
+                // 生成每日变化（±30%）
+                const variation = (Math.random() - 0.5) * dailyBaseUsage * 0.3;
+                const dailyUsage = Math.max(5, dailyBaseUsage + variation);
+                cumulativeUsage += dailyUsage;
+
+                // 确保最后一天累计正好是380kWh
+                if (day === daysInMonth) {
+                    cumulativeUsage = targetUsage;
+                }
+
+                const cost = cumulativeUsage * 6.45;
+                const usage = Math.round(cumulativeUsage * 10) / 10;
+
+                data.push({
+                    day: day,
+                    cumulativeUsage: usage,
+                    cumulativeCost: Math.round(cost * 100) / 100,
+                    dailyUsage: Math.round(dailyUsage * 10) / 10,
+                    dailyCost: Math.round(dailyUsage * 6.45 * 100) / 100,
+                    usage: usage,
+                    cost: Math.round(cost * 100) / 100,
+                    rate: 6.45
+                });
+            }
+
+            return data;
+        }
+
+        // 渲染累计图表 - 复制September实现
+        function renderDetailCumulativeChart(data) {
+            if (!window.detailChartState) {
+                window.detailChartState = { data: [], showUsage: true, showCost: false };
+            }
+            detailChartState.data = data;
+            const container = document.getElementById('detailSimpleChart');
+            if (!container) return;
+
+            container.innerHTML = '';
+
+            // 创建SVG容器
+            const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+            svg.setAttribute('width', '100%');
+            svg.setAttribute('height', '250');
+            svg.setAttribute('viewBox', '0 0 500 250');
+
+            // 计算最大值
+            const maxUsage = Math.max(...data.map(d => d.cumulativeUsage));
+
+            // 创建坐标轴
+            const xAxis = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+            xAxis.setAttribute('x1', '60');
+            xAxis.setAttribute('y1', '210');
+            xAxis.setAttribute('x2', '480');
+            xAxis.setAttribute('y2', '210');
+            xAxis.setAttribute('stroke', '#E5E5E7');
+            xAxis.setAttribute('stroke-width', '1');
+            svg.appendChild(xAxis);
+
+            const yAxis = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+            yAxis.setAttribute('x1', '60');
+            yAxis.setAttribute('y1', '20');
+            yAxis.setAttribute('x2', '60');
+            yAxis.setAttribute('y2', '210');
+            yAxis.setAttribute('stroke', '#E5E5E7');
+            yAxis.setAttribute('stroke-width', '1');
+            svg.appendChild(yAxis);
+
+
+            // 绘制数据线
+            let pathData = '';
+            data.forEach((d, i) => {
+                const x = 60 + (i / (data.length - 1)) * 420;
+                const y = 210 - (d.cumulativeUsage / maxUsage) * 190;
+                pathData += (i === 0 ? 'M' : 'L') + x + ',' + y;
+            });
+
+            const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+            path.setAttribute('d', pathData);
+            path.setAttribute('stroke', '#007AFF');
+            path.setAttribute('stroke-width', '3');
+            path.setAttribute('fill', 'none');
+            svg.appendChild(path);
+
+            // 绘制数据点（带悬停功能）
+            data.forEach((d, i) => {
+                const x = 60 + (i / (data.length - 1)) * 420;
+                const y = 210 - (d.cumulativeUsage / maxUsage) * 190;
+
+                const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                circle.setAttribute('cx', x);
+                circle.setAttribute('cy', y);
+                circle.setAttribute('r', '5');
+                circle.setAttribute('fill', '#007AFF');
+                circle.setAttribute('stroke', '#fff');
+                circle.setAttribute('stroke-width', '2');
+                circle.style.cursor = 'pointer';
+
+                // 添加悬停事件
+                circle.addEventListener('mouseenter', (e) => showDetailTooltip(e, d, x));
+                circle.addEventListener('mouseleave', hideDetailTooltip);
+
+                svg.appendChild(circle);
+            });
+
+            // X轴标签 (英文)
+            for (let i = 0; i <= 5; i++) {
+                const x = 60 + (i / 5) * 420;
+                const dayIndex = Math.floor((data.length - 1) * i / 5);
+                if (dayIndex < data.length) {
+                    const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                    text.setAttribute('x', x);
+                    text.setAttribute('y', '230');
+                    text.setAttribute('text-anchor', 'middle');
+                    text.setAttribute('font-size', '12');
+                    text.setAttribute('fill', '#666');
+                    text.textContent = 'Day ' + data[dayIndex].day;
+                    svg.appendChild(text);
+                }
+            }
+
+            // Y轴标签 (显示0,100,200,300,400,500)
+            const yLabels = [0, 100, 200, 300, 400, 500];
+            yLabels.forEach(value => {
+                if (value <= maxUsage || value === 0) {
+                    const y = 210 - (value / maxUsage) * 190;
+                    const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                    text.setAttribute('x', '50');
+                    text.setAttribute('y', y + 4);
+                    text.setAttribute('text-anchor', 'end');
+                    text.setAttribute('font-size', '11');
+                    text.setAttribute('fill', '#666');
+                    text.textContent = value + 'kWh';
+                    svg.appendChild(text);
+                }
+            });
+
+
+            container.appendChild(svg);
+        }
+
+        // 显示详情工具提示 - 英文版本
+        function showDetailTooltip(event, data, xPos) {
+            const tooltip = document.getElementById('detailChartTooltip');
+            const dailyUsage = data.dailyUsage || 0;
+            const dailyCost = data.dailyCost || (dailyUsage * 6.45);
+            const cumulativeCost = data.cumulativeCost || (data.cumulativeUsage * 6.45);
+
+            const tooltipContent = `
+                <div style="text-align: center; margin-bottom: 8px; font-weight: 600; color: #fff;">
+                    August ${data.day}, 2025
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 6px;">
+                    <div style="display: flex; align-items: center; justify-content: space-between;">
+                        <div style="display: flex; align-items: center; gap: 6px;">
+                            <div style="width: 8px; height: 8px; background: #007AFF; border-radius: 50%;"></div>
+                            <span style="color: #fff; font-size: 11px;">Cumulative Usage</span>
+                        </div>
+                        <span style="color: #007AFF; font-weight: 600; font-size: 12px;">${data.cumulativeUsage} kWh</span>
+                    </div>
+                    <div style="display: flex; align-items: center; justify-content: space-between;">
+                        <div style="display: flex; align-items: center; gap: 6px;">
+                            <div style="width: 8px; height: 8px; background: #FF6B35; border-radius: 50%;"></div>
+                            <span style="color: #fff; font-size: 11px;">Cumulative Cost</span>
+                        </div>
+                        <span style="color: #FF6B35; font-weight: 600; font-size: 12px;">₹${cumulativeCost.toFixed(2)}</span>
+                    </div>
+                    <hr style="border: none; border-top: 1px solid rgba(255,255,255,0.2); margin: 4px 0;">
+                    <div style="text-align: center; color: #ccc; font-size: 10px;">
+                        Daily Usage: ${dailyUsage} kWh | Daily Cost: ₹${dailyCost.toFixed(2)}
+                    </div>
+                </div>
+            `;
+
+            tooltip.innerHTML = tooltipContent;
+            tooltip.classList.add('show');
+
+            // 定位工具提示
+            const containerRect = document.querySelector('.chart-container').getBoundingClientRect();
+            const tooltipRect = tooltip.getBoundingClientRect();
+
+            let left = event.clientX - containerRect.left - 90; // 居中显示
+            let top = event.clientY - containerRect.top - tooltipRect.height - 15;
+
+            // 边界检查
+            if (left < 10) left = 10;
+            if (left + 180 > containerRect.width - 10) {
+                left = containerRect.width - 190;
+            }
+            if (top < 10) top = event.clientY - containerRect.top + 15;
+
+            tooltip.style.left = left + 'px';
+            tooltip.style.top = top + 'px';
+        }
+
+        // 隐藏详情工具提示
+        function hideDetailTooltip() {
+            const tooltip = document.getElementById('detailChartTooltip');
+            if (tooltip) {
+                tooltip.classList.remove('show');
+            }
+        }
+
+        // 初始化详情累计图表
+        function initializeDetailCumulative() {
+            const cumulativeData = generateDetailCumulativeData();
+            renderDetailCumulativeChart(cumulativeData);
+
+            const dailyData = generateDetailDailyData();
+            renderUsageCalendar(dailyData);
+        }
+
+        // 返回功能
+        function goBack() {
+            if (window.history.length > 1) {
+                window.history.back();
+            } else {
+                window.location.href = 'home-app.html';
+            }
+        }
+
+        // 查看使用明细
+        function viewUsageDetail() {
+            // 跳转到明细页面，传递8月参数
+            window.location.href = 'usage-detail.html?month=2025-08';
+        }
     </script>
 </body>
 </html>
+
+
+
+
+

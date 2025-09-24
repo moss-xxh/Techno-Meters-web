@@ -16,11 +16,10 @@
             </div>
             <div class="nav-menu">
                 <a href="dashboard.html" class="nav-link" data-zh="仪表盘" data-en="Dashboard">仪表盘</a>
-                <a href="pricing-templates.html" class="nav-link active" data-zh="电价模版" data-en="Pricing Templates">电价模版</a>
                 <a href="space-management.html" class="nav-link" data-zh="空间管理" data-en="Space Management">空间管理</a>
                 <a href="device-management.html" class="nav-link" data-zh="设备管理" data-en="Device Management">设备管理</a>
                 <a href="user-management.html" class="nav-link" data-zh="用户管理" data-en="User Management">用户管理</a>
-                <a href="bills.html" class="nav-link" data-zh="账单管理" data-en="Bill Management">账单管理</a>
+                <a href="bills.html" class="nav-link active" data-zh="账单管理" data-en="Bill Management">账单管理</a>
             </div>
             <div class="nav-actions">
                 <div class="lang-dropdown">
@@ -42,24 +41,12 @@
         <div class="content-layout">
             <div class="main-container">
 
-                <!-- 搜索和操作区域 -->
-                <div class="search-section">
-                    <div class="search-controls">
-                        <input type="text" id="template-search" class="form-input" placeholder="模版名称..." data-zh-placeholder="模版名称..." data-en-placeholder="Template Name...">
-                        <select id="status-filter" class="form-select">
-                            <option value="all" data-zh="全部状态" data-en="All Status">全部状态</option>
-                            <option value="active" data-zh="启用" data-en="Active">启用</option>
-                            <option value="draft" data-zh="禁用" data-en="Disabled">禁用</option>
-                        </select>
-                    </div>
-                    <div class="search-actions">
-                        <button class="btn btn-primary" onclick="searchTemplates()">
-                            <span data-zh="查询" data-en="Search">查询</span>
-                        </button>
-                        <button class="btn btn-secondary" onclick="resetFilters()">
-                            <span data-zh="重置" data-en="Reset">重置</span>
-                        </button>
-                    </div>
+                <!-- 返回按钮 -->
+                <div class="back-button-container">
+                    <button class="btn btn-secondary" onclick="window.location.href='bills.html'">
+                        <span>← </span>
+                        <span data-zh="返回账单" data-en="Back to Bills">返回账单</span>
+                    </button>
                 </div>
 
                 <!-- 电价模版卡片容器 -->
@@ -1406,6 +1393,17 @@
         // 与设备管理页面保持一致的样式
         const style = document.createElement('style');
         style.textContent = `
+            /* 返回按钮样式 */
+            .back-button-container {
+                margin-bottom: var(--space-6);
+            }
+
+            .back-button-container .btn {
+                display: inline-flex;
+                align-items: center;
+                gap: var(--space-2);
+            }
+
             /* 卡片容器样式 */
             .templates-container {
                 background: var(--background);

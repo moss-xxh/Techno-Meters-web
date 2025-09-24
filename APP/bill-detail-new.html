@@ -1076,6 +1076,268 @@
                 padding-bottom: 32px;
             }
         }
+
+        /* Tab 样式 - 完全复制August样式 */
+        .tab-nav {
+            display: flex;
+            justify-content: space-around;
+            position: relative;
+        }
+
+        .tab-item {
+            flex: 1;
+            padding: 16px 0;
+            text-align: center;
+            background: none;
+            border: none;
+            font-size: 16px;
+            font-weight: 500;
+            color: #666;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .tab-item.active {
+            color: #000;
+            font-weight: 600;
+        }
+
+        .tab-item.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: #000;
+            border-radius: 1px;
+        }
+
+        .tab-item:hover {
+            color: #000;
+        }
+
+        /* Tab 内容区域 */
+        .tab-content-area {
+            padding: 0;
+            margin-top: 8px;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* 详情卡片样式 */
+        .detail-card {
+            background: #fff;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        /* 图表容器样式 */
+        .chart-container {
+            height: 250px;
+            margin: 0;
+            position: relative;
+            padding: 0;
+            overflow: visible;
+        }
+
+        .simple-chart {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            padding: 0;
+            overflow: visible;
+        }
+
+        /* 数据类型切换按钮 */
+        .data-type-selector {
+            display: flex;
+            gap: 6px;
+        }
+
+        .data-type-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            background: #F0F0F0;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 12px;
+            color: #666;
+        }
+
+        .data-type-btn:hover {
+            background: #E5E5E7;
+            transform: scale(1.05);
+        }
+
+        .data-type-btn.active {
+            background: #000;
+            color: #fff;
+            transform: scale(1.05);
+        }
+
+        .data-type-btn i {
+            font-size: 12px;
+        }
+
+        /* 日历视图 */
+        .calendar-container-wrapper {
+            margin: 16px 0;
+        }
+
+        .calendar-container {
+            margin: 20px 0;
+        }
+
+        .calendar-header {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 1px;
+            margin-bottom: 8px;
+        }
+
+        .weekday {
+            padding: 12px 4px;
+            text-align: center;
+            font-size: 14px;
+            font-weight: 600;
+            color: #666;
+            background: #F8F9FA;
+            border-radius: 6px;
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 0;
+        }
+
+        .calendar-day {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 8px 4px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            min-height: 40px;
+            background: transparent;
+        }
+
+        .calendar-day:hover {
+            background: #F8F9FA;
+        }
+
+        .calendar-day.empty {
+            background: transparent;
+            cursor: default;
+        }
+
+        .calendar-day.empty:hover {
+            background: transparent;
+        }
+
+        /* 日历高亮 */
+        .calendar-day.highest {
+            background: #FFE8E8;
+            border-radius: 4px;
+        }
+        .calendar-day.lowest {
+            background: #E8F4E8;
+            border-radius: 4px;
+        }
+        .calendar-day.highest:hover {
+            background: #FFD6D6;
+        }
+        .calendar-day.lowest:hover {
+            background: #D6EAD6;
+        }
+
+        .day-number {
+            font-size: 14px;
+            font-weight: 600;
+            color: #000;
+            margin-bottom: 2px;
+        }
+
+        .day-value {
+            font-size: 10px;
+            font-weight: 400;
+            color: #666;
+        }
+
+        /* 数据类型选择器 */
+        .calendar-title-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        /* 图例 */
+        .calendar-legend {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            margin-top: 16px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: #666;
+            font-weight: 500;
+        }
+
+        .legend-color {
+            width: 14px;
+            height: 14px;
+            border-radius: 3px;
+        }
+
+        .legend-color.highest {
+            background: #FF6B35;
+        }
+
+        .legend-color.lowest {
+            background: #4CAF50;
+        }
+
+        /* 图表工具提示 */
+        .chart-tooltip {
+            position: absolute;
+            background: rgba(0, 0, 0, 0.85);
+            color: #fff;
+            padding: 12px 16px;
+            border-radius: 10px;
+            font-size: 12px;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+            z-index: 1000;
+            max-width: 200px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .chart-tooltip.show {
+            opacity: 1;
+        }
     </style>
 </head>
 <body>
@@ -1138,6 +1400,68 @@
                     <div class="stat-value">₹184.31</div>
                 </div>
             </div>
+
+            <!-- Tab 导航 -->
+            <div class="tab-nav" style="margin-top: 20px; padding-top: 16px; border-top: 1px solid #F0F0F0;">
+                <button class="tab-item active" onclick="switchDetailTab('cumulative')" data-zh="累计趋势" data-en="Cumulative Trend">Cumulative Trend</button>
+                <button class="tab-item" onclick="switchDetailTab('daily')" data-zh="每日明细" data-en="Daily Details">Daily Details</button>
+            </div>
+
+            <!-- Tab 内容区域 -->
+            <div class="tab-content-area" style="padding: 0; margin-top: -14px;">
+                <!-- 累计趋势 Tab -->
+                <div class="tab-content active" id="cumulative-detail-tab">
+                    <!-- 累计图表 -->
+                    <div class="chart-container">
+                        <div class="simple-chart" id="detailSimpleChart">
+                            <!-- 图表将通过JavaScript生成 -->
+                        </div>
+                        <div class="chart-tooltip" id="detailChartTooltip"></div>
+                    </div>
+                </div>
+
+                <!-- 每日明细 Tab -->
+                <div class="tab-content" id="daily-detail-tab">
+                    <!-- 日历视图 -->
+                    <div class="calendar-container-wrapper">
+                        <div class="calendar-title-row" style="margin-bottom: 12px;">
+                            <h3 class="card-title" id="calendar-month-title" style="margin-bottom: 0;">September 2025</h3>
+                            <div class="data-type-selector">
+                                <button class="data-type-btn active" onclick="switchDetailDataType('usage')" id="detail-usage-btn">
+                                    <i class="fas fa-bolt"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="calendar-container">
+                            <div class="calendar-header">
+                                <div class="weekday" data-zh="日" data-en="Sun">Sun</div>
+                                <div class="weekday" data-zh="一" data-en="Mon">Mon</div>
+                                <div class="weekday" data-zh="二" data-en="Tue">Tue</div>
+                                <div class="weekday" data-zh="三" data-en="Wed">Wed</div>
+                                <div class="weekday" data-zh="四" data-en="Thu">Thu</div>
+                                <div class="weekday" data-zh="五" data-en="Fri">Fri</div>
+                                <div class="weekday" data-zh="六" data-en="Sat">Sat</div>
+                            </div>
+                            <div class="calendar-grid" id="detailCalendarGrid">
+                                <!-- 日历格子将通过JavaScript生成 -->
+                            </div>
+                        </div>
+
+                        <!-- 图例 -->
+                        <div class="calendar-legend">
+                            <div class="legend-item">
+                                <div class="legend-color highest"></div>
+                                <span data-zh="月度峰值" data-en="Monthly Peak">Monthly Peak</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-color lowest"></div>
+                                <span data-zh="月度低值" data-en="Monthly Low">Monthly Low</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
 
         <!-- 费用明细汇总 -->
@@ -1270,13 +1594,6 @@
             </div>
         </div>
 
-        <!-- 查看明细按钮 -->
-        <div class="detail-btn-container">
-            <button class="detail-btn" onclick="viewUsageDetail()">
-                <span class="detail-btn-text" data-zh="查看明细" data-en="View Details">View Details</span>
-                <span class="detail-btn-arrow">›</span>
-            </button>
-        </div>
 
 
     </div>
@@ -1415,6 +1732,23 @@
                     usageFill.style.width = '76%';
                 }
             }, 500);
+
+            // 初始化Tab功能（默认显示累计趋势）
+            setTimeout(() => {
+                const urlParams = new URLSearchParams(window.location.search);
+                const month = urlParams.get('month') || '2025-09';
+
+                // 更新日历标题
+                const calendarTitle = document.getElementById('calendar-month-title');
+                if (calendarTitle) {
+                    const billData = getExtendedBillData();
+                    const data = billData[month] || billData['2025-09'];
+                    calendarTitle.textContent = data.monthTitle;
+                }
+
+                // 初始化累计图表
+                initializeDetailCumulative();
+            }, 800);
         });
 
         // 根据月份更新账单数据
@@ -1502,6 +1836,434 @@
 
         // 初始化触摸反馈
         addTouchFeedback();
+
+        // Tab 切换功能 - 完全复制August实现
+        let currentDetailDataType = 'usage';
+        let detailChartState = {
+            data: [],
+            showUsage: true,
+            showCost: false
+        };
+
+        function switchDetailTab(tabName) {
+            // 移除所有active类
+            document.querySelectorAll('.tab-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            document.querySelectorAll('.tab-content').forEach(panel => {
+                panel.classList.remove('active');
+            });
+
+            // 添加active类到当前tab
+            event.target.classList.add('active');
+            document.getElementById(tabName + '-detail-tab').classList.add('active');
+
+            // 根据tab类型初始化内容
+            if (tabName === 'cumulative') {
+                initializeDetailCumulative();
+            } else if (tabName === 'daily') {
+                initializeDetailDaily();
+            }
+        }
+
+        function switchDetailDataType(type) {
+            currentDetailDataType = type;
+
+            document.querySelectorAll('.data-type-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.getElementById('detail-' + type + '-btn').classList.add('active');
+
+            // 重新渲染日历
+            const dailyData = generateDetailDailyData();
+            renderUsageCalendar(dailyData);
+        }
+
+        // 初始化详情累计视图 - 完全复制August
+        function initializeDetailCumulative() {
+            const cumulativeData = generateDetailCumulativeData();
+            renderDetailCumulativeChart(cumulativeData);
+        }
+
+        // 初始化详情每日视图 - 完全复制August
+        function initializeDetailDaily() {
+            const dailyData = generateDetailDailyData();
+            renderUsageCalendar(dailyData);
+        }
+
+        // 生成详情累计数据 - 完全复制August
+        function generateDetailCumulativeData() {
+            const data = [];
+
+            // 根据当前月份调整数据
+            const urlParams = new URLSearchParams(window.location.search);
+            const month = urlParams.get('month') || '2025-09';
+            const targetUsage = month === '2025-09' ? 450 : month === '2025-08' ? 380 : 382;
+            const daysInMonth = month === '2025-09' ? 30 : 31;
+
+            // 生成每日累计数据点
+            let cumulativeUsage = 0;
+            const dailyBaseUsage = targetUsage / daysInMonth; // 每日平均用电量
+
+            for (let day = 1; day <= daysInMonth; day++) {
+                // 计算每日用电量（带随机变化）
+                const variation = (Math.random() - 0.5) * dailyBaseUsage * 0.3; // ±30%变化
+                const dailyUsage = Math.max(5, dailyBaseUsage + variation);
+
+                // 累计用电量
+                cumulativeUsage += dailyUsage;
+
+                // 最后一天确保总用电量正好是目标值
+                if (day === daysInMonth) {
+                    cumulativeUsage = targetUsage;
+                }
+
+                const cumulativeCost = cumulativeUsage * 6.45;
+                const dailyCost = dailyUsage * 6.45;
+
+                data.push({
+                    day: day,
+                    dailyUsage: Math.round(dailyUsage * 10) / 10,
+                    dailyCost: Math.round(dailyCost * 100) / 100,
+                    cumulativeUsage: Math.round(cumulativeUsage * 10) / 10,
+                    cumulativeCost: Math.round(cumulativeCost * 100) / 100
+                });
+            }
+
+            return data;
+        }
+
+        // 生成详情每日数据 - 完全复制August
+        function generateDetailDailyData() {
+            const data = [];
+            const urlParams = new URLSearchParams(window.location.search);
+            const month = urlParams.get('month') || '2025-09';
+            const daysInMonth = month === '2025-09' ? 30 : month === '2025-08' ? 31 : 31;
+
+            for (let day = 1; day <= daysInMonth; day++) {
+                const baseUsage = 12;
+                const variation = (Math.random() - 0.5) * 8;
+                const usage = Math.max(5, Math.round((baseUsage + variation) * 10) / 10);
+                const cost = Math.round(usage * 6.45 * 100) / 100;
+
+                data.push({
+                    day: day,
+                    usage: usage,
+                    cost: cost,
+                    rate: 6.45
+                });
+            }
+
+            return data;
+        }
+
+        // 渲染累计图表 - 修复版本
+        function renderDetailCumulativeChart(data) {
+            detailChartState.data = data;
+            const container = document.getElementById('detailSimpleChart');
+            if (!container) return;
+
+            container.innerHTML = '';
+
+            // 创建SVG容器
+            const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+            svg.setAttribute('width', '100%');
+            svg.setAttribute('height', '250');
+            svg.setAttribute('viewBox', '0 0 500 250');
+
+            // 计算最大值
+            const maxUsage = Math.max(...data.map(d => d.cumulativeUsage));
+
+            // 创建坐标轴
+            const xAxis = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+            xAxis.setAttribute('x1', '60');
+            xAxis.setAttribute('y1', '210');
+            xAxis.setAttribute('x2', '480');
+            xAxis.setAttribute('y2', '210');
+            xAxis.setAttribute('stroke', '#E5E5E7');
+            xAxis.setAttribute('stroke-width', '1');
+            svg.appendChild(xAxis);
+
+            const yAxis = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+            yAxis.setAttribute('x1', '60');
+            yAxis.setAttribute('y1', '20');
+            yAxis.setAttribute('x2', '60');
+            yAxis.setAttribute('y2', '210');
+            yAxis.setAttribute('stroke', '#E5E5E7');
+            yAxis.setAttribute('stroke-width', '1');
+            svg.appendChild(yAxis);
+
+            // 添加分割线（不显示标识）
+            const tierLimits = [100, 200, 400];
+            tierLimits.forEach(limit => {
+                if (limit < maxUsage) {
+                    const y = 210 - (limit / maxUsage) * 190;
+
+                    // 分割线
+                    const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                    line.setAttribute('x1', '60');
+                    line.setAttribute('y1', y);
+                    line.setAttribute('x2', '480');
+                    line.setAttribute('y2', y);
+                    line.setAttribute('stroke', '#FF6B35');
+                    line.setAttribute('stroke-width', '1');
+                    line.setAttribute('stroke-dasharray', '5,3');
+                    line.setAttribute('opacity', '0.7');
+                    svg.appendChild(line);
+                }
+            });
+
+            // 绘制数据线（向左移动40像素，增加宽度40像素）
+            let pathData = '';
+            data.forEach((d, i) => {
+                const x = 60 + (i / (data.length - 1)) * 420;
+                const y = 210 - (d.cumulativeUsage / maxUsage) * 190;
+                pathData += (i === 0 ? 'M' : 'L') + x + ',' + y;
+            });
+
+            const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+            path.setAttribute('d', pathData);
+            path.setAttribute('stroke', '#007AFF');
+            path.setAttribute('stroke-width', '3');
+            path.setAttribute('fill', 'none');
+            svg.appendChild(path);
+
+            // 绘制数据点（带悬停功能，向左移动40像素，增加宽度40像素）
+            data.forEach((d, i) => {
+                const x = 60 + (i / (data.length - 1)) * 420;
+                const y = 210 - (d.cumulativeUsage / maxUsage) * 190;
+
+                const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                circle.setAttribute('cx', x);
+                circle.setAttribute('cy', y);
+                circle.setAttribute('r', '5');
+                circle.setAttribute('fill', '#007AFF');
+                circle.setAttribute('stroke', '#fff');
+                circle.setAttribute('stroke-width', '2');
+                circle.style.cursor = 'pointer';
+
+                // 添加悬停事件
+                circle.addEventListener('mouseenter', (e) => showDetailTooltip(e, d, x));
+                circle.addEventListener('mouseleave', hideDetailTooltip);
+
+                svg.appendChild(circle);
+            });
+
+            // X轴标签 (英文，向左移动40像素，增加宽度40像素)
+            for (let i = 0; i <= 5; i++) {
+                const x = 60 + (i / 5) * 420;
+                const dayIndex = Math.floor((data.length - 1) * i / 5);
+                if (dayIndex < data.length) {
+                    const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                    text.setAttribute('x', x);
+                    text.setAttribute('y', '295');
+                    text.setAttribute('text-anchor', 'middle');
+                    text.setAttribute('font-size', '12');
+                    text.setAttribute('fill', '#666');
+                    text.textContent = 'Day ' + data[dayIndex].day;
+                    svg.appendChild(text);
+                }
+            }
+
+            // Y轴标签 (显示0,100,200,300,400,500)
+            const yLabels = [0, 100, 200, 300, 400, 500];
+            yLabels.forEach(value => {
+                if (value <= maxUsage || value === 0) {
+                    const y = 210 - (value / maxUsage) * 190;
+                    const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                    text.setAttribute('x', '50');
+                    text.setAttribute('y', y + 4);
+                    text.setAttribute('text-anchor', 'end');
+                    text.setAttribute('font-size', '11');
+                    text.setAttribute('fill', '#666');
+                    text.textContent = value + 'kWh';
+                    svg.appendChild(text);
+                }
+            });
+
+            // 添加Tier标签（带描边）
+            const tierInfo = [
+                { label: 'Tier 1', range: '0-100', start: 0, end: 100 },
+                { label: 'Tier 2', range: '101-200', start: 100, end: 200 },
+                { label: 'Tier 3', range: '201-400', start: 200, end: 400, showData: false },
+                { label: 'Tier 4', range: '400+', start: 400, end: maxUsage }
+            ];
+
+            tierInfo.forEach(tier => {
+                if (tier.start < maxUsage && tier.end > 0) {
+                    const midValue = (tier.start + Math.min(tier.end, maxUsage)) / 2;
+                    const y = 210 - (midValue / maxUsage) * 190;
+
+                    // Tier标签（描边效果）
+                    const textStroke = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                    textStroke.setAttribute('x', '375');
+                    textStroke.setAttribute('y', y - 5);
+                    textStroke.setAttribute('text-anchor', 'start');
+                    textStroke.setAttribute('font-size', '10');
+                    textStroke.setAttribute('fill', 'none');
+                    textStroke.setAttribute('stroke', '#fff');
+                    textStroke.setAttribute('stroke-width', '2');
+                    textStroke.setAttribute('font-weight', 'bold');
+                    textStroke.textContent = tier.label;
+                    svg.appendChild(textStroke);
+
+                    const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                    text.setAttribute('x', '375');
+                    text.setAttribute('y', y - 5);
+                    text.setAttribute('text-anchor', 'start');
+                    text.setAttribute('font-size', '10');
+                    text.setAttribute('fill', '#666');
+                    text.setAttribute('font-weight', 'bold');
+                    text.textContent = tier.label;
+                    svg.appendChild(text);
+
+                    // 范围文字（仅在不隐藏数据时显示）
+                    if (!tier.showData === false) {
+                        const rangeStroke = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                        rangeStroke.setAttribute('x', '375');
+                        rangeStroke.setAttribute('y', y + 8);
+                        rangeStroke.setAttribute('text-anchor', 'start');
+                        rangeStroke.setAttribute('font-size', '9');
+                        rangeStroke.setAttribute('fill', 'none');
+                        rangeStroke.setAttribute('stroke', '#fff');
+                        rangeStroke.setAttribute('stroke-width', '2');
+                        rangeStroke.textContent = tier.range;
+                        svg.appendChild(rangeStroke);
+
+                        const rangeText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                        rangeText.setAttribute('x', '375');
+                        rangeText.setAttribute('y', y + 8);
+                        rangeText.setAttribute('text-anchor', 'start');
+                        rangeText.setAttribute('font-size', '9');
+                        rangeText.setAttribute('fill', '#999');
+                        rangeText.textContent = tier.range;
+                        svg.appendChild(rangeText);
+                    }
+                }
+            });
+
+            container.appendChild(svg);
+        }
+
+        // 渲染日历 - 完全复制August实现
+        function renderUsageCalendar(data) {
+            const calendarGrid = document.getElementById('detailCalendarGrid');
+            if (!calendarGrid) return;
+
+            calendarGrid.innerHTML = '';
+
+            // 获取月份信息
+            const urlParams = new URLSearchParams(window.location.search);
+            const month = urlParams.get('month') || '2025-09';
+            const daysInMonth = month === '2025-09' ? 30 : month === '2025-08' ? 31 : 31;
+
+            // 计算9月1日是周日(0)，8月1日是周四(4)
+            const firstDayOfWeek = month === '2025-09' ? 0 : month === '2025-08' ? 4 : 1;
+
+            // 添加空白格子
+            for (let i = 0; i < firstDayOfWeek; i++) {
+                const emptyDay = document.createElement('div');
+                emptyDay.className = 'calendar-day empty';
+                calendarGrid.appendChild(emptyDay);
+            }
+
+            // 计算最高最低值
+            const values = data.map(d => currentDetailDataType === 'usage' ? d.usage : d.cost);
+            const maxValue = Math.max(...values);
+            const minValue = Math.min(...values);
+
+            // 找到最高最低值对应的日期
+            const maxItem = data.find(d => (currentDetailDataType === 'usage' ? d.usage : d.cost) === maxValue);
+            const minItem = data.find(d => (currentDetailDataType === 'usage' ? d.usage : d.cost) === minValue);
+
+            // 添加日期数据
+            data.forEach(dayData => {
+                const dayElement = document.createElement('div');
+                dayElement.className = 'calendar-day';
+
+                const currentType = currentDetailDataType;
+                const currentValue = currentType === 'usage' ? dayData.usage : dayData.cost;
+
+                // 添加高亮类 - 只标记第一个最高值和第一个最低值
+                if (dayData.day === maxItem.day) {
+                    dayElement.classList.add('highest');
+                } else if (dayData.day === minItem.day) {
+                    dayElement.classList.add('lowest');
+                }
+
+                dayElement.innerHTML = `
+                    <div class="day-number">${dayData.day}</div>
+                    <div class="day-value">${currentType === 'usage' ? dayData.usage + ' kWh' : '₹' + dayData.cost}</div>
+                `;
+
+                calendarGrid.appendChild(dayElement);
+            });
+        }
+
+        // 显示详情工具提示 - 完全复制August实现
+        function showDetailTooltip(event, data, xPos) {
+            const tooltip = document.getElementById('detailChartTooltip');
+            const urlParams = new URLSearchParams(window.location.search);
+            const month = urlParams.get('month') || '2025-09';
+            const monthName = month === '2025-09' ? 'September' : month === '2025-08' ? 'August' : 'July';
+            const dailyUsage = data.dailyUsage || 0;
+            const dailyCost = data.dailyCost || (dailyUsage * 6.45);
+            const cumulativeCost = data.cumulativeCost || (data.cumulativeUsage * 6.45);
+
+            const tooltipContent = `
+                <div style="text-align: center; margin-bottom: 8px; font-weight: 600; color: #fff;">
+                    ${monthName} ${data.day}, 2025
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 6px;">
+                    <div style="display: flex; align-items: center; justify-content: space-between;">
+                        <div style="display: flex; align-items: center; gap: 6px;">
+                            <div style="width: 8px; height: 8px; background: #007AFF; border-radius: 50%;"></div>
+                            <span style="color: #fff; font-size: 11px;">Cumulative Usage</span>
+                        </div>
+                        <span style="color: #007AFF; font-weight: 600; font-size: 12px;">${data.cumulativeUsage} kWh</span>
+                    </div>
+                    <div style="display: flex; align-items: center; justify-content: space-between;">
+                        <div style="display: flex; align-items: center; gap: 6px;">
+                            <div style="width: 8px; height: 8px; background: #FF6B35; border-radius: 50%;"></div>
+                            <span style="color: #fff; font-size: 11px;">Cumulative Cost</span>
+                        </div>
+                        <span style="color: #FF6B35; font-weight: 600; font-size: 12px;">₹${cumulativeCost.toFixed(2)}</span>
+                    </div>
+                    <hr style="border: none; border-top: 1px solid rgba(255,255,255,0.2); margin: 4px 0;">
+                    <div style="text-align: center; color: #ccc; font-size: 10px;">
+                        Daily Usage: ${dailyUsage} kWh | Daily Cost: ₹${dailyCost.toFixed(2)}
+                    </div>
+                </div>
+            `;
+
+            tooltip.innerHTML = tooltipContent;
+            tooltip.classList.add('show');
+
+            // 定位工具提示
+            const containerRect = document.querySelector('.chart-container').getBoundingClientRect();
+            const tooltipRect = tooltip.getBoundingClientRect();
+
+            let left = event.clientX - containerRect.left - 90; // 居中显示
+            let top = event.clientY - containerRect.top - tooltipRect.height - 15;
+
+            // 边界检查
+            if (left < 10) left = 10;
+            if (left + 180 > containerRect.width - 10) {
+                left = containerRect.width - 190;
+            }
+            if (top < 10) top = event.clientY - containerRect.top + 15;
+
+            tooltip.style.left = left + 'px';
+            tooltip.style.top = top + 'px';
+        }
+
+        // 隐藏详情工具提示
+        function hideDetailTooltip() {
+            const tooltip = document.getElementById('detailChartTooltip');
+            if (tooltip) {
+                tooltip.classList.remove('show');
+            }
+        }
 
 
         // 为其他月份添加数据

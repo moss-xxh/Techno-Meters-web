@@ -297,14 +297,15 @@
             margin: 16px 0;
             position: relative;
             padding: 20px;
-            overflow: hidden;
+            overflow: visible;
         }
 
         .simple-chart {
             width: 100%;
             height: 200px;
             position: relative;
-            padding: 10px;
+            padding: 20px 60px 30px 60px;
+            overflow: visible;
         }
 
         .chart-line {
@@ -382,6 +383,15 @@
             width: 100%;
             height: 100%;
             position: relative;
+        }
+
+        /* 强制覆盖SVG路径颜色 */
+        .chart-container svg path {
+            stroke: #007AFF !important;
+        }
+
+        .chart-container svg path[data-type="cost"] {
+            stroke: #FF6B35 !important;
         }
 
         .chart-line-usage {
@@ -595,6 +605,7 @@
         .chart-bar:hover .chart-value {
             opacity: 1;
         }
+
 
         /* 统计信息 */
         .stats-grid {
@@ -896,22 +907,12 @@
         <div class="tab-content active" id="cumulative-tab">
             <!-- 累计图表 -->
             <div class="detail-card">
-                <h3 class="card-title" data-zh="累计电量与费用趋势" data-en="Cumulative Usage & Cost Trend">Cumulative Usage & Cost Trend</h3>
+                <h3 class="card-title" data-zh="累计电量趋势" data-en="Cumulative Usage Trend">Cumulative Usage Trend</h3>
                 <div class="chart-container">
                     <div class="simple-chart" id="simpleChart">
                         <!-- 图表将通过JavaScript生成 -->
                     </div>
                     <div class="chart-tooltip" id="chartTooltip"></div>
-                </div>
-                <div class="chart-legend">
-                    <div class="legend-item" onclick="toggleLine('usage')" id="usage-legend">
-                        <div class="legend-color usage"></div>
-                        <span class="legend-text" data-zh="累计电量 (kWh)" data-en="Cumulative Usage (kWh)">Cumulative Usage (kWh)</span>
-                    </div>
-                    <div class="legend-item" onclick="toggleLine('cost')" id="cost-legend">
-                        <div class="legend-color cost"></div>
-                        <span class="legend-text" data-zh="累计费用 (₹)" data-en="Cumulative Cost (₹)">Cumulative Cost (₹)</span>
-                    </div>
                 </div>
             </div>
         </div>
@@ -993,14 +994,38 @@
         function generateCumulativeData() {
             const data = [];
             const daysInMonth = 31;
+            const targetTotalUsage = 380; // 目标总用电量
             let cumulativeUsage = 0;
             let cumulativeCost = 0;
 
+            // 预先计算每日用电量，确保总和为380
+            const dailyUsages = [];
+            let tempTotal = 0;
+
+            // 生成初始的每日用电量
             for (let day = 1; day <= daysInMonth; day++) {
-                // 生成日用电量
                 const baseUsage = 12;
                 const variation = (Math.random() - 0.5) * 8;
                 const dailyUsage = Math.max(5, Math.round((baseUsage + variation) * 10) / 10);
+                dailyUsages.push(dailyUsage);
+                tempTotal += dailyUsage;
+            }
+
+            // 调整比例，使总和等于380
+            const ratio = targetTotalUsage / tempTotal;
+            for (let i = 0; i < dailyUsages.length; i++) {
+                dailyUsages[i] = Math.round(dailyUsages[i] * ratio * 10) / 10;
+                dailyUsages[i] = Math.max(3, dailyUsages[i]); // 最小值3kWh
+            }
+
+            // 微调最后一天的用电量，确保精确等于380
+            const currentSum = dailyUsages.reduce((sum, usage) => sum + usage, 0);
+            const adjustment = targetTotalUsage - currentSum;
+            dailyUsages[dailyUsages.length - 1] = Math.round((dailyUsages[dailyUsages.length - 1] + adjustment) * 10) / 10;
+
+            // 生成数据
+            for (let day = 1; day <= daysInMonth; day++) {
+                const dailyUsage = dailyUsages[day - 1];
 
                 // 累计电量
                 cumulativeUsage += dailyUsage;
@@ -1040,7 +1065,7 @@
             const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
             svg.setAttribute('width', '100%');
             svg.setAttribute('height', '200');
-            svg.setAttribute('viewBox', '0 0 300 200');
+            svg.setAttribute('viewBox', '-20 0 360 200');
             svg.style.position = 'absolute';
             svg.style.top = '0';
             svg.style.left = '0';
@@ -1053,7 +1078,7 @@
             const xAxis = document.createElementNS('http://www.w3.org/2000/svg', 'line');
             xAxis.setAttribute('x1', '30');
             xAxis.setAttribute('y1', '170');
-            xAxis.setAttribute('x2', '270');
+            xAxis.setAttribute('x2', '300');
             xAxis.setAttribute('y2', '170');
             xAxis.setAttribute('stroke', '#E5E5E7');
             xAxis.setAttribute('stroke-width', '2');
@@ -1074,7 +1099,7 @@
                 let pathData = '';
 
                 data.forEach((d, i) => {
-                    const x = 30 + (i / (data.length - 1)) * 240 - 2; // 向左偏移2px
+                    const x = 30 + (i / (data.length - 1)) * 270 - 2; // 向左偏移2px
                     const y = 170 - (d.cumulativeUsage / maxUsage) * 140;
                     pathData += (i === 0 ? 'M' : 'L') + x + ',' + y;
                 });
@@ -1084,12 +1109,17 @@
                 usagePath.setAttribute('stroke-width', '3');
                 usagePath.setAttribute('fill', 'none');
                 usagePath.setAttribute('stroke-linecap', 'round');
+                usagePath.setAttribute('stroke-linejoin', 'round');
+                // 强制设置样式属性
+                usagePath.style.stroke = '#007AFF !important';
+                usagePath.style.strokeWidth = '3px';
+                usagePath.style.fill = 'none';
                 svg.appendChild(usagePath);
 
                 // 绘制电量数据点
                 data.forEach((d, i) => {
                     if (i % 3 === 0) { // 每3个点显示一个
-                        const x = 30 + (i / (data.length - 1)) * 240;
+                        const x = 30 + (i / (data.length - 1)) * 270;
                         const y = 170 - (d.cumulativeUsage / maxUsage) * 140;
 
                         const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
@@ -1115,22 +1145,28 @@
                 let pathData = '';
 
                 data.forEach((d, i) => {
-                    const x = 30 + (i / (data.length - 1)) * 240 + 2; // 向右偏移2px
+                    const x = 30 + (i / (data.length - 1)) * 270 + 2; // 向右偏移2px
                     const y = 170 - (d.cumulativeCost / maxCost) * 140;
                     pathData += (i === 0 ? 'M' : 'L') + x + ',' + y;
                 });
 
                 costPath.setAttribute('d', pathData);
+                costPath.setAttribute('data-type', 'cost');
                 costPath.setAttribute('stroke', '#FF6B35');
                 costPath.setAttribute('stroke-width', '3');
                 costPath.setAttribute('fill', 'none');
                 costPath.setAttribute('stroke-linecap', 'round');
+                costPath.setAttribute('stroke-linejoin', 'round');
+                // 强制设置样式属性
+                costPath.style.stroke = '#FF6B35 !important';
+                costPath.style.strokeWidth = '3px';
+                costPath.style.fill = 'none';
                 svg.appendChild(costPath);
 
                 // 绘制费用数据点
                 data.forEach((d, i) => {
                     if (i % 3 === 0) { // 每3个点显示一个
-                        const x = 30 + (i / (data.length - 1)) * 240;
+                        const x = 30 + (i / (data.length - 1)) * 270;
                         const y = 170 - (d.cumulativeCost / maxCost) * 140;
 
                         const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
@@ -1152,7 +1188,7 @@
 
             // 添加X轴标签
             for (let i = 0; i <= 5; i++) {
-                const x = 30 + (i / 5) * 240;
+                const x = 30 + (i / 5) * 260;
                 const dayIndex = Math.floor((data.length - 1) * i / 5);
 
                 const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
@@ -1175,8 +1211,9 @@
                     text.setAttribute('x', '25');
                     text.setAttribute('y', y + 3);
                     text.setAttribute('text-anchor', 'end');
-                    text.setAttribute('font-size', '10');
+                    text.setAttribute('font-size', '11');
                     text.setAttribute('fill', '#007AFF');
+                    text.setAttribute('font-weight', 'bold');
                     text.textContent = value + 'kWh';
                     svg.appendChild(text);
                 }
@@ -1189,11 +1226,12 @@
                     const value = Math.round((maxCost * i / 3));
 
                     const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-                    text.setAttribute('x', '275');
+                    text.setAttribute('x', '310');
                     text.setAttribute('y', y + 3);
                     text.setAttribute('text-anchor', 'start');
-                    text.setAttribute('font-size', '10');
+                    text.setAttribute('font-size', '11');
                     text.setAttribute('fill', '#FF6B35');
+                    text.setAttribute('font-weight', 'bold');
                     text.textContent = '₹' + value;
                     svg.appendChild(text);
                 }
@@ -1306,6 +1344,7 @@
             const tooltip = document.getElementById('chartTooltip');
             tooltip.classList.remove('show');
         }
+
 
         // 生成日用电量数据
         function generateDailyUsageData() {

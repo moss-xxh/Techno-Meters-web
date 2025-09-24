@@ -884,7 +884,6 @@
             </div>
             <div class="nav-menu">
                 <a href="dashboard.html" class="nav-link active" data-zh="仪表盘" data-en="Dashboard">仪表盘</a>
-                <a href="pricing-templates.html" class="nav-link" data-zh="电价模版" data-en="Pricing Templates">电价模版</a>
                 <a href="space-management.html" class="nav-link" data-zh="空间管理" data-en="Space Management">空间管理</a>
                 <a href="device-management.html" class="nav-link" data-zh="设备管理" data-en="Device Management">设备管理</a>
                 <a href="user-management.html" class="nav-link" data-zh="用户管理" data-en="User Management">用户管理</a>
@@ -934,18 +933,8 @@
 
                         <!-- 流程步骤 -->
                         <div class="workflow-flow">
-                            <div class="workflow-step-item" data-step="1" onclick="startTemplate()">
+                            <div class="workflow-step-item" data-step="1" onclick="startSpace()">
                                 <div class="step-number">1</div>
-                                <div class="step-content">
-                                    <div class="step-title" data-zh="创建电价模版" data-en="Create Pricing Template">创建电价模版</div>
-                                    <div class="step-desc" data-zh="设置电费计算规则和价格结构" data-en="Set up billing rules and pricing structure">设置电费计算规则和价格结构</div>
-                                    <button class="btn btn-primary" data-zh="开始创建" data-en="Start Creating">开始创建</button>
-                                </div>
-                            </div>
-                            <div class="step-connector">→</div>
-
-                            <div class="workflow-step-item" data-step="2" onclick="startSpace()">
-                                <div class="step-number">2</div>
                                 <div class="step-content">
                                     <div class="step-title" data-zh="创建空间" data-en="Create Space">创建空间</div>
                                     <div class="step-desc" data-zh="设置建筑物、楼层等空间结构" data-en="Set up buildings, floors and space structure">设置建筑物、楼层等空间结构</div>
@@ -954,8 +943,8 @@
                             </div>
                             <div class="step-connector">→</div>
 
-                            <div class="workflow-step-item" data-step="3" onclick="startDevice()">
-                                <div class="step-number">3</div>
+                            <div class="workflow-step-item" data-step="2" onclick="startDevice()">
+                                <div class="step-number">2</div>
                                 <div class="step-content">
                                     <div class="step-title" data-zh="添加设备" data-en="Add Device">添加设备</div>
                                     <div class="step-desc" data-zh="注册电表设备并分配到空间" data-en="Register meter devices and assign to spaces">注册电表设备并分配到空间</div>
@@ -964,12 +953,22 @@
                             </div>
                             <div class="step-connector">→</div>
 
-                            <div class="workflow-step-item" data-step="4" onclick="startUser()">
-                                <div class="step-number">4</div>
+                            <div class="workflow-step-item" data-step="3" onclick="startUser()">
+                                <div class="step-number">3</div>
                                 <div class="step-content">
                                     <div class="step-title" data-zh="添加用户" data-en="Add User">添加用户</div>
                                     <div class="step-desc" data-zh="创建用户账户并绑定设备" data-en="Create user accounts and bind devices">创建用户账户并绑定设备</div>
                                     <button class="btn btn-primary" data-zh="开始添加" data-en="Start Adding">开始添加</button>
+                                </div>
+                            </div>
+                            <div class="step-connector">→</div>
+
+                            <div class="workflow-step-item" data-step="4" onclick="startTemplate()">
+                                <div class="step-number">4</div>
+                                <div class="step-content">
+                                    <div class="step-title" data-zh="查看账单" data-en="View Bills">查看账单</div>
+                                    <div class="step-desc" data-zh="设置电费计算规则和价格结构" data-en="Set up billing rules and pricing structure">设置电费计算规则和价格结构</div>
+                                    <button class="btn btn-primary" data-zh="开始创建" data-en="Start Creating">开始创建</button>
                                 </div>
                             </div>
                         </div>

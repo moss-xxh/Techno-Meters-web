@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title data-zh="能源管理系统" data-en="Energy Management System">Energy Management System</title>
+    <title data-zh="登录 - 能源管理系统" data-en="Login - Energy Management System">Login - Energy Management System</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="light-content">
@@ -31,10 +31,13 @@
             line-height: 1.6;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
+            max-width: 414px;
             margin: 0 auto;
             min-height: 100vh;
             position: relative;
             overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
         }
 
@@ -162,480 +165,134 @@
             border-radius: 1px;
         }
 
-
-        /* 电费卡片样式 - 黑色填充 */
-        .bill-card {
-            background: #000;
-            margin: 70px 16px 24px 16px;
-            border-radius: 16px;
-            padding: 32px 24px;
-            border: none;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-        }
-
-        .card-header {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-bottom: 32px;
-        }
-
-        .user-type-tabs {
-            display: flex;
-            background: #FAFAFA;
-            border-radius: 8px;
-            padding: 2px;
-            border: 1px solid #F0F0F0;
-        }
-
-        .tab {
-            padding: 10px 24px;
-            border-radius: 6px;
-            font-size: 14px;
-            font-weight: 500;
-            cursor: pointer;
-            background: transparent;
-            border: none;
-            transition: all 0.2s ease;
-            color: #666;
-        }
-
-        .tab.active {
-            background: #000;
-            color: white;
-            font-weight: 600;
-        }
-
-        .bill-header {
-            margin-bottom: 32px;
-            padding-bottom: 0;
-            border-bottom: none;
-            position: relative;
-        }
-
-        .bill-header-content {
-            position: relative;
-        }
-
-        .bill-detail-btn {
-            color: rgba(255, 255, 255, 0.6);
-            font-size: 16px;
-            font-weight: 400;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            background: none;
-            border: none;
-            padding: 0;
-        }
-
-        .bill-detail-btn:hover {
-            color: rgba(255, 255, 255, 0.9);
-        }
-
-        .bill-user-info {
-            position: absolute;
-            top: -90px;
-            left: -20px;
-            display: flex;
-            align-items: center;
-            gap: 16px;
-        }
-
-        .bill-avatar {
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            border: 3px solid #fff;
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
-            overflow: hidden;
-            flex-shrink: 0;
-            background: #f0f0f0;
-        }
-
-        .bill-avatar img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .bill-family-name {
-            color: #333;
-            font-size: 16px;
-            font-weight: 600;
-            text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
-        }
-
-        .bill-title {
-            font-size: 24px;
-            font-weight: 700;
-            color: #ffffff;
-            text-align: left;
-            margin-bottom: 8px;
-            letter-spacing: -0.03em;
-        }
-
-        .bill-period {
-            font-size: 14px;
-            color: rgba(255, 255, 255, 0.7);
-            text-align: left;
-            margin-bottom: 24px;
-            font-weight: 500;
-        }
-
-        .bill-data-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 24px;
-            margin-bottom: 32px;
-        }
-
-        .bill-data-item {
-            text-align: center;
-            padding: 0;
-        }
-
-        .bill-data-item:first-child {
-            border-bottom: none;
-            border-right: 1px solid rgba(255, 255, 255, 0.2);
-            margin-bottom: 0;
-            padding-bottom: 0;
-            padding-right: 24px;
-        }
-
-        .current-bill-label {
-            font-size: 14px;
-            color: rgba(255, 255, 255, 0.8);
-            margin-bottom: 12px;
-            font-weight: 600;
-        }
-
-        .current-bill-value {
-            font-size: 28px;
-            font-weight: 800;
-            color: #ffffff;
-            letter-spacing: -0.8px;
-            line-height: 1.1;
-        }
-
-        .unit {
-            font-size: 16px;
-            font-weight: 600;
-            color: rgba(255, 255, 255, 0.7);
-            margin-left: 3px;
-        }
-
-        .go-pay-btn {
-            background: #000;
-            color: white;
-            border: none;
-            padding: 12px 20px;
-            border-radius: 8px;
-            font-size: 14px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .go-pay-btn:hover {
-            background: #333;
-            transform: translateY(-1px);
-        }
-
-        .balance-section {
-            text-align: center;
-            margin: 40px 0;
-        }
-
-        .balance-label {
-            font-size: 14px;
-            color: #666;
-            margin-bottom: 12px;
-            font-weight: 500;
-            letter-spacing: 0.02em;
-        }
-
-        .balance-amount {
-            font-size: 48px;
-            font-weight: 200;
-            color: #000;
-            margin-bottom: 16px;
-            letter-spacing: -2px;
-            line-height: 1;
-        }
-
-        .balance-date {
-            font-size: 12px;
-            color: #999;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-        }
-
-        .collapse-btn {
-            background: transparent;
-            border: 1px solid #E0E0E0;
-            padding: 6px 12px;
-            border-radius: 6px;
-            font-size: 11px;
-            color: #666;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .collapse-btn:hover {
-            background: #F8F8F8;
-            border-color: #D0D0D0;
-        }
-
-        .stats-grid-bill {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 24px;
-            margin-top: 32px;
-            padding-top: 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .stats-grid-bill .stat-item {
-            text-align: center;
-            padding: 0;
-            background: none;
-            border: none;
-        }
-
-        .stats-grid-bill .stat-value {
-            font-size: 14px;
-            font-weight: 400;
-            color: rgba(255, 255, 255, 0.5);
-            margin-bottom: 4px;
-            letter-spacing: 0;
-        }
-
-        .stats-grid-bill .stat-label {
-            font-size: 12px;
-            color: rgba(255, 255, 255, 0.4);
-            line-height: 1.2;
-            font-weight: 400;
-        }
-
-
-        /* 快速操作 */
-        .quick-actions {
-            margin: 24px 16px;
-        }
-
-        .section-title {
-            font-size: 20px;
-            font-weight: 600;
-            color: #000;
-            margin-bottom: 20px;
-            padding: 0 4px;
-            letter-spacing: -0.02em;
-        }
-
-        .actions-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 16px;
-        }
-
-        .action-card {
-            background: #fff;
-            border: 1px solid #F0F0F0;
-            border-radius: 12px;
-            padding: 24px 16px;
-            text-decoration: none;
-            color: inherit;
+        /* 主容器 */
+        .login-container {
+            flex: 1;
             display: flex;
             flex-direction: column;
-            align-items: center;
-            gap: 12px;
-            transition: all 0.2s ease;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-            min-height: 100px;
+            justify-content: center;
+            padding: 40px 24px;
+            min-height: calc(100vh - 44px);
         }
 
-        .action-card:hover {
-            border-color: #000;
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
-            transform: translateY(-2px);
-        }
-
-        .action-icon {
-            font-size: 24px;
-            color: #000;
-        }
-
-        .action-text {
-            font-size: 14px;
-            font-weight: 500;
-            color: #000;
+        /* 标题部分 */
+        .login-header {
             text-align: center;
+            margin-bottom: 48px;
         }
 
-        /* 统计信息 */
-        .stats-section {
-            margin: 24px 16px;
+        .app-logo {
+            width: 160px;
+            height: 160px;
+            margin: 0 auto 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        .stats-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 16px;
+        .app-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: #000;
+            margin-bottom: 8px;
+            letter-spacing: -0.02em;
         }
 
-        .stats-card {
+        .app-subtitle {
+            font-size: 16px;
+            color: #666;
+            font-weight: 400;
+            line-height: 1.4;
+        }
+
+        /* 登录表单 */
+        .login-form {
             background: #fff;
-            border: 1px solid #F0F0F0;
             border-radius: 16px;
             padding: 32px 24px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-        }
-
-        .stats-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .stats-title {
-            font-size: 18px;
-            font-weight: 600;
-            color: #000;
-            letter-spacing: -0.02em;
-        }
-
-        .stats-period {
-            font-size: 12px;
-            color: #666;
-            background: #F8F8F8;
-            padding: 6px 12px;
-            border-radius: 8px;
-            font-weight: 500;
-        }
-
-        .stats-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .stats-value {
-            font-size: 32px;
-            font-weight: 200;
-            color: #000;
-            letter-spacing: -1px;
-        }
-
-        .stats-change {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 13px;
-            color: #28A745;
-            font-weight: 500;
-        }
-
-        .stats-change.positive {
-            color: #28A745;
-        }
-
-        .stats-change.negative {
-            color: #DC3545;
-        }
-
-        /* 系统状态 */
-        .system-status {
-            background: #fff;
-            margin: 24px 16px;
-            border-radius: 16px;
-            padding: 24px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
             border: 1px solid #F0F0F0;
+            margin-bottom: 32px;
         }
 
-        .status-header {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 8px;
+        .form-group {
+            margin-bottom: 24px;
         }
 
-        .status-indicator {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background: #28A745;
+        .form-group:last-child {
+            margin-bottom: 0;
         }
 
-        .status-text {
-            font-size: 16px;
+        .form-label {
+            display: block;
+            font-size: 14px;
             font-weight: 600;
-            color: #000;
-            letter-spacing: -0.02em;
+            color: #333;
+            margin-bottom: 8px;
+            letter-spacing: -0.01em;
         }
 
-        .status-time {
-            font-size: 13px;
-            color: #666;
-            margin-top: 6px;
-            margin-left: 22px;
+        .form-input {
+            width: 100%;
+            padding: 16px 16px;
+            border: 1px solid #E0E0E0;
+            border-radius: 12px;
+            font-size: 16px;
+            background: #FAFAFA;
+            transition: all 0.2s ease;
+            -webkit-appearance: none;
+            font-family: inherit;
         }
 
-        /* 底部圆角按钮 */
-        .bottom-bill-btn {
-            position: fixed;
-            bottom: 40px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: calc(100% - 80px);
-            max-width: 334px;
+        .form-input:focus {
+            outline: none;
+            border-color: #000;
+            background: #fff;
+            box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-input::placeholder {
+            color: #999;
+            font-weight: 400;
+        }
+
+        /* 登录按钮 */
+        .login-button {
+            width: 100%;
             background: #000;
             color: white;
             border: none;
-            border-radius: 25px;
-            padding: 16px 24px;
+            border-radius: 12px;
+            padding: 18px 24px;
             font-size: 16px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
+            margin-top: 8px;
+            font-family: inherit;
+            letter-spacing: -0.01em;
         }
 
-        .bottom-bill-btn:hover {
+        .login-button:hover {
             background: #333;
-            transform: translateX(-50%) translateY(-2px);
-            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.3);
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
         }
 
-        .bottom-bill-btn:active {
-            transform: translateX(-50%) translateY(0px) scale(0.98);
+        .login-button:active {
+            transform: translateY(0) scale(0.98);
         }
 
-        .home-indicator {
-            position: fixed;
-            bottom: 15px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 134px;
-            height: 5px;
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 3px;
+        .login-button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
         }
 
         /* 语言切换器 */
         .language-selector {
-            position: fixed;
+            position: absolute;
             top: 60px;
             right: 16px;
             z-index: 200;
@@ -718,9 +375,29 @@
             font-size: 16px;
         }
 
+        /* Home指示器 */
+        .home-indicator {
+            position: fixed;
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 134px;
+            height: 5px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 3px;
+        }
+
+        /* 版权信息 */
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #999;
+            font-size: 12px;
+        }
+
         /* 动画 */
         .fade-in {
-            animation: fadeIn 0.5s ease-out;
+            animation: fadeIn 0.6s ease-out;
         }
 
         @keyframes fadeIn {
@@ -734,6 +411,32 @@
             }
         }
 
+        /* 加载状态 */
+        .loading {
+            position: relative;
+        }
+
+        .loading::after {
+            content: '';
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: translateY(-50%) rotate(360deg);
+            }
+        }
+
+        /* 触摸反馈 */
         .clickable {
             transition: all 0.2s ease;
             cursor: pointer;
@@ -746,8 +449,12 @@
 
         /* 响应式 */
         @media (max-width: 375px) {
-            .actions-grid {
-                grid-template-columns: repeat(2, 1fr);
+            .login-container {
+                padding: 32px 20px;
+            }
+
+            .login-form {
+                padding: 24px 20px;
             }
         }
     </style>
@@ -760,7 +467,7 @@
         </div>
         <div class="status-center">
             <div class="dynamic-island">
-                <div class="island-content">🏠</div>
+                <div class="island-content">🔐</div>
             </div>
         </div>
         <div class="status-right">
@@ -794,60 +501,57 @@
         </div>
     </div>
 
-    <!-- 电费卡片 -->
-    <div class="bill-card fade-in">
-        <div class="bill-header">
-            <!-- 用户信息 -->
-            <div class="bill-user-info">
-                <div class="bill-avatar">
-                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face" alt="Kumar" />
-                </div>
-                <div class="bill-family-name" data-zh="库马尔家庭" data-en="Kumar Family">Kumar Family</div>
+    <!-- 登录容器 -->
+    <div class="login-container fade-in">
+        <!-- 标题部分 -->
+        <div class="login-header">
+            <div class="app-logo">
+                <img src="logo.png" alt="Logo" style="width: 140px; height: 140px; object-fit: contain;">
             </div>
-
-            <div class="bill-header-content">
-                <div style="display: flex; justify-content: space-between; align-items: baseline;">
-                    <div>
-                        <h2 class="bill-title" data-zh="2025年9月账单" data-en="September 2025 Bill">September 2025 Bill</h2>
-                        <div class="bill-period" data-zh="（9月1日-9月30日）" data-en="(Sep 1 - Sep 30)">(Sep 1 - Sep 30)</div>
-                    </div>
-                    <a href="bill-detail-new.html?month=2025-09" class="bill-detail-btn">
-                        <span data-zh="详情 >" data-en="Details >">Details ></span>
-                    </a>
-                </div>
-                <div class="bill-data-grid">
-                    <div class="bill-data-item">
-                        <div class="current-bill-label" data-zh="用电量" data-en="Usage">Usage</div>
-                        <div class="current-bill-value">450 <span class="unit">kWh</span></div>
-                    </div>
-                    <div class="bill-data-item">
-                        <div class="current-bill-label" data-zh="电费" data-en="Bill Amount">Bill Amount</div>
-                        <div class="current-bill-value">₹2,840 <span class="unit">INR</span></div>
-                    </div>
-                </div>
-            </div>
+            <h1 class="app-title" data-zh="能源管理系统" data-en="Energy Management System">Energy Management System</h1>
+            <p class="app-subtitle" data-zh="为印度电力行业提供专业的账单管理解决方案" data-en="Professional billing management solutions for the Indian power industry">Professional billing management solutions for the Indian power industry</p>
         </div>
 
-        <div class="stats-grid-bill">
-            <div class="stat-item">
-                <div class="stat-value">380 kWh</div>
-                <div class="stat-label" data-zh="上期电量" data-en="Last Usage">Last Usage</div>
+        <!-- 登录表单 -->
+        <form class="login-form" id="loginForm">
+            <div class="form-group">
+                <label for="username" class="form-label" data-zh="用户名" data-en="Username">Username</label>
+                <input
+                    type="text"
+                    id="username"
+                    name="username"
+                    class="form-input"
+                    placeholder="Enter your username"
+                    data-zh-placeholder="请输入用户名"
+                    data-en-placeholder="Enter your username"
+                    autocomplete="username"
+                >
             </div>
-            <div class="stat-item">
-                <div class="stat-value">₹2,450 INR</div>
-                <div class="stat-label" data-zh="上期电费" data-en="Last Bill">Last Bill</div>
+
+            <div class="form-group">
+                <label for="password" class="form-label" data-zh="密码" data-en="Password">Password</label>
+                <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    class="form-input"
+                    placeholder="Enter your password"
+                    data-zh-placeholder="请输入密码"
+                    data-en-placeholder="Enter your password"
+                    autocomplete="current-password"
+                >
             </div>
+
+            <button type="submit" class="login-button clickable" id="loginButton" data-zh="登录" data-en="Login">
+                Login
+            </button>
+        </form>
+
+        <!-- 版权信息 -->
+        <div class="footer">
+            <p data-zh="© 2025 能源管理系统. 专为印度市场设计" data-en="© 2025 Energy Management System. Designed for Indian Market">© 2025 Energy Management System. Designed for Indian Market</p>
         </div>
     </div>
-
-
-
-
-
-    <!-- 底部圆角按钮 -->
-    <a href="home-app.html" class="bottom-bill-btn clickable">
-        <span data-zh="📄 账单管理" data-en="📄 Bill Management">📄 Bill Management</span>
-    </a>
 
     <!-- Home指示器 -->
     <div class="home-indicator"></div>
@@ -882,9 +586,6 @@
 
             // 保存语言偏好
             localStorage.setItem('energy-system-lang', lang);
-
-            // 触发自定义事件
-            window.dispatchEvent(new CustomEvent('languageChanged', { detail: { language: lang } }));
         }
 
         // 更新页面文本
@@ -892,8 +593,12 @@
             document.querySelectorAll('[data-zh]').forEach(element => {
                 const text = element.getAttribute(`data-${currentLanguage}`);
                 if (text) {
-                    if (element.tagName === 'OPTION') {
-                        element.textContent = text;
+                    if (element.tagName === 'INPUT') {
+                        const placeholderAttr = `data-${currentLanguage}-placeholder`;
+                        const placeholder = element.getAttribute(placeholderAttr);
+                        if (placeholder) {
+                            element.placeholder = placeholder;
+                        }
                     } else {
                         element.textContent = text;
                     }
@@ -906,17 +611,6 @@
                 const titleText = title.getAttribute(`data-${currentLanguage}`);
                 if (titleText) {
                     title.textContent = titleText;
-                }
-            }
-
-            // 更新收起/展开按钮文本
-            const collapseBtn = document.querySelector('.collapse-btn');
-            const statsGrid = document.querySelector('.stats-grid-bill');
-            if (collapseBtn && statsGrid) {
-                if (statsGrid.style.display === 'none') {
-                    collapseBtn.textContent = currentLanguage === 'zh' ? '展开' : 'Expand';
-                } else {
-                    collapseBtn.textContent = currentLanguage === 'zh' ? '收起' : 'Collapse';
                 }
             }
         }
@@ -951,147 +645,108 @@
                         const lang = option.getAttribute('data-lang');
                         switchLanguage(lang);
                         languageDropdown.classList.remove('show');
-
-                        // 更新按钮状态
-                        languageOptions.forEach(opt => opt.classList.remove('active'));
-                        option.classList.add('active');
-
-                        // 更新切换按钮文本
-                        languageToggle.innerHTML = lang === 'en' ? '🌐 EN' : '🌐 中文';
                     });
                 });
             }
         }
 
-        // 添加动画效果
-        function addAnimations() {
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.style.opacity = '1';
-                        entry.target.style.transform = 'translateY(0)';
-                    }
-                });
-            });
+        // 登录功能
+        function handleLogin(event) {
+            event.preventDefault();
 
-            document.querySelectorAll('.fade-in').forEach(el => {
-                el.style.opacity = '0';
-                el.style.transform = 'translateY(20px)';
-                el.style.transition = 'all 0.5s ease-out';
-                observer.observe(el);
-            });
-        }
+            const loginButton = document.getElementById('loginButton');
 
-        // 底部按钮功能
-        function initBottomButton() {
-            const bottomBtn = document.querySelector('.bottom-bill-btn');
-            if (bottomBtn) {
-                bottomBtn.addEventListener('click', function(e) {
-                    const href = this.getAttribute('href');
-                    if (href && href !== '#') {
-                        // 添加页面切换动画
-                        document.body.style.opacity = '0.8';
-                        setTimeout(() => {
-                            window.location.href = href;
-                        }, 150);
-                        e.preventDefault();
-                    }
-                });
-            }
+            // 添加加载状态
+            loginButton.classList.add('loading');
+            loginButton.disabled = true;
+            loginButton.textContent = currentLanguage === 'en' ? 'Logging in...' : '登录中...';
+
+            // 模拟登录延迟
+            setTimeout(() => {
+                // 登录成功，跳转到主页
+                window.location.href = '001.html';
+            }, 1000);
         }
 
         // 触摸反馈
         function addTouchFeedback() {
-            const clickableElements = document.querySelectorAll('.action-card, .stats-card, .clickable');
+            const clickableElements = document.querySelectorAll('.clickable');
 
             clickableElements.forEach(element => {
                 element.addEventListener('touchstart', function() {
-                    this.style.transform = 'scale(0.98)';
-                    this.style.opacity = '0.8';
-                });
+                    if (!this.disabled) {
+                        this.style.transform = 'scale(0.98)';
+                        this.style.opacity = '0.8';
+                    }
+                }, { passive: true });
 
                 element.addEventListener('touchend', function() {
-                    this.style.transform = 'scale(1)';
-                    this.style.opacity = '1';
-                });
+                    if (!this.disabled) {
+                        this.style.transform = 'scale(1)';
+                        this.style.opacity = '1';
+                    }
+                }, { passive: true });
+
+                element.addEventListener('touchcancel', function() {
+                    if (!this.disabled) {
+                        this.style.transform = 'scale(1)';
+                        this.style.opacity = '1';
+                    }
+                }, { passive: true });
             });
         }
 
-        // 电费卡片功能
-        function initBillCard() {
-            // 用户类型切换
-            const tabs = document.querySelectorAll('.tab');
-            tabs.forEach(tab => {
-                tab.addEventListener('click', function() {
-                    tabs.forEach(t => t.classList.remove('active'));
-                    this.classList.add('active');
-                });
-            });
-
-            // 收起/展开功能
-            const collapseBtn = document.querySelector('.collapse-btn');
-            const statsGrid = document.querySelector('.stats-grid-bill');
-
-            if (collapseBtn && statsGrid) {
-                collapseBtn.addEventListener('click', function() {
-                    if (statsGrid.style.display === 'none') {
-                        statsGrid.style.display = 'grid';
-                        this.textContent = currentLanguage === 'zh' ? '收起' : 'Collapse';
-                    } else {
-                        statsGrid.style.display = 'none';
-                        this.textContent = currentLanguage === 'zh' ? '展开' : 'Expand';
-                    }
-                });
-            }
-
-            // 去缴费按钮
-            const goPayBtn = document.querySelector('.go-pay-btn');
-            if (goPayBtn) {
-                goPayBtn.addEventListener('click', function() {
-                    alert(currentLanguage === 'zh' ? '跳转到缴费页面' : 'Redirecting to payment page');
-                });
-            }
-
-            // 详情按钮
-            const detailBtn = document.querySelector('.bill-detail-btn');
-            if (detailBtn) {
-                detailBtn.addEventListener('click', function(e) {
-                    const href = this.getAttribute('href');
-                    if (href) {
-                        // 添加页面切换动画
-                        document.body.style.opacity = '0.8';
-                        setTimeout(() => {
-                            window.location.href = href;
-                        }, 150);
-                        e.preventDefault();
-                    }
-                });
+        // 更新当前时间
+        function updateCurrentTime() {
+            const timeElement = document.querySelector('.status-time');
+            if (timeElement) {
+                const now = new Date();
+                const hours = now.getHours().toString().padStart(2, '0');
+                const minutes = now.getMinutes().toString().padStart(2, '0');
+                timeElement.textContent = `${hours}:${minutes}`;
             }
         }
 
         // 页面初始化
         document.addEventListener('DOMContentLoaded', function() {
             initLanguageSystem();
-            addAnimations();
-            initBottomButton();
             addTouchFeedback();
-            initBillCard();
 
-            // 更新时间显示
-            function updateTime() {
-                const now = new Date();
-                const timeString = now.toLocaleTimeString('zh-CN', {
-                    hour: '2-digit',
-                    minute: '2-digit',
-                    hour12: false
-                });
-                document.querySelector('.status-time').textContent = timeString;
+            // 绑定登录表单
+            const loginForm = document.getElementById('loginForm');
+            if (loginForm) {
+                loginForm.addEventListener('submit', handleLogin);
             }
 
-            updateTime();
-            setInterval(updateTime, 60000); // 每分钟更新一次
+            // 更新时间显示
+            updateCurrentTime();
+            setInterval(updateCurrentTime, 60000);
+
+            // 自动聚焦用户名输入框
+            const usernameInput = document.getElementById('username');
+            if (usernameInput) {
+                setTimeout(() => {
+                    usernameInput.focus();
+                }, 500);
+            }
         });
 
+        // 防止页面缩放
+        document.addEventListener('touchmove', function(event) {
+            if (event.scale !== 1) {
+                event.preventDefault();
+            }
+        }, { passive: false });
+
+        // 防止双击缩放
+        let lastTouchEnd = 0;
+        document.addEventListener('touchend', function(event) {
+            const now = (new Date()).getTime();
+            if (now - lastTouchEnd <= 300) {
+                event.preventDefault();
+            }
+            lastTouchEnd = now;
+        }, false);
     </script>
 </body>
 </html>
