@@ -1,0 +1,3190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-zh="电价模版设计器" data-en="Pricing Template Designer">电价模版设计器</title>
+    <link rel="stylesheet" href="assets/css/common.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="nav-content">
+            <div class="nav-brand">
+                <img src="logo.png" alt="Logo" class="nav-logo">
+            </div>
+            <div class="nav-menu">
+                <a href="dashboard.html" class="nav-link" data-zh="仪表盘" data-en="Dashboard">仪表盘</a>
+                <a href="device-management.html" class="nav-link" data-zh="设备管理" data-en="Device Management">设备管理</a>
+                <a href="space-management.html" class="nav-link" data-zh="建筑管理" data-en="Building Management">建筑管理</a>
+                <a href="user-management.html" class="nav-link" data-zh="用户管理" data-en="User Management">用户管理</a>
+                <a href="bills.html" class="nav-link" data-zh="账单管理" data-en="Bill Management">账单管理</a>
+            </div>
+            <div class="nav-actions">
+                <div class="lang-dropdown">
+                    <select id="language-select" class="form-select lang-select">
+                        <option value="zh" data-zh="中文" data-en="Chinese">中文</option>
+                        <option value="en" data-zh="English" data-en="English">English</option>
+                    </select>
+                </div>
+                <div class="user-menu">
+                    <div class="user-avatar">管</div>
+                    <span data-zh="管理员" data-en="Admin">管理员</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 主内容区域 -->
+    <main class="main-content">
+        <!-- 页面标题和返回按钮 -->
+        <div class="page-header">
+            <div class="header-left">
+                <button class="btn btn-secondary" onclick="goBackToPricingTemplates()">
+                    <span>←</span>
+                    <span data-zh="返回" data-en="Back">返回</span>
+                </button>
+            </div>
+            <div class="header-center">
+                <h1 id="page-title" data-zh="电价模版设计器" data-en="Pricing Template Designer">电价模版设计器</h1>
+            </div>
+            <div class="header-right"></div>
+        </div>
+
+        <div class="designer-layout">
+            <!-- 左侧步骤导航 -->
+            <div class="steps-sidebar">
+                <div class="steps-header">
+                    <h3 data-zh="电价模版设计" data-en="Pricing Template Design">电价模版设计</h3>
+                    <p data-zh="遵循印度电力监管委员会标准" data-en="Following CERC Standards">遵循印度电力监管委员会标准</p>
+                </div>
+
+                <div class="steps-container">
+                    <div class="step-item active" data-step="1" onclick="switchStep(1)">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <div class="step-title" data-zh="基本配置" data-en="Basic Configuration">基本配置</div>
+                            <div class="step-desc" data-zh="模版名称、账单周期、账单日" data-en="Template Name, Billing Cycle, Billing Date">模版名称、账单周期、账单日</div>
+                        </div>
+                    </div>
+
+                    <div class="step-item" data-step="2" onclick="switchStep(2)">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <div class="step-title" data-zh="费率结构" data-en="Rate Structure">费率结构</div>
+                            <div class="step-desc" data-zh="计费方式、阶梯电价配置" data-en="Billing Method, Tiered Rate Config">计费方式、阶梯电价配置</div>
+                        </div>
+                    </div>
+
+                    <div class="step-item" data-step="3" onclick="switchStep(3)">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <div class="step-title" data-zh="附加费用" data-en="Additional Charges">附加费用</div>
+                            <div class="step-desc" data-zh="燃料附加费、电力税等" data-en="Fuel Surcharge, Electricity Duty">燃料附加费、电力税等</div>
+                        </div>
+                    </div>
+
+                    <div class="step-item" data-step="4" onclick="switchStep(4)">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <div class="step-title" data-zh="费率模拟" data-en="Rate Simulation">费率模拟</div>
+                            <div class="step-desc" data-zh="测试不同用电量的计费" data-en="Test Billing for Different Usage">测试不同用电量的计费</div>
+                        </div>
+                    </div>
+
+                    <div class="step-item" data-step="5" onclick="switchStep(5)">
+                        <div class="step-number">5</div>
+                        <div class="step-content">
+                            <div class="step-title" data-zh="预览发布" data-en="Preview & Publish">预览发布</div>
+                            <div class="step-desc" data-zh="最终确认并发布模版" data-en="Final Review and Publish">最终确认并发布模版</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 右侧内容区域 -->
+            <div class="content-area">
+                <!-- 步骤1: 账单设置 -->
+                <div id="step-1" class="step-content-panel active">
+                    <div class="settings-section">
+                        <div class="section-header">
+                            <h3 data-zh="账单设置" data-en="Billing Settings">账单设置</h3>
+                            <p data-zh="配置账单生成和结算规则" data-en="Configure billing generation and settlement rules">配置账单生成和结算规则</p>
+                        </div>
+
+                        <div class="settings-form">
+                            <div class="form-group">
+                                <label for="template-name" data-zh="名称" data-en="Name">名称</label>
+                                <input type="text" id="template-name" name="templateName" class="form-input"
+                                       placeholder="请输入电价模板名称"
+                                       data-zh-placeholder="请输入电价模板名称"
+                                       data-en-placeholder="Enter pricing template name">
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="billing-period" data-zh="账期" data-en="Billing Period">账期</label>
+                                    <select id="billing-period" name="billingPeriod" class="form-select">
+                                        <option value="monthly" data-zh="一月一次" data-en="Monthly">一月一次</option>
+                                        <option value="quarterly" data-zh="一季度一次" data-en="Quarterly">一季度一次</option>
+                                        <option value="yearly" data-zh="一年一次" data-en="Yearly">一年一次</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="billing-date" data-zh="账单日" data-en="Billing Date">账单日</label>
+                                    <select id="billing-date" name="billingDate" class="form-select">
+                                        <option value="month-end" data-zh="月末" data-en="Month End">月末</option>
+                                        <option value="current-month" data-zh="当月" data-en="Current Month">当月</option>
+                                        <option value="next-month" data-zh="次月" data-en="Next Month">次月</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 步骤导航按钮 -->
+                    <div class="step-navigation">
+                        <div class="nav-left">
+                            <button id="prev-btn-1" class="btn btn-secondary" onclick="previousStep()" style="display: none;">
+                                <span data-zh="上一步" data-en="Previous">上一步</span>
+                            </button>
+                        </div>
+                        <div class="nav-right">
+                            <button class="btn btn-outline" onclick="saveDraft()">
+                                <span data-zh="保存草稿" data-en="Save Draft">保存草稿</span>
+                            </button>
+                            <button id="next-btn-1" class="btn btn-primary" onclick="nextStep()">
+                                <span data-zh="下一步" data-en="Next">下一步</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 步骤2: 费率结构 -->
+                <div id="step-2" class="step-content-panel">
+                    <!-- 电费设置 -->
+                    <div class="settings-section">
+                        <div class="section-header">
+                            <h3 data-zh="电费设置" data-en="Electricity Tariff">电费设置</h3>
+                            <p data-zh="配置电费单价和计算规则" data-en="Configure electricity rates and calculation rules">配置电费单价和计算规则</p>
+                        </div>
+
+                        <div class="settings-form">
+                            <div class="form-group full-width">
+                                <label data-zh="电费类型" data-en="Tariff Type">电费类型</label>
+                                <div class="tariff-type-cards">
+                                    <div class="tariff-card" data-type="flat" onclick="selectTariffType('flat')">
+                                        <div class="card-header">
+                                            <div class="card-icon">📏</div>
+                                            <h4 data-zh="固定单价" data-en="Flat Rate">固定单价</h4>
+                                        </div>
+                                        <p class="card-description" data-zh="统一电价标准，简单明了的计费方式" data-en="Unified rate standard, simple and clear billing method">统一电价标准，简单明了的计费方式</p>
+                                        <div class="card-features">
+                                            <span class="feature-tag" data-zh="简单易懂" data-en="Simple">简单易懂</span>
+                                            <span class="feature-tag" data-zh="固定费率" data-en="Fixed Rate">固定费率</span>
+                                        </div>
+                                    </div>
+                                    <div class="tariff-card selected" data-type="tiered" onclick="selectTariffType('tiered')">
+                                        <div class="card-header">
+                                            <div class="card-icon">📊</div>
+                                            <h4 data-zh="阶梯电价" data-en="Tiered Rate">阶梯电价</h4>
+                                        </div>
+                                        <p class="card-description" data-zh="按用电量分阶梯定价，鼓励节约用电" data-en="Tiered pricing based on consumption, encouraging energy conservation">按用电量分阶梯定价，鼓励节约用电</p>
+                                        <div class="card-features">
+                                            <span class="feature-tag" data-zh="节能激励" data-en="Energy Saving">节能激励</span>
+                                            <span class="feature-tag" data-zh="阶梯递增" data-en="Progressive">阶梯递增</span>
+                                        </div>
+                                    </div>
+                                    <div class="tariff-card" data-type="time-of-use" onclick="selectTariffType('time-of-use')">
+                                        <div class="card-header">
+                                            <div class="card-icon">⏰</div>
+                                            <h4 data-zh="分时电价" data-en="Time-of-Use">分时电价</h4>
+                                        </div>
+                                        <p class="card-description" data-zh="根据用电时段差异化定价，优化电网负荷" data-en="Differentiated pricing by time periods, optimizing grid load">根据用电时段差异化定价，优化电网负荷</p>
+                                        <div class="card-features">
+                                            <span class="feature-tag" data-zh="峰谷调节" data-en="Peak-Valley">峰谷调节</span>
+                                            <span class="feature-tag" data-zh="时段差价" data-en="Time-based">时段差价</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <input type="hidden" id="tariff-type" name="tariffType" value="tiered">
+                            </div>
+
+                            <!-- 阶梯电价设置 -->
+                            <div id="tiered-settings" class="tariff-settings">
+                                <div class="settings-header">
+                                    <h4 data-zh="阶梯电价设置" data-en="Tiered Rate Settings">阶梯电价设置</h4>
+                                    <button type="button" class="btn btn-outline btn-sm" onclick="addTier()">
+                                        <span data-zh="+ 新增阶梯" data-en="+ Add Tier">+ 新增阶梯</span>
+                                    </button>
+                                </div>
+
+                                <div id="tiers-container">
+                                    <div class="tier-item" data-tier="1">
+                                        <div class="tier-header">
+                                            <span class="tier-label" data-zh="第一阶梯" data-en="Tier 1">第一阶梯</span>
+                                            <button type="button" class="btn-remove" onclick="removeTier(1)" style="display: none;">
+                                                <span data-zh="删除" data-en="Remove">删除</span>
+                                            </button>
+                                        </div>
+                                        <div class="tier-config">
+                                            <div class="tier-range">
+                                                <label data-zh="用电范围 (kWh)" data-en="Usage Range (kWh)">用电范围 (kWh)</label>
+                                                <div class="range-inputs">
+                                                    <input type="number" class="form-input tier-min" value="0" min="0" readonly>
+                                                    <span>-</span>
+                                                    <input type="number" class="form-input tier-max" value="100" min="1" onchange="updateTierRanges()">
+                                                </div>
+                                            </div>
+                                            <div class="tier-price">
+                                                <label data-zh="电价 (₹/kWh)" data-en="Rate (₹/kWh)">电价 (₹/kWh)</label>
+                                                <input type="number" class="form-input tier-rate" value="5.50" min="0" step="0.01">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="tier-item" data-tier="2">
+                                        <div class="tier-header">
+                                            <span class="tier-label" data-zh="第二阶梯" data-en="Tier 2">第二阶梯</span>
+                                            <button type="button" class="btn-remove" onclick="removeTier(2)">
+                                                <span data-zh="删除" data-en="Remove">删除</span>
+                                            </button>
+                                        </div>
+                                        <div class="tier-config">
+                                            <div class="tier-range">
+                                                <label data-zh="用电范围 (kWh)" data-en="Usage Range (kWh)">用电范围 (kWh)</label>
+                                                <div class="range-inputs">
+                                                    <input type="number" class="form-input tier-min" value="101" min="0" readonly>
+                                                    <span>-</span>
+                                                    <input type="number" class="form-input tier-max" value="300" min="1" onchange="updateTierRanges()">
+                                                </div>
+                                            </div>
+                                            <div class="tier-price">
+                                                <label data-zh="电价 (₹/kWh)" data-en="Rate (₹/kWh)">电价 (₹/kWh)</label>
+                                                <input type="number" class="form-input tier-rate" value="7.25" min="0" step="0.01">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="tier-item" data-tier="3">
+                                        <div class="tier-header">
+                                            <span class="tier-label" data-zh="第三阶梯" data-en="Tier 3">第三阶梯</span>
+                                            <button type="button" class="btn-remove" onclick="removeTier(3)">
+                                                <span data-zh="删除" data-en="Remove">删除</span>
+                                            </button>
+                                        </div>
+                                        <div class="tier-config">
+                                            <div class="tier-range">
+                                                <label data-zh="用电范围 (kWh)" data-en="Usage Range (kWh)">用电范围 (kWh)</label>
+                                                <div class="range-inputs">
+                                                    <input type="number" class="form-input tier-min" value="301" min="0" readonly>
+                                                    <span>-</span>
+                                                    <input type="text" class="form-input tier-max" value="无限制" data-zh="无限制" data-en="Unlimited" readonly>
+                                                </div>
+                                            </div>
+                                            <div class="tier-price">
+                                                <label data-zh="电价 (₹/kWh)" data-en="Rate (₹/kWh)">电价 (₹/kWh)</label>
+                                                <input type="number" class="form-input tier-rate" value="9.00" min="0" step="0.01">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 分时电价设置 -->
+                            <div id="time-of-use-settings" class="tariff-settings" style="display: none;">
+                                <div class="settings-header">
+                                    <h4 data-zh="分时电价设置" data-en="Time-of-Use Rate Settings">分时电价设置</h4>
+                                    <button type="button" class="btn btn-outline btn-sm" onclick="addTimePeriod()">
+                                        <span data-zh="+ 新增时段" data-en="+ Add Period">+ 新增时段</span>
+                                    </button>
+                                </div>
+
+                                <div id="time-periods-container">
+                                    <div class="time-period-item" data-period="peak">
+                                        <div class="period-header">
+                                            <div class="period-icon-select">
+                                                <select class="form-input period-icon-dropdown" onchange="updatePeriodIcon(this)">
+                                                    <option value="🔴" selected>🔴</option>
+                                                    <option value="🟡">🟡</option>
+                                                    <option value="🟢">🟢</option>
+                                                    <option value="🔵">🔵</option>
+                                                    <option value="🟠">🟠</option>
+                                                    <option value="🟣">🟣</option>
+                                                </select>
+                                            </div>
+                                            <h5 contenteditable="true" class="editable-period-name" data-zh="高峰时段" data-en="Peak Period">高峰时段</h5>
+                                            <button type="button" class="btn-remove-period" onclick="removeTimePeriod('peak')" style="display: none;">
+                                                <span data-zh="删除" data-en="Remove">删除</span>
+                                            </button>
+                                        </div>
+                                        <div class="period-config">
+                                            <div class="time-range">
+                                                <label data-zh="时间段" data-en="Time Range">时间段</label>
+                                                <div class="time-inputs">
+                                                    <input type="time" class="form-input time-start" value="18:00">
+                                                    <span>-</span>
+                                                    <input type="time" class="form-input time-end" value="22:00">
+                                                </div>
+                                            </div>
+                                            <div class="period-price">
+                                                <label data-zh="电价 (₹/kWh)" data-en="Rate (₹/kWh)">电价 (₹/kWh)</label>
+                                                <input type="number" class="form-input period-rate" value="9.50" min="0" step="0.01">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="time-period-item" data-period="standard">
+                                        <div class="period-header">
+                                            <div class="period-icon-select">
+                                                <select class="form-input period-icon-dropdown" onchange="updatePeriodIcon(this)">
+                                                    <option value="🔴">🔴</option>
+                                                    <option value="🟡" selected>🟡</option>
+                                                    <option value="🟢">🟢</option>
+                                                    <option value="🔵">🔵</option>
+                                                    <option value="🟠">🟠</option>
+                                                    <option value="🟣">🟣</option>
+                                                </select>
+                                            </div>
+                                            <h5 contenteditable="true" class="editable-period-name" data-zh="平峰时段" data-en="Standard Period">平峰时段</h5>
+                                            <button type="button" class="btn-remove-period" onclick="removeTimePeriod('standard')">
+                                                <span data-zh="删除" data-en="Remove">删除</span>
+                                            </button>
+                                        </div>
+                                        <div class="period-config">
+                                            <div class="time-range">
+                                                <label data-zh="时间段" data-en="Time Range">时间段</label>
+                                                <div class="time-inputs">
+                                                    <input type="time" class="form-input time-start" value="06:00">
+                                                    <span>-</span>
+                                                    <input type="time" class="form-input time-end" value="18:00">
+                                                </div>
+                                            </div>
+                                            <div class="period-price">
+                                                <label data-zh="电价 (₹/kWh)" data-en="Rate (₹/kWh)">电价 (₹/kWh)</label>
+                                                <input type="number" class="form-input period-rate" value="7.00" min="0" step="0.01">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="time-period-item" data-period="valley">
+                                        <div class="period-header">
+                                            <div class="period-icon-select">
+                                                <select class="form-input period-icon-dropdown" onchange="updatePeriodIcon(this)">
+                                                    <option value="🔴">🔴</option>
+                                                    <option value="🟡">🟡</option>
+                                                    <option value="🟢" selected>🟢</option>
+                                                    <option value="🔵">🔵</option>
+                                                    <option value="🟠">🟠</option>
+                                                    <option value="🟣">🟣</option>
+                                                </select>
+                                            </div>
+                                            <h5 contenteditable="true" class="editable-period-name" data-zh="谷值时段" data-en="Valley Period">谷值时段</h5>
+                                            <button type="button" class="btn-remove-period" onclick="removeTimePeriod('valley')">
+                                                <span data-zh="删除" data-en="Remove">删除</span>
+                                            </button>
+                                        </div>
+                                        <div class="period-config">
+                                            <div class="time-range">
+                                                <label data-zh="时间段" data-en="Time Range">时间段</label>
+                                                <div class="time-inputs">
+                                                    <input type="time" class="form-input time-start" value="22:00">
+                                                    <span>-</span>
+                                                    <input type="time" class="form-input time-end" value="06:00">
+                                                </div>
+                                            </div>
+                                            <div class="period-price">
+                                                <label data-zh="电价 (₹/kWh)" data-en="Rate (₹/kWh)">电价 (₹/kWh)</label>
+                                                <input type="number" class="form-input period-rate" value="4.50" min="0" step="0.01">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 固定电价设置 -->
+                            <div id="flat-settings" class="tariff-settings" style="display: none;">
+                                <div class="settings-header">
+                                    <h4 data-zh="固定电价设置" data-en="Flat Rate Settings">固定电价设置</h4>
+                                </div>
+
+                                <div class="flat-rate-config">
+                                    <div class="form-group">
+                                        <label data-zh="统一电价 (₹/kWh)" data-en="Flat Rate (₹/kWh)">统一电价 (₹/kWh)</label>
+                                        <input type="number" class="form-input" id="flat-rate" value="6.50" min="0" step="0.01">
+                                    </div>
+                                    <div class="form-group">
+                                        <label data-zh="适用说明" data-en="Description">适用说明</label>
+                                        <textarea class="form-input" rows="3" placeholder="请输入固定电价的适用说明..." data-zh-placeholder="请输入固定电价的适用说明..." data-en-placeholder="Enter description for flat rate application..."></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 步骤导航按钮 -->
+                    <div class="step-navigation">
+                        <div class="nav-left">
+                            <button id="prev-btn-2" class="btn btn-secondary" onclick="previousStep()">
+                                <span data-zh="上一步" data-en="Previous">上一步</span>
+                            </button>
+                        </div>
+                        <div class="nav-right">
+                            <button class="btn btn-outline" onclick="saveDraft()">
+                                <span data-zh="保存草稿" data-en="Save Draft">保存草稿</span>
+                            </button>
+                            <button id="next-btn-2" class="btn btn-primary" onclick="nextStep()">
+                                <span data-zh="下一步" data-en="Next">下一步</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 步骤3: 附加费用 -->
+                <div id="step-3" class="step-content-panel">
+                    <!-- 附加费用设置 -->
+                    <div class="settings-section">
+                        <div class="section-header">
+                            <h3 data-zh="附加费用" data-en="Additional Charges">附加费用</h3>
+                            <p data-zh="配置各项税费和附加费用" data-en="Configure taxes and additional charges">配置各项税费和附加费用</p>
+                        </div>
+
+                        <div class="settings-form">
+                            <div class="additional-charges-header">
+                                <h4 data-zh="费用项目" data-en="Charge Items">费用项目</h4>
+                                <button type="button" class="btn btn-outline btn-sm" onclick="addAdditionalCharge()">
+                                    <span data-zh="+ 新增费用" data-en="+ Add Charge">+ 新增费用</span>
+                                </button>
+                            </div>
+
+                            <div id="additional-charges-container">
+                                <!-- 固定费 -->
+                                <div class="charge-item" data-charge-id="fixed-fee">
+                                    <div class="charge-header">
+                                        <div class="charge-info">
+                                            <h5 data-zh="固定费" data-en="Fixed Fee">固定费</h5>
+                                            <p data-zh="每月固定服务费" data-en="Monthly fixed service fee">每月固定服务费</p>
+                                        </div>
+                                        <button type="button" class="btn-remove-charge" onclick="removeAdditionalCharge('fixed-fee')" style="display: none;">
+                                            <span data-zh="删除" data-en="Remove">删除</span>
+                                        </button>
+                                    </div>
+                                    <div class="charge-config">
+                                        <div class="charge-type">
+                                            <label data-zh="计费方式" data-en="Billing Method">计费方式</label>
+                                            <select class="form-input charge-method" onchange="updateChargeConfig(this)">
+                                                <option value="fixed" data-zh="固定金额" data-en="Fixed Amount">固定金额</option>
+                                                <option value="percentage" data-zh="百分比" data-en="Percentage">百分比</option>
+                                                <option value="per-unit" data-zh="按用电量" data-en="Per Unit">按用电量</option>
+                                            </select>
+                                        </div>
+                                        <div class="charge-value">
+                                            <label data-zh="费用金额" data-en="Amount">费用金额</label>
+                                            <div class="value-input-group">
+                                                <input type="number" class="form-input charge-amount" value="150" min="0" step="0.01">
+                                                <span class="charge-unit" data-zh="₹/月" data-en="₹/month">₹/月</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- 燃料调整费 -->
+                                <div class="charge-item" data-charge-id="fuel-adjustment">
+                                    <div class="charge-header">
+                                        <div class="charge-info">
+                                            <h5 data-zh="燃料调整费" data-en="Fuel Adjustment Fee">燃料调整费</h5>
+                                            <p data-zh="8% × 电量费" data-en="8% × Electricity charges">8% × 电量费</p>
+                                        </div>
+                                        <button type="button" class="btn-remove-charge" onclick="removeAdditionalCharge('fuel-adjustment')">
+                                            <span data-zh="删除" data-en="Remove">删除</span>
+                                        </button>
+                                    </div>
+                                    <div class="charge-config">
+                                        <div class="charge-type">
+                                            <label data-zh="计费方式" data-en="Billing Method">计费方式</label>
+                                            <select class="form-input charge-method" onchange="updateChargeConfig(this)">
+                                                <option value="fixed" data-zh="固定金额" data-en="Fixed Amount">固定金额</option>
+                                                <option value="percentage" selected data-zh="百分比" data-en="Percentage">百分比</option>
+                                                <option value="per-unit" data-zh="按用电量" data-en="Per Unit">按用电量</option>
+                                            </select>
+                                        </div>
+                                        <div class="charge-value">
+                                            <label data-zh="费用金额" data-en="Amount">费用金额</label>
+                                            <div class="value-input-group">
+                                                <input type="number" class="form-input charge-amount" value="8" min="0" step="0.1">
+                                                <span class="charge-unit" data-zh="%" data-en="%">%</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- 政府税 -->
+                                <div class="charge-item" data-charge-id="government-tax">
+                                    <div class="charge-header">
+                                        <div class="charge-info">
+                                            <h5 data-zh="政府税" data-en="Government Tax">政府税</h5>
+                                            <p data-zh="政府征收的电力税费" data-en="Government imposed electricity tax">政府征收的电力税费</p>
+                                        </div>
+                                        <button type="button" class="btn-remove-charge" onclick="removeAdditionalCharge('government-tax')">
+                                            <span data-zh="删除" data-en="Remove">删除</span>
+                                        </button>
+                                    </div>
+                                    <div class="charge-config">
+                                        <div class="charge-type">
+                                            <label data-zh="计费方式" data-en="Billing Method">计费方式</label>
+                                            <select class="form-input charge-method" onchange="updateChargeConfig(this)">
+                                                <option value="fixed" data-zh="固定金额" data-en="Fixed Amount">固定金额</option>
+                                                <option value="percentage" selected data-zh="百分比" data-en="Percentage">百分比</option>
+                                                <option value="per-unit" data-zh="按用电量" data-en="Per Unit">按用电量</option>
+                                            </select>
+                                        </div>
+                                        <div class="charge-value">
+                                            <label data-zh="费用金额" data-en="Amount">费用金额</label>
+                                            <div class="value-input-group">
+                                                <input type="number" class="form-input charge-amount" value="18" min="0" step="0.1">
+                                                <span class="charge-unit" data-zh="%" data-en="%">%</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 费用预览 -->
+                            <div class="charges-summary">
+                                <h4 data-zh="费用预览" data-en="Charges Preview">费用预览</h4>
+                                <div class="summary-table">
+                                    <div class="summary-row header">
+                                        <span data-zh="费用项目" data-en="Charge Item">费用项目</span>
+                                        <span data-zh="计费方式" data-en="Method">计费方式</span>
+                                        <span data-zh="金额" data-en="Amount">金额</span>
+                                    </div>
+                                    <div id="charges-preview">
+                                        <!-- 动态生成预览内容 -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 步骤导航按钮 -->
+                    <div class="step-navigation">
+                        <div class="nav-left">
+                            <button id="prev-btn-3" class="btn btn-secondary" onclick="previousStep()">
+                                <span data-zh="上一步" data-en="Previous">上一步</span>
+                            </button>
+                        </div>
+                        <div class="nav-right">
+                            <button class="btn btn-outline" onclick="saveDraft()">
+                                <span data-zh="保存草稿" data-en="Save Draft">保存草稿</span>
+                            </button>
+                            <button id="next-btn-3" class="btn btn-primary" onclick="nextStep()">
+                                <span data-zh="下一步" data-en="Next">下一步</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 步骤4: 费率测试 -->
+                <div id="step-4" class="step-content-panel">
+                    <!-- 测试场景配置 -->
+                    <div class="settings-section">
+                        <div class="section-header">
+                            <h3 data-zh="费率测试" data-en="Rate Testing">费率测试</h3>
+                            <p data-zh="测试不同用电场景下的费用计算" data-en="Test cost calculations under different usage scenarios">测试不同用电场景下的费用计算</p>
+                        </div>
+
+                        <div class="settings-form">
+                            <!-- 固定电价测试输入 -->
+                            <div id="flat-test-inputs" class="test-inputs-section" style="display: none;">
+                                <div class="form-group">
+                                    <label for="flat-test-usage" data-zh="测试用电量(kWh)" data-en="Test Usage(kWh)">测试用电量(kWh)</label>
+                                    <input type="number" id="flat-test-usage" class="form-input" value="300" min="0" step="1">
+                                </div>
+                            </div>
+
+                            <!-- 阶梯电价测试输入 -->
+                            <div id="tiered-test-inputs" class="test-inputs-section">
+                                <div class="form-group">
+                                    <label for="tiered-test-usage" data-zh="测试用电量(kWh)" data-en="Test Usage(kWh)">测试用电量(kWh)</label>
+                                    <input type="number" id="tiered-test-usage" class="form-input" value="299" min="0" step="1">
+                                </div>
+                            </div>
+
+                            <!-- 分时电价测试输入 -->
+                            <div id="time-of-use-test-inputs" class="test-inputs-section" style="display: none;">
+                                <div class="time-usage-inputs">
+                                    <div class="usage-period">
+                                        <label data-zh="高峰时段用电量(kWh)" data-en="Peak Period Usage(kWh)">高峰时段用电量(kWh)</label>
+                                        <input type="number" id="peak-usage" class="form-input" value="50" min="0" step="1" onchange="updateTotalTimeUsageFromInputs()">
+                                    </div>
+                                    <div class="usage-period">
+                                        <label data-zh="平峰时段用电量(kWh)" data-en="Standard Period Usage(kWh)">平峰时段用电量(kWh)</label>
+                                        <input type="number" id="standard-usage" class="form-input" value="150" min="0" step="1" onchange="updateTotalTimeUsageFromInputs()">
+                                    </div>
+                                    <div class="usage-period">
+                                        <label data-zh="谷值时段用电量(kWh)" data-en="Valley Period Usage(kWh)">谷值时段用电量(kWh)</label>
+                                        <input type="number" id="valley-usage" class="form-input" value="99" min="0" step="1" onchange="updateTotalTimeUsageFromInputs()">
+                                    </div>
+                                </div>
+                                <div class="total-usage">
+                                    <span data-zh="总用电量:" data-en="Total Usage:">总用电量:</span>
+                                    <span id="total-usage-display">299 kWh</span>
+                                </div>
+                            </div>
+
+                            <!-- 计算按钮 -->
+                            <div class="calculation-section">
+                                <button type="button" class="btn btn-primary calculate-btn" onclick="calculateTestResult()">
+                                    <span data-zh="计算费用" data-en="Calculate Cost">计算费用</span>
+                                </button>
+                            </div>
+
+                            <!-- 计算结果显示 -->
+                            <div id="calculation-results" class="calculation-results" style="display: none;">
+                                <div class="results-header">
+                                    <h4 data-zh="账单管理" data-en="Bill Management">账单管理</h4>
+                                </div>
+
+                                <!-- 费用汇总表 -->
+                                <div class="bill-summary-table">
+                                    <div class="bill-table-header">
+                                        <span data-zh="项目" data-en="Item">项目</span>
+                                        <span data-zh="金额（卢比）" data-en="Amount (Rupees)">金额（卢比）</span>
+                                        <span data-zh="说明" data-en="Description">说明</span>
+                                    </div>
+                                    <div id="bill-items">
+                                        <div class="bill-item">
+                                            <span data-zh="电量费" data-en="Electricity Charges">电量费</span>
+                                            <span id="electricity-cost">₹1966</span>
+                                            <span id="electricity-desc">299 kWh × 电价</span>
+                                        </div>
+                                        <div class="bill-item">
+                                            <span data-zh="固定费" data-en="Fixed Fee">固定费</span>
+                                            <span id="fixed-fee-cost">₹150</span>
+                                            <span data-zh="每月固定服务费" data-en="Monthly fixed service fee">每月固定服务费</span>
+                                        </div>
+                                        <div class="bill-item">
+                                            <span data-zh="燃料调整费" data-en="Fuel Adjustment Fee">燃料调整费</span>
+                                            <span id="fuel-adjustment-cost">₹157</span>
+                                            <span id="fuel-adjustment-desc">8% × 电量费</span>
+                                        </div>
+                                        <div class="bill-item">
+                                            <span data-zh="政府税" data-en="Government Tax">政府税</span>
+                                            <span id="government-tax-cost">₹273</span>
+                                            <span id="government-tax-desc">12% × (电量费 + 固定费 + 燃料费)</span>
+                                        </div>
+                                        <div class="bill-item total">
+                                            <span data-zh="总费用" data-en="Total Cost">总费用</span>
+                                            <span id="total-cost">₹2546</span>
+                                            <span></span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- 电量费明细 -->
+                                <div class="electricity-detail">
+                                    <div class="detail-header">
+                                        <h5 data-zh="电量费明细" data-en="Electricity Charges Detail">电量费明细</h5>
+                                        <button type="button" class="detail-toggle" onclick="toggleElectricityDetail()">
+                                            <span data-zh="查看明细" data-en="View Details">查看明细</span>
+                                        </button>
+                                    </div>
+
+                                    <div id="electricity-breakdown" class="detail-breakdown" style="display: none;">
+                                        <!-- 阶梯电价明细 -->
+                                        <div id="tiered-breakdown" class="breakdown-content">
+                                            <div class="breakdown-table">
+                                                <div class="breakdown-header">
+                                                    <span data-zh="阶梯" data-en="Tier">阶梯</span>
+                                                    <span data-zh="范围(kWh)" data-en="Range(kWh)">范围(kWh)</span>
+                                                    <span data-zh="电价(₹/kWh)" data-en="Rate(₹/kWh)">电价(₹/kWh)</span>
+                                                    <span data-zh="用量(kWh)" data-en="Usage(kWh)">用量(kWh)</span>
+                                                    <span data-zh="金额(₹)" data-en="Amount(₹)">金额(₹)</span>
+                                                </div>
+                                                <div id="tier-breakdown-rows">
+                                                    <!-- 动态生成阶梯明细 -->
+                                                </div>
+                                                <div class="breakdown-subtotal">
+                                                    <span></span>
+                                                    <span></span>
+                                                    <span></span>
+                                                    <span data-zh="小计" data-en="Subtotal">小计</span>
+                                                    <span id="tier-subtotal">₹1966</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- 分时电价明细 -->
+                                        <div id="time-breakdown" class="breakdown-content" style="display: none;">
+                                            <div class="breakdown-table">
+                                                <div class="breakdown-header">
+                                                    <span data-zh="时段" data-en="Period">时段</span>
+                                                    <span data-zh="时间" data-en="Time">时间</span>
+                                                    <span data-zh="电价(₹/kWh)" data-en="Rate(₹/kWh)">电价(₹/kWh)</span>
+                                                    <span data-zh="用量(kWh)" data-en="Usage(kWh)">用量(kWh)</span>
+                                                    <span data-zh="金额(₹)" data-en="Amount(₹)">金额(₹)</span>
+                                                </div>
+                                                <div id="time-breakdown-rows">
+                                                    <!-- 动态生成时段明细 -->
+                                                </div>
+                                                <div class="breakdown-subtotal">
+                                                    <span></span>
+                                                    <span></span>
+                                                    <span></span>
+                                                    <span data-zh="小计" data-en="Subtotal">小计</span>
+                                                    <span id="time-subtotal">₹1966</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- 固定电价明细 -->
+                                        <div id="flat-breakdown" class="breakdown-content" style="display: none;">
+                                            <div class="breakdown-simple">
+                                                <span data-zh="统一电价" data-en="Flat Rate">统一电价: </span>
+                                                <span id="flat-rate-display">₹6.50/kWh</span>
+                                                <span> × </span>
+                                                <span id="flat-usage-display">300 kWh</span>
+                                                <span> = </span>
+                                                <span id="flat-total-display">₹1950</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 步骤导航按钮 -->
+                    <div class="step-navigation">
+                        <div class="nav-left">
+                            <button id="prev-btn-4" class="btn btn-secondary" onclick="previousStep()">
+                                <span data-zh="上一步" data-en="Previous">上一步</span>
+                            </button>
+                        </div>
+                        <div class="nav-right">
+                            <button class="btn btn-outline" onclick="saveDraft()">
+                                <span data-zh="保存草稿" data-en="Save Draft">保存草稿</span>
+                            </button>
+                            <button id="next-btn-4" class="btn btn-primary" onclick="nextStep()">
+                                <span data-zh="下一步" data-en="Next">下一步</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 步骤5: 预览发布 -->
+                <div id="step-5" class="step-content-panel">
+                    <!-- 配置汇总 -->
+                    <div class="settings-section">
+                        <div class="section-header">
+                            <h3 data-zh="配置汇总" data-en="Configuration Summary">配置汇总</h3>
+                            <p data-zh="查看所有配置项的汇总信息" data-en="View summary of all configuration items">查看所有配置项的汇总信息</p>
+                        </div>
+
+                        <div class="settings-form">
+                            <!-- 基本配置汇总 -->
+                            <div class="summary-section">
+                                <h4 data-zh="基本配置" data-en="Basic Configuration">基本配置</h4>
+                                <div class="summary-grid">
+                                    <div class="summary-item">
+                                        <div class="summary-label" data-zh="模板名称" data-en="Template Name">模板名称</div>
+                                        <div class="summary-value" id="summary-template-name">-</div>
+                                    </div>
+                                    <div class="summary-item">
+                                        <div class="summary-label" data-zh="账单周期" data-en="Billing Cycle">账单周期</div>
+                                        <div class="summary-value" id="summary-billing-cycle">-</div>
+                                    </div>
+                                    <div class="summary-item">
+                                        <div class="summary-label" data-zh="账单日" data-en="Billing Date">账单日</div>
+                                        <div class="summary-value" id="summary-billing-date">-</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 费率结构汇总 -->
+                            <div class="summary-section">
+                                <h4 data-zh="费率结构" data-en="Rate Structure">费率结构</h4>
+                                <div class="summary-grid">
+                                    <div class="summary-item">
+                                        <div class="summary-label" data-zh="电费类型" data-en="Tariff Type">电费类型</div>
+                                        <div class="summary-value" id="summary-tariff-type">-</div>
+                                    </div>
+                                </div>
+                                <!-- 阶梯电价详情 -->
+                                <div id="tiered-summary" class="tariff-detail-summary" style="display: none;">
+                                    <div class="detail-table">
+                                        <div class="detail-header">
+                                            <span data-zh="阶梯" data-en="Tier">阶梯</span>
+                                            <span data-zh="范围(kWh)" data-en="Range(kWh)">范围(kWh)</span>
+                                            <span data-zh="电价(₹/kWh)" data-en="Rate(₹/kWh)">电价(₹/kWh)</span>
+                                        </div>
+                                        <div id="tiered-summary-rows">
+                                            <!-- 动态生成 -->
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- 分时电价详情 -->
+                                <div id="time-of-use-summary" class="tariff-detail-summary" style="display: none;">
+                                    <div class="detail-table">
+                                        <div class="detail-header">
+                                            <span data-zh="时段" data-en="Period">时段</span>
+                                            <span data-zh="时间" data-en="Time">时间</span>
+                                            <span data-zh="电价(₹/kWh)" data-en="Rate(₹/kWh)">电价(₹/kWh)</span>
+                                        </div>
+                                        <div id="time-of-use-summary-rows">
+                                            <!-- 动态生成 -->
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- 固定电价详情 -->
+                                <div id="flat-summary" class="tariff-detail-summary" style="display: none;">
+                                    <div class="summary-grid">
+                                        <div class="summary-item">
+                                            <div class="summary-label" data-zh="统一电价" data-en="Flat Rate">统一电价</div>
+                                            <div class="summary-value" id="summary-flat-rate">-</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 附加费用汇总 -->
+                            <div class="summary-section">
+                                <h4 data-zh="附加费用" data-en="Additional Charges">附加费用</h4>
+                                <div class="detail-table">
+                                    <div class="detail-header">
+                                        <span data-zh="费用项目" data-en="Charge Item">费用项目</span>
+                                        <span data-zh="计费方式" data-en="Billing Method">计费方式</span>
+                                        <span data-zh="金额" data-en="Amount">金额</span>
+                                    </div>
+                                    <div id="charges-summary-rows">
+                                        <!-- 动态生成 -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 步骤导航按钮 -->
+                    <div class="step-navigation">
+                        <div class="nav-left">
+                            <button id="prev-btn-5" class="btn btn-secondary" onclick="previousStep()">
+                                <span data-zh="上一步" data-en="Previous">上一步</span>
+                            </button>
+                        </div>
+                        <div class="nav-right">
+                            <button id="save-draft-btn-5" class="btn btn-outline" onclick="saveDraft()">
+                                <span data-zh="保存草稿" data-en="Save Draft">保存草稿</span>
+                            </button>
+                            <button id="save-template-btn" class="btn btn-success" onclick="saveTemplate()">
+                                <span data-zh="保存模板" data-en="Save Template">保存模板</span>
+                            </button>
+                            <button id="publish-template-btn" class="btn btn-primary" onclick="publishTemplate()">
+                                <span data-zh="发布模板" data-en="Publish Template">发布模板</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="assets/js/common.js"></script>
+    <script src="assets/js/navbar.js"></script>
+    <script>
+        // 全局变量
+        let currentStep = 1;
+        let isEditMode = false;
+        let editingTemplateId = null;
+        let editingTemplateData = null;
+
+        // 检查编辑模式
+        function checkEditMode() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const templateId = urlParams.get('id');
+
+            if (templateId) {
+                isEditMode = true;
+                editingTemplateId = templateId;
+
+                // 从模板列表页面获取模板数据（模拟）
+                editingTemplateData = getTemplateById(templateId);
+
+                if (editingTemplateData) {
+                    // 更新页面标题
+                    const pageTitle = document.getElementById('page-title');
+                    if (pageTitle) {
+                        const currentLang = getCurrentLanguage();
+                        const titleText = currentLang === 'zh' ? '编辑电价模版' : 'Edit Pricing Template';
+                        pageTitle.textContent = titleText;
+                        pageTitle.setAttribute('data-zh', '编辑电价模版');
+                        pageTitle.setAttribute('data-en', 'Edit Pricing Template');
+                    }
+
+                    // 加载模板数据到表单
+                    loadTemplateData(editingTemplateData);
+                }
+            }
+        }
+
+        // 根据ID获取模板数据（模拟从本地存储或API获取）
+        function getTemplateById(templateId) {
+            // 这里应该从实际的数据源获取，现在先模拟
+            const mockTemplateData = {
+                'TMP001': {
+                    id: 'TMP001',
+                    name: '住宅阶梯电价 - 泰米尔纳德邦',
+                    nameEn: 'Residential Tiered Rate - Tamil Nadu',
+                    state: 'tamil-nadu',
+                    customerType: 'residential',
+                    billingMethod: 'tiered',
+                    billingCycle: 'monthly',
+                    description: '适用于泰米尔纳德邦住宅用户的阶梯电价模版',
+                    tiers: [
+                        { min: 0, max: 100, rate: 2.50 },
+                        { min: 100, max: 200, rate: 3.20 },
+                        { min: 200, max: 500, rate: 3.85 },
+                        { min: 500, max: 999999, rate: 4.20 }
+                    ]
+                }
+            };
+
+            return mockTemplateData[templateId] || null;
+        }
+
+        // 加载模板数据到表单
+        function loadTemplateData(templateData) {
+            if (!templateData) return;
+
+            // TODO: 根据模板数据填充表单字段
+            // 这里需要根据实际的表单结构来实现
+            console.log('Loading template data:', templateData);
+        }
+
+        // 页面初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            // 检查是否为编辑模式
+            checkEditMode();
+
+            // 设置初始状态
+            showStep(1);
+
+            // 监听语言变化
+            window.addEventListener('languageChanged', function() {
+                // 语言变化时更新所有动态内容
+                updateConfigurationSummary();
+                updateChargesPreview();
+                updateUnlimitedTexts();
+            });
+        });
+
+        // 步骤切换函数
+        function switchStep(step) {
+            currentStep = step;
+            showStep(step);
+        }
+
+        function showStep(step) {
+            // 隐藏所有步骤内容
+            const panels = document.querySelectorAll('.step-content-panel');
+            panels.forEach(panel => {
+                panel.classList.remove('active');
+            });
+
+            // 显示当前步骤内容
+            const currentPanel = document.getElementById(`step-${step}`);
+            if (currentPanel) {
+                currentPanel.classList.add('active');
+            }
+
+            // 更新步骤导航样式
+            const stepItems = document.querySelectorAll('.step-item');
+            stepItems.forEach((item, index) => {
+                item.classList.remove('active');
+                if (index + 1 === step) {
+                    item.classList.add('active');
+                }
+            });
+        }
+
+        function nextStep() {
+            if (currentStep < 5) {
+                currentStep++;
+                showStep(currentStep);
+            }
+        }
+
+        function previousStep() {
+            if (currentStep > 1) {
+                currentStep--;
+                showStep(currentStep);
+            }
+        }
+
+        // 更新测试输入界面
+        function updateTestInputs() {
+            const selectedTariffType = document.getElementById('tariff-type').value;
+
+            // 隐藏所有测试输入界面
+            document.querySelectorAll('.test-inputs-section').forEach(section => {
+                section.style.display = 'none';
+            });
+
+            // 显示对应的测试输入界面
+            const targetSection = `${selectedTariffType}-test-inputs`;
+            const sectionElement = document.getElementById(targetSection);
+            if (sectionElement) {
+                sectionElement.style.display = 'block';
+            }
+
+            // 更新电量费明细显示
+            updateElectricityBreakdownDisplay();
+        }
+
+        // 更新电量费明细显示类型
+        function updateElectricityBreakdownDisplay() {
+            const selectedTariffType = document.getElementById('tariff-type').value;
+
+            // 隐藏所有明细类型
+            document.querySelectorAll('.breakdown-content').forEach(content => {
+                content.style.display = 'none';
+            });
+
+            // 显示对应的明细类型
+            const targetBreakdown = `${selectedTariffType}-breakdown`;
+            const breakdownElement = document.getElementById(targetBreakdown);
+            if (breakdownElement) {
+                breakdownElement.style.display = 'block';
+            }
+        }
+
+        // 计算分时总用电量
+        function updateTotalTimeUsage() {
+            const peak = parseFloat(document.getElementById('peak-usage').value) || 0;
+            const standard = parseFloat(document.getElementById('standard-usage').value) || 0;
+            const valley = parseFloat(document.getElementById('valley-usage').value) || 0;
+            const total = peak + standard + valley;
+
+            document.getElementById('total-usage-display').textContent = `${total} kWh`;
+            return total;
+        }
+
+        // 切换电量费明细显示
+        function toggleElectricityDetail() {
+            const breakdown = document.getElementById('electricity-breakdown');
+            const toggleBtn = document.querySelector('.detail-toggle span');
+            const currentLanguage = getCurrentLanguage();
+
+            if (breakdown.style.display === 'none') {
+                breakdown.style.display = 'block';
+                toggleBtn.textContent = currentLanguage === 'en' ? 'Hide Details' : '隐藏明细';
+            } else {
+                breakdown.style.display = 'none';
+                toggleBtn.textContent = currentLanguage === 'en' ? 'View Details' : '查看明细';
+            }
+        }
+
+        // 计算测试结果
+        function calculateTestResult() {
+            const selectedTariffType = document.getElementById('tariff-type').value;
+            let electricityCost = 0;
+            let usageDescription = '';
+            let totalUsage = 0;
+
+            // 根据电价类型计算电量费
+            switch (selectedTariffType) {
+                case 'flat':
+                    totalUsage = parseFloat(document.getElementById('flat-test-usage').value) || 0;
+                    const flatRate = parseFloat(document.getElementById('flat-rate').value) || 6.50;
+                    electricityCost = totalUsage * flatRate;
+                    usageDescription = `${totalUsage} kWh × ₹${flatRate}/kWh`;
+                    updateFlatBreakdown(flatRate, totalUsage, electricityCost);
+                    break;
+
+                case 'tiered':
+                    totalUsage = parseFloat(document.getElementById('tiered-test-usage').value) || 0;
+                    electricityCost = calculateTieredCost(totalUsage);
+                    usageDescription = `${totalUsage} kWh × 阶梯电价`;
+                    updateTieredBreakdown(totalUsage);
+                    break;
+
+                case 'time-of-use':
+                    totalUsage = updateTotalTimeUsageFromInputs();
+                    electricityCost = calculateTimeOfUseCostFromInputs();
+                    usageDescription = `${totalUsage} kWh × 分时电价`;
+                    updateTimeBreakdownFromInputs();
+                    break;
+            }
+
+            // 获取附加费用配置
+            const charges = getAdditionalChargesConfig();
+
+            // 计算各项费用
+            let fixedFee = charges.fixedFee || 150;
+            let fuelAdjustment = Math.round(electricityCost * (charges.fuelAdjustmentRate / 100));
+            let governmentTax = Math.round((electricityCost + fixedFee + fuelAdjustment) * (charges.governmentTaxRate / 100));
+            let totalCost = electricityCost + fixedFee + fuelAdjustment + governmentTax;
+
+            // 更新显示
+            document.getElementById('electricity-cost').textContent = `₹${Math.round(electricityCost)}`;
+            document.getElementById('electricity-desc').textContent = usageDescription;
+            document.getElementById('fixed-fee-cost').textContent = `₹${fixedFee}`;
+            document.getElementById('fuel-adjustment-cost').textContent = `₹${fuelAdjustment}`;
+            document.getElementById('fuel-adjustment-desc').textContent = `${charges.fuelAdjustmentRate}% × 电量费`;
+            document.getElementById('government-tax-cost').textContent = `₹${governmentTax}`;
+            document.getElementById('government-tax-desc').textContent = `${charges.governmentTaxRate}% × (电量费 + 固定费 + 燃料费)`;
+            document.getElementById('total-cost').textContent = `₹${totalCost}`;
+
+            // 显示计算结果
+            document.getElementById('calculation-results').style.display = 'block';
+        }
+
+        // 分时电价从输入框计算费用
+        function calculateTimeOfUseCostFromInputs() {
+            const periodItems = document.querySelectorAll('.time-period-item');
+            let totalCost = 0;
+
+            periodItems.forEach(period => {
+                const periodId = period.getAttribute('data-period');
+                const usageInput = document.getElementById(`${periodId}-usage`);
+                const rateInput = period.querySelector('.period-rate');
+
+                if (usageInput && rateInput) {
+                    const usage = parseFloat(usageInput.value) || 0;
+                    const rate = parseFloat(rateInput.value) || 0;
+                    totalCost += usage * rate;
+                }
+            });
+
+            return totalCost;
+        }
+
+        // 从输入框更新分时电价明细
+        function updateTimeBreakdownFromInputs() {
+            const periodItems = document.querySelectorAll('.time-period-item');
+            const currentLanguage = getCurrentLanguage();
+            let html = '';
+            let subtotal = 0;
+
+            periodItems.forEach(period => {
+                const periodId = period.getAttribute('data-period');
+                const periodName = period.querySelector('.editable-period-name').textContent;
+                const timeStart = period.querySelector('.time-start').value;
+                const timeEnd = period.querySelector('.time-end').value;
+                const rate = parseFloat(period.querySelector('.period-rate').value) || 0;
+
+                const usageInput = document.getElementById(`${periodId}-usage`);
+                const usage = usageInput ? parseFloat(usageInput.value) || 0 : 0;
+                const cost = usage * rate;
+
+                subtotal += cost;
+
+                html += `
+                    <div class="breakdown-row">
+                        <span>${periodName}</span>
+                        <span>${timeStart}-${timeEnd}</span>
+                        <span>₹${rate.toFixed(2)}</span>
+                        <span>${usage}</span>
+                        <span>₹${cost.toFixed(2)}</span>
+                    </div>
+                `;
+            });
+
+            document.getElementById('time-breakdown-rows').innerHTML = html;
+            document.getElementById('time-subtotal').textContent = `₹${Math.round(subtotal)}`;
+        }
+
+        // 计算阶梯电价费用
+        function calculateTieredCost(totalUsage) {
+            const tierItems = document.querySelectorAll('.tier-item');
+            let cost = 0;
+            let remainingUsage = totalUsage;
+
+            tierItems.forEach((tier, index) => {
+                const tierRate = parseFloat(tier.querySelector('.tier-rate').value) || 0;
+                const tierMaxInput = tier.querySelector('.tier-max');
+                let tierMax;
+
+                if (tierMaxInput.value === '无限制' || tierMaxInput.value === 'Unlimited') {
+                    tierMax = Infinity;
+                } else {
+                    tierMax = parseFloat(tierMaxInput.value) || 0;
+                }
+
+                const tierMin = index === 0 ? 0 : parseFloat(tierItems[index - 1].querySelector('.tier-max').value) + 1;
+                const tierCapacity = tierMax === Infinity ? remainingUsage : Math.min(tierMax - tierMin + 1, remainingUsage);
+
+                if (remainingUsage > 0 && tierCapacity > 0) {
+                    const usageInTier = Math.min(remainingUsage, tierCapacity);
+                    cost += usageInTier * tierRate;
+                    remainingUsage -= usageInTier;
+                }
+            });
+
+            return cost;
+        }
+
+        // 计算分时电价费用
+        function calculateTimeOfUseCost() {
+            const peakUsage = parseFloat(document.getElementById('peak-usage').value) || 0;
+            const standardUsage = parseFloat(document.getElementById('standard-usage').value) || 0;
+            const valleyUsage = parseFloat(document.getElementById('valley-usage').value) || 0;
+
+            const timePeriodsContainer = document.getElementById('time-periods-container');
+            const peakRate = parseFloat(timePeriodsContainer.querySelector('[data-period="peak"] .period-rate').value) || 9.50;
+            const standardRate = parseFloat(timePeriodsContainer.querySelector('[data-period="standard"] .period-rate').value) || 7.00;
+            const valleyRate = parseFloat(timePeriodsContainer.querySelector('[data-period="valley"] .period-rate').value) || 4.50;
+
+            return (peakUsage * peakRate) + (standardUsage * standardRate) + (valleyUsage * valleyRate);
+        }
+
+        // 获取附加费用配置
+        function getAdditionalChargesConfig() {
+            const fuelAdjustmentCharge = document.querySelector('[data-charge-id="fuel-adjustment"]');
+            const governmentTaxCharge = document.querySelector('[data-charge-id="government-tax"]');
+            const fixedFeeCharge = document.querySelector('[data-charge-id="fixed-fee"]');
+
+            return {
+                fixedFee: parseFloat(fixedFeeCharge?.querySelector('.charge-amount').value) || 150,
+                fuelAdjustmentRate: parseFloat(fuelAdjustmentCharge?.querySelector('.charge-amount').value) || 8,
+                governmentTaxRate: parseFloat(governmentTaxCharge?.querySelector('.charge-amount').value) || 18
+            };
+        }
+
+        // 更新阶梯电价明细
+        function updateTieredBreakdown(totalUsage) {
+            const tierItems = document.querySelectorAll('.tier-item');
+            const breakdownRows = document.getElementById('tier-breakdown-rows');
+            const currentLanguage = getCurrentLanguage();
+            let html = '';
+            let remainingUsage = totalUsage;
+            let subtotal = 0;
+
+            tierItems.forEach((tier, index) => {
+                const tierLabel = tier.querySelector('.tier-label').textContent;
+                const tierRate = parseFloat(tier.querySelector('.tier-rate').value) || 0;
+                const tierMaxInput = tier.querySelector('.tier-max');
+                let tierMax;
+
+                if (tierMaxInput.value === '无限制' || tierMaxInput.value === 'Unlimited') {
+                    tierMax = Infinity;
+                } else {
+                    tierMax = parseFloat(tierMaxInput.value) || 0;
+                }
+
+                const tierMin = index === 0 ? 0 : parseFloat(tierItems[index - 1].querySelector('.tier-max').value) + 1;
+                const tierCapacity = tierMax === Infinity ? remainingUsage : Math.min(tierMax - tierMin + 1, remainingUsage);
+                const usageInTier = Math.min(remainingUsage, tierCapacity);
+                const tierCost = usageInTier * tierRate;
+
+                subtotal += tierCost;
+
+                const rangeText = tierMax === Infinity ? `${tierMin}+` : `${tierMin}-${tierMax}`;
+
+                html += `
+                    <div class="breakdown-row">
+                        <span>${tierLabel}</span>
+                        <span>${rangeText}</span>
+                        <span>₹${tierRate.toFixed(2)}</span>
+                        <span>${usageInTier}</span>
+                        <span>₹${tierCost.toFixed(2)}</span>
+                    </div>
+                `;
+
+                remainingUsage -= usageInTier;
+            });
+
+            breakdownRows.innerHTML = html;
+            document.getElementById('tier-subtotal').textContent = `₹${Math.round(subtotal)}`;
+        }
+
+        // 更新分时电价明细
+        function updateTimeBreakdown() {
+            const peakUsage = parseFloat(document.getElementById('peak-usage').value) || 0;
+            const standardUsage = parseFloat(document.getElementById('standard-usage').value) || 0;
+            const valleyUsage = parseFloat(document.getElementById('valley-usage').value) || 0;
+
+            const timePeriodsContainer = document.getElementById('time-periods-container');
+            const peakRate = parseFloat(timePeriodsContainer.querySelector('[data-period="peak"] .period-rate').value) || 9.50;
+            const standardRate = parseFloat(timePeriodsContainer.querySelector('[data-period="standard"] .period-rate').value) || 7.00;
+            const valleyRate = parseFloat(timePeriodsContainer.querySelector('[data-period="valley"] .period-rate').value) || 4.50;
+
+            const peakStart = timePeriodsContainer.querySelector('[data-period="peak"] .time-start').value;
+            const peakEnd = timePeriodsContainer.querySelector('[data-period="peak"] .time-end').value;
+            const standardStart = timePeriodsContainer.querySelector('[data-period="standard"] .time-start').value;
+            const standardEnd = timePeriodsContainer.querySelector('[data-period="standard"] .time-end').value;
+            const valleyStart = timePeriodsContainer.querySelector('[data-period="valley"] .time-start').value;
+            const valleyEnd = timePeriodsContainer.querySelector('[data-period="valley"] .time-end').value;
+
+            const currentLanguage = getCurrentLanguage();
+            const peakCost = peakUsage * peakRate;
+            const standardCost = standardUsage * standardRate;
+            const valleyCost = valleyUsage * valleyRate;
+            const subtotal = peakCost + standardCost + valleyCost;
+
+            const html = `
+                <div class="breakdown-row">
+                    <span>${currentLanguage === 'en' ? 'Peak Period' : '高峰时段'}</span>
+                    <span>${peakStart}-${peakEnd}</span>
+                    <span>₹${peakRate.toFixed(2)}</span>
+                    <span>${peakUsage}</span>
+                    <span>₹${peakCost.toFixed(2)}</span>
+                </div>
+                <div class="breakdown-row">
+                    <span>${currentLanguage === 'en' ? 'Standard Period' : '平峰时段'}</span>
+                    <span>${standardStart}-${standardEnd}</span>
+                    <span>₹${standardRate.toFixed(2)}</span>
+                    <span>${standardUsage}</span>
+                    <span>₹${standardCost.toFixed(2)}</span>
+                </div>
+                <div class="breakdown-row">
+                    <span>${currentLanguage === 'en' ? 'Valley Period' : '谷值时段'}</span>
+                    <span>${valleyStart}-${valleyEnd}</span>
+                    <span>₹${valleyRate.toFixed(2)}</span>
+                    <span>${valleyUsage}</span>
+                    <span>₹${valleyCost.toFixed(2)}</span>
+                </div>
+            `;
+
+            document.getElementById('time-breakdown-rows').innerHTML = html;
+            document.getElementById('time-subtotal').textContent = `₹${Math.round(subtotal)}`;
+        }
+
+        // 更新固定电价明细
+        function updateFlatBreakdown(rate, usage, total) {
+            document.getElementById('flat-rate-display').textContent = `₹${rate.toFixed(2)}/kWh`;
+            document.getElementById('flat-usage-display').textContent = `${usage} kWh`;
+            document.getElementById('flat-total-display').textContent = `₹${Math.round(total)}`;
+        }
+
+        // 保存模板
+        function saveTemplate() {
+            const currentLanguage = getCurrentLanguage();
+            const message = currentLanguage === 'en' ? 'Template saved as draft' : '模板已保存为草稿';
+            alert(message);
+        }
+
+        // 保存草稿
+        function saveDraft() {
+            const currentLanguage = getCurrentLanguage();
+            const message = currentLanguage === 'en' ? 'Draft saved' : '草稿已保存';
+            alert(message);
+        }
+
+        // 发布模板
+        function publishTemplate() {
+            const currentLanguage = getCurrentLanguage();
+            const message = currentLanguage === 'en' ? 'Template published successfully' : '模板已发布成功';
+            alert(message);
+
+            // 标记电价模板流程为完成
+            if (window.markStepCompleted) {
+                window.markStepCompleted('template');
+            } else {
+                // 跨页面通信，保存完成状态
+                let workflowProgress = JSON.parse(localStorage.getItem('workflowProgress') || '{}');
+                workflowProgress.template = true;
+                localStorage.setItem('workflowProgress', JSON.stringify(workflowProgress));
+            }
+
+            // 跳转回电价模版页面
+            setTimeout(() => {
+                window.location.href = 'pricing-templates.html';
+            }, 1500);
+        }
+
+        // 返回电价模版页面
+        function goBackToPricingTemplates() {
+            window.location.href = 'pricing-templates.html';
+        }
+
+        // 更新步骤5的配置汇总
+        function updateConfigurationSummary() {
+            const currentLanguage = getCurrentLanguage();
+
+            // 基本配置
+            const templateName = document.getElementById('template-name').value || '-';
+            const billingPeriod = document.getElementById('billing-period');
+            const billingDate = document.getElementById('billing-date');
+
+            document.getElementById('summary-template-name').textContent = templateName;
+            document.getElementById('summary-billing-cycle').textContent = billingPeriod.options[billingPeriod.selectedIndex].text;
+            document.getElementById('summary-billing-date').textContent = billingDate.options[billingDate.selectedIndex].text;
+
+            // 费率结构
+            const tariffType = document.getElementById('tariff-type').value;
+            const tariffTypeText = {
+                'flat': currentLanguage === 'en' ? 'Flat Rate' : '固定单价',
+                'tiered': currentLanguage === 'en' ? 'Tiered Rate' : '阶梯电价',
+                'time-of-use': currentLanguage === 'en' ? 'Time-of-Use' : '分时电价'
+            };
+
+            document.getElementById('summary-tariff-type').textContent = tariffTypeText[tariffType] || '-';
+
+            // 隐藏所有费率详情
+            document.querySelectorAll('.tariff-detail-summary').forEach(detail => {
+                detail.style.display = 'none';
+            });
+
+            // 显示对应的费率详情
+            switch (tariffType) {
+                case 'flat':
+                    document.getElementById('flat-summary').style.display = 'block';
+                    const flatRate = document.getElementById('flat-rate').value;
+                    document.getElementById('summary-flat-rate').textContent = `₹${flatRate}/kWh`;
+                    break;
+
+                case 'tiered':
+                    document.getElementById('tiered-summary').style.display = 'block';
+                    updateTieredSummary();
+                    break;
+
+                case 'time-of-use':
+                    document.getElementById('time-of-use-summary').style.display = 'block';
+                    updateTimeOfUseSummary();
+                    break;
+            }
+
+            // 附加费用汇总
+            updateChargesSummary();
+        }
+
+        // 更新阶梯电价汇总
+        function updateTieredSummary() {
+            const tierItems = document.querySelectorAll('.tier-item');
+            const summaryRows = document.getElementById('tiered-summary-rows');
+            let html = '';
+
+            tierItems.forEach((tier, index) => {
+                const tierLabel = tier.querySelector('.tier-label').textContent;
+                const tierRate = parseFloat(tier.querySelector('.tier-rate').value) || 0;
+                const tierMaxInput = tier.querySelector('.tier-max');
+
+                let rangeText;
+                if (tierMaxInput.value === '无限制' || tierMaxInput.value === 'Unlimited') {
+                    const tierMin = index === 0 ? 0 : parseFloat(tierItems[index - 1].querySelector('.tier-max').value) + 1;
+                    rangeText = `${tierMin}+`;
+                } else {
+                    const tierMin = index === 0 ? 0 : parseFloat(tierItems[index - 1].querySelector('.tier-max').value) + 1;
+                    const tierMax = parseFloat(tierMaxInput.value) || 0;
+                    rangeText = `${tierMin}-${tierMax}`;
+                }
+
+                html += `
+                    <div class="detail-row">
+                        <span>${tierLabel}</span>
+                        <span>${rangeText}</span>
+                        <span>₹${tierRate.toFixed(2)}</span>
+                    </div>
+                `;
+            });
+
+            summaryRows.innerHTML = html;
+        }
+
+        // 更新分时电价汇总
+        function updateTimeOfUseSummary() {
+            const periodItems = document.querySelectorAll('.time-period-item');
+            const summaryRows = document.getElementById('time-of-use-summary-rows');
+            let html = '';
+
+            periodItems.forEach(period => {
+                const periodName = period.querySelector('.editable-period-name').textContent;
+                const timeStart = period.querySelector('.time-start').value;
+                const timeEnd = period.querySelector('.time-end').value;
+                const rate = parseFloat(period.querySelector('.period-rate').value) || 0;
+
+                html += `
+                    <div class="detail-row">
+                        <span>${periodName}</span>
+                        <span>${timeStart}-${timeEnd}</span>
+                        <span>₹${rate.toFixed(2)}</span>
+                    </div>
+                `;
+            });
+
+            summaryRows.innerHTML = html;
+        }
+
+        // 更新附加费用汇总
+        function updateChargesSummary() {
+            const chargeItems = document.querySelectorAll('.charge-item');
+            const summaryRows = document.getElementById('charges-summary-rows');
+            const currentLanguage = getCurrentLanguage();
+            let html = '';
+
+            chargeItems.forEach(item => {
+                const chargeName = item.querySelector('h5').textContent;
+                const chargeMethod = item.querySelector('.charge-method');
+                const chargeAmount = item.querySelector('.charge-amount');
+                const chargeUnit = item.querySelector('.charge-unit');
+
+                let methodText = '';
+                switch (chargeMethod.value) {
+                    case 'fixed':
+                        methodText = currentLanguage === 'en' ? 'Fixed Amount' : '固定金额';
+                        break;
+                    case 'percentage':
+                        methodText = currentLanguage === 'en' ? 'Percentage' : '百分比';
+                        break;
+                    case 'per-unit':
+                        methodText = currentLanguage === 'en' ? 'Per Unit' : '按用电量';
+                        break;
+                }
+
+                html += `
+                    <div class="detail-row">
+                        <span>${chargeName}</span>
+                        <span>${methodText}</span>
+                        <span>${chargeAmount.value}${chargeUnit.textContent}</span>
+                    </div>
+                `;
+            });
+
+            summaryRows.innerHTML = html;
+        }
+
+        // 在切换到步骤5时更新汇总
+        function showStep(step) {
+            // 隐藏所有步骤内容
+            const panels = document.querySelectorAll('.step-content-panel');
+            panels.forEach(panel => {
+                panel.classList.remove('active');
+            });
+
+            // 显示当前步骤内容
+            const currentPanel = document.getElementById(`step-${step}`);
+            if (currentPanel) {
+                currentPanel.classList.add('active');
+            }
+
+            // 更新步骤导航样式
+            const stepItems = document.querySelectorAll('.step-item');
+            stepItems.forEach((item, index) => {
+                item.classList.remove('active');
+                if (index + 1 === step) {
+                    item.classList.add('active');
+                }
+            });
+
+            // 如果是步骤5，更新配置汇总
+            if (step === 5) {
+                updateConfigurationSummary();
+            }
+        }
+
+        // 电费类型卡片选择
+        function selectTariffType(type) {
+            // 移除所有卡片的选中状态
+            document.querySelectorAll('.tariff-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+
+            // 选中当前卡片
+            const selectedCard = document.querySelector(`[data-type="${type}"]`);
+            if (selectedCard) {
+                selectedCard.classList.add('selected');
+            }
+
+            // 更新隐藏字段
+            document.getElementById('tariff-type').value = type;
+
+            // 显示对应的配置区域（如果需要的话）
+            showTariffSettings(type);
+
+            // 更新测试输入界面
+            updateTestInputs();
+
+            console.log('Selected tariff type:', type);
+        }
+
+        // 显示对应的费率设置区域
+        function showTariffSettings(type) {
+            // 隐藏所有设置区域
+            document.querySelectorAll('.tariff-settings').forEach(setting => {
+                setting.style.display = 'none';
+            });
+
+            // 显示对应的设置区域
+            const settingId = type + '-settings';
+            const settingElement = document.getElementById(settingId);
+            if (settingElement) {
+                settingElement.style.display = 'block';
+            }
+        }
+
+        // 阶梯电价管理函数
+        let tierCounter = 3;
+
+        function addTier() {
+            tierCounter++;
+            const tiersContainer = document.getElementById('tiers-container');
+            const lastTier = tiersContainer.lastElementChild;
+
+            // 更新最后一个阶梯的最大值为数字
+            const lastTierMax = lastTier.querySelector('.tier-max');
+            if (lastTierMax.value === '无限制' || lastTierMax.value === 'Unlimited') {
+                lastTierMax.type = 'number';
+                lastTierMax.value = '500';
+                lastTierMax.removeAttribute('readonly');
+                lastTierMax.setAttribute('onchange', 'updateTierRanges()');
+            }
+
+            const newTierItem = document.createElement('div');
+            newTierItem.className = 'tier-item';
+            newTierItem.setAttribute('data-tier', tierCounter);
+
+            const currentLanguage = getCurrentLanguage();
+            const tierLabel = currentLanguage === 'en' ? `Tier ${tierCounter}` : `第${getChineseNumber(tierCounter)}阶梯`;
+
+            newTierItem.innerHTML = `
+                <div class="tier-header">
+                    <span class="tier-label" data-zh="第${getChineseNumber(tierCounter)}阶梯" data-en="Tier ${tierCounter}">${tierLabel}</span>
+                    <button type="button" class="btn-remove" onclick="removeTier(${tierCounter})">
+                        <span data-zh="删除" data-en="Remove">删除</span>
+                    </button>
+                </div>
+                <div class="tier-config">
+                    <div class="tier-range">
+                        <label data-zh="用电范围 (kWh)" data-en="Usage Range (kWh)">用电范围 (kWh)</label>
+                        <div class="range-inputs">
+                            <input type="number" class="form-input tier-min" value="${parseInt(lastTierMax.value) + 1}" min="0" readonly>
+                            <span>-</span>
+                            <input type="text" class="form-input tier-max" value="${currentLanguage === 'en' ? 'Unlimited' : '无限制'}" data-zh="无限制" data-en="Unlimited" readonly>
+                        </div>
+                    </div>
+                    <div class="tier-price">
+                        <label data-zh="电价 (₹/kWh)" data-en="Rate (₹/kWh)">电价 (₹/kWh)</label>
+                        <input type="number" class="form-input tier-rate" value="10.00" min="0" step="0.01">
+                    </div>
+                </div>
+            `;
+
+            tiersContainer.appendChild(newTierItem);
+            updateTierRanges();
+        }
+
+        function removeTier(tierNumber) {
+            if (tierNumber === 1) return; // 不能删除第一阶梯
+
+            const tierItem = document.querySelector(`[data-tier="${tierNumber}"]`);
+            if (tierItem) {
+                tierItem.remove();
+                updateTierRanges();
+                updateTierLabels();
+            }
+        }
+
+        function updateTierRanges() {
+            const tierItems = document.querySelectorAll('.tier-item');
+
+            tierItems.forEach((tier, index) => {
+                const tierMin = tier.querySelector('.tier-min');
+                const tierMax = tier.querySelector('.tier-max');
+
+                if (index === 0) {
+                    tierMin.value = 0;
+                } else {
+                    const prevTierMax = tierItems[index - 1].querySelector('.tier-max');
+                    tierMin.value = parseInt(prevTierMax.value) + 1;
+                }
+
+                // 最后一个阶梯设为无限制
+                if (index === tierItems.length - 1) {
+                    const currentLanguage = getCurrentLanguage();
+                    tierMax.type = 'text';
+                    tierMax.value = currentLanguage === 'en' ? 'Unlimited' : '无限制';
+                    tierMax.setAttribute('data-zh', '无限制');
+                    tierMax.setAttribute('data-en', 'Unlimited');
+                    tierMax.setAttribute('readonly', true);
+                }
+            });
+        }
+
+        function updateTierLabels() {
+            const tierItems = document.querySelectorAll('.tier-item');
+            const currentLanguage = getCurrentLanguage();
+
+            tierItems.forEach((tier, index) => {
+                const tierNumber = index + 1;
+                tier.setAttribute('data-tier', tierNumber);
+
+                const tierLabel = tier.querySelector('.tier-label');
+                const removeBtn = tier.querySelector('.btn-remove');
+
+                if (currentLanguage === 'en') {
+                    tierLabel.textContent = `Tier ${tierNumber}`;
+                } else {
+                    tierLabel.textContent = `第${getChineseNumber(tierNumber)}阶梯`;
+                }
+
+                tierLabel.setAttribute('data-zh', `第${getChineseNumber(tierNumber)}阶梯`);
+                tierLabel.setAttribute('data-en', `Tier ${tierNumber}`);
+
+                // 第一阶梯不能删除
+                if (tierNumber === 1) {
+                    removeBtn.style.display = 'none';
+                } else {
+                    removeBtn.style.display = 'block';
+                    removeBtn.setAttribute('onclick', `removeTier(${tierNumber})`);
+                }
+            });
+        }
+
+        function getChineseNumber(num) {
+            const numbers = ['', '一', '二', '三', '四', '五', '六', '七', '八', '九', '十'];
+            return numbers[num] || num.toString();
+        }
+
+        // 分时电价时段管理函数
+        let periodCounter = 3;
+
+        function addTimePeriod() {
+            periodCounter++;
+            const periodsContainer = document.getElementById('time-periods-container');
+            const currentLanguage = getCurrentLanguage();
+
+            const periodId = `custom-period-${periodCounter}`;
+            const periodName = currentLanguage === 'en' ? `Custom Period ${periodCounter}` : `自定义时段${periodCounter}`;
+
+            const newPeriodItem = document.createElement('div');
+            newPeriodItem.className = 'time-period-item';
+            newPeriodItem.setAttribute('data-period', periodId);
+
+            newPeriodItem.innerHTML = `
+                <div class="period-header">
+                    <div class="period-icon-select">
+                        <select class="form-input period-icon-dropdown" onchange="updatePeriodIcon(this)">
+                            <option value="🔴">🔴</option>
+                            <option value="🟡">🟡</option>
+                            <option value="🟢">🟢</option>
+                            <option value="🔵" selected>🔵</option>
+                            <option value="🟠">🟠</option>
+                            <option value="🟣">🟣</option>
+                        </select>
+                    </div>
+                    <h5 contenteditable="true" class="editable-period-name" data-zh="${periodName}" data-en="${periodName}">${periodName}</h5>
+                    <button type="button" class="btn-remove-period" onclick="removeTimePeriod('${periodId}')">
+                        <span data-zh="删除" data-en="Remove">删除</span>
+                    </button>
+                </div>
+                <div class="period-config">
+                    <div class="time-range">
+                        <label data-zh="时间段" data-en="Time Range">时间段</label>
+                        <div class="time-inputs">
+                            <input type="time" class="form-input time-start" value="00:00">
+                            <span>-</span>
+                            <input type="time" class="form-input time-end" value="01:00">
+                        </div>
+                    </div>
+                    <div class="period-price">
+                        <label data-zh="电价 (₹/kWh)" data-en="Rate (₹/kWh)">电价 (₹/kWh)</label>
+                        <input type="number" class="form-input period-rate" value="5.00" min="0" step="0.01">
+                    </div>
+                </div>
+            `;
+
+            periodsContainer.appendChild(newPeriodItem);
+            updateTimeOfUseTestInputs();
+        }
+
+        function removeTimePeriod(periodId) {
+            // 第一个时段不能删除
+            if (periodId === 'peak') return;
+
+            const periodItem = document.querySelector(`[data-period="${periodId}"]`);
+            if (periodItem) {
+                periodItem.remove();
+                updateTimeOfUseTestInputs();
+            }
+        }
+
+        function updatePeriodIcon(selectElement) {
+            const selectedIcon = selectElement.value;
+            // 图标已经在dropdown中显示，不需要额外处理
+            console.log('Period icon updated to:', selectedIcon);
+        }
+
+        function updateTimeOfUseTestInputs() {
+            const timeTestContainer = document.getElementById('time-of-use-test-inputs');
+            const timeUsageInputs = timeTestContainer.querySelector('.time-usage-inputs');
+            const periodItems = document.querySelectorAll('.time-period-item');
+
+            // 清空现有输入框
+            timeUsageInputs.innerHTML = '';
+
+            // 为每个时段创建输入框
+            periodItems.forEach(period => {
+                const periodId = period.getAttribute('data-period');
+                const periodName = period.querySelector('.editable-period-name').textContent;
+
+                const usagePeriodDiv = document.createElement('div');
+                usagePeriodDiv.className = 'usage-period';
+
+                usagePeriodDiv.innerHTML = `
+                    <label>${periodName}用电量(kWh)</label>
+                    <input type="number" id="${periodId}-usage" class="form-input" value="50" min="0" step="1" onchange="updateTotalTimeUsageFromInputs()">
+                `;
+
+                timeUsageInputs.appendChild(usagePeriodDiv);
+            });
+        }
+
+        function updateTotalTimeUsageFromInputs() {
+            const periodItems = document.querySelectorAll('.time-period-item');
+            let total = 0;
+
+            periodItems.forEach(period => {
+                const periodId = period.getAttribute('data-period');
+                const usageInput = document.getElementById(`${periodId}-usage`);
+                if (usageInput) {
+                    total += parseFloat(usageInput.value) || 0;
+                }
+            });
+
+            document.getElementById('total-usage-display').textContent = `${total} kWh`;
+            return total;
+        }
+
+        // 附加费用管理函数
+        let chargeCounter = 3;
+
+        function addAdditionalCharge() {
+            chargeCounter++;
+            const chargesContainer = document.getElementById('additional-charges-container');
+            const currentLanguage = getCurrentLanguage();
+
+            const chargeId = `custom-charge-${chargeCounter}`;
+            const chargeName = currentLanguage === 'en' ? `Custom Charge ${chargeCounter}` : `自定义费用${chargeCounter}`;
+
+            const newChargeItem = document.createElement('div');
+            newChargeItem.className = 'charge-item';
+            newChargeItem.setAttribute('data-charge-id', chargeId);
+
+            newChargeItem.innerHTML = `
+                <div class="charge-header">
+                    <div class="charge-info">
+                        <h5 contenteditable="true" class="editable-title" data-zh="${chargeName}" data-en="${chargeName}">${chargeName}</h5>
+                        <p contenteditable="true" class="editable-desc" data-zh="请输入费用说明" data-en="Enter charge description">请输入费用说明</p>
+                    </div>
+                    <button type="button" class="btn-remove-charge" onclick="removeAdditionalCharge('${chargeId}')">
+                        <span data-zh="删除" data-en="Remove">删除</span>
+                    </button>
+                </div>
+                <div class="charge-config">
+                    <div class="charge-type">
+                        <label data-zh="计费方式" data-en="Billing Method">计费方式</label>
+                        <select class="form-input charge-method" onchange="updateChargeConfig(this)">
+                            <option value="fixed" data-zh="固定金额" data-en="Fixed Amount">固定金额</option>
+                            <option value="percentage" data-zh="百分比" data-en="Percentage">百分比</option>
+                            <option value="per-unit" data-zh="按用电量" data-en="Per Unit">按用电量</option>
+                        </select>
+                    </div>
+                    <div class="charge-value">
+                        <label data-zh="费用金额" data-en="Amount">费用金额</label>
+                        <div class="value-input-group">
+                            <input type="number" class="form-input charge-amount" value="0" min="0" step="0.01">
+                            <span class="charge-unit" data-zh="₹/月" data-en="₹/month">₹/月</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            chargesContainer.appendChild(newChargeItem);
+
+            // 为新添加的元素添加事件监听器
+            const newAmountInput = newChargeItem.querySelector('.charge-amount');
+            const newMethodSelect = newChargeItem.querySelector('.charge-method');
+
+            newAmountInput.addEventListener('input', updateChargesPreview);
+            newMethodSelect.addEventListener('change', updateChargesPreview);
+
+            updateChargesPreview();
+        }
+
+        function removeAdditionalCharge(chargeId) {
+            // 固定费不能删除
+            if (chargeId === 'fixed-fee') return;
+
+            const chargeItem = document.querySelector(`[data-charge-id="${chargeId}"]`);
+            if (chargeItem) {
+                chargeItem.remove();
+                updateChargesPreview();
+            }
+        }
+
+        function updateChargeConfig(selectElement) {
+            const chargeItem = selectElement.closest('.charge-item');
+            const chargeUnit = chargeItem.querySelector('.charge-unit');
+            const selectedMethod = selectElement.value;
+            const currentLanguage = getCurrentLanguage();
+
+            switch (selectedMethod) {
+                case 'fixed':
+                    const fixedUnit = currentLanguage === 'en' ? '₹/month' : '₹/月';
+                    chargeUnit.textContent = fixedUnit;
+                    chargeUnit.setAttribute('data-zh', '₹/月');
+                    chargeUnit.setAttribute('data-en', '₹/month');
+                    break;
+                case 'percentage':
+                    chargeUnit.textContent = '%';
+                    chargeUnit.setAttribute('data-zh', '%');
+                    chargeUnit.setAttribute('data-en', '%');
+                    break;
+                case 'per-unit':
+                    chargeUnit.textContent = '₹/kWh';
+                    chargeUnit.setAttribute('data-zh', '₹/kWh');
+                    chargeUnit.setAttribute('data-en', '₹/kWh');
+                    break;
+            }
+
+            updateChargesPreview();
+        }
+
+        function updateChargesPreview() {
+            const previewContainer = document.getElementById('charges-preview');
+            const chargeItems = document.querySelectorAll('.charge-item');
+            const currentLanguage = getCurrentLanguage();
+
+            let previewHTML = '';
+
+            chargeItems.forEach(item => {
+                const chargeName = item.querySelector('h5').textContent;
+                const chargeMethod = item.querySelector('.charge-method');
+                const chargeAmount = item.querySelector('.charge-amount');
+                const chargeUnit = item.querySelector('.charge-unit');
+
+                let methodText = '';
+                switch (chargeMethod.value) {
+                    case 'fixed':
+                        methodText = currentLanguage === 'en' ? 'Fixed Amount' : '固定金额';
+                        break;
+                    case 'percentage':
+                        methodText = currentLanguage === 'en' ? 'Percentage' : '百分比';
+                        break;
+                    case 'per-unit':
+                        methodText = currentLanguage === 'en' ? 'Per Unit' : '按用电量';
+                        break;
+                }
+
+                previewHTML += `
+                    <div class="summary-row">
+                        <span>${chargeName}</span>
+                        <span>${methodText}</span>
+                        <span>${chargeAmount.value}${chargeUnit.textContent}</span>
+                    </div>
+                `;
+            });
+
+            previewContainer.innerHTML = previewHTML;
+        }
+
+        // 页面加载时初始化预览
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(() => {
+                updateChargesPreview();
+                // 为现有的输入框添加事件监听器
+                addChargeEventListeners();
+            }, 100);
+        });
+
+        function addChargeEventListeners() {
+            // 为所有费用金额输入框添加事件监听器
+            document.querySelectorAll('.charge-amount').forEach(input => {
+                input.addEventListener('input', updateChargesPreview);
+            });
+
+            // 为所有计费方式选择框添加事件监听器
+            document.querySelectorAll('.charge-method').forEach(select => {
+                select.addEventListener('change', updateChargesPreview);
+            });
+        }
+
+        // 更新"无限制"文本的语言
+        function updateUnlimitedTexts() {
+            const currentLanguage = getCurrentLanguage();
+            const unlimitedInputs = document.querySelectorAll('input[data-zh="无限制"]');
+
+            unlimitedInputs.forEach(input => {
+                if (input.value === '无限制' || input.value === 'Unlimited') {
+                    input.value = currentLanguage === 'en' ? 'Unlimited' : '无限制';
+                }
+            });
+        }
+
+        // 保持向后兼容性
+        function selectBillingMethodFromDropdown(value) {
+            selectTariffType(value);
+        }
+    </script>
+
+    <style>
+        /* 页面标题样式 */
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--space-8);
+        }
+
+        .header-center {
+            flex: 1;
+            text-align: center;
+        }
+
+        .header-center h1 {
+            margin: 0;
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .header-left,
+        .header-right {
+            flex: 0 0 auto;
+            padding: var(--space-6) var(--space-8) 0 var(--space-8);
+            gap: var(--space-6);
+        }
+
+        .header-left {
+            display: flex;
+            align-items: flex-start;
+            gap: var(--space-4);
+        }
+
+        .header-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header-title-section {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            margin-bottom: var(--space-1);
+        }
+
+        .header-title-section h1 {
+            font-size: 28px;
+            font-weight: var(--font-weight-medium);
+            margin: 0;
+            color: var(--text-primary);
+        }
+
+        .template-type {
+            background: var(--surface);
+            color: var(--text-secondary);
+            padding: var(--space-1) var(--space-3);
+            border-radius: var(--radius);
+            font-size: 14px;
+            font-weight: var(--font-weight-medium);
+        }
+
+        /* 设计器布局样式 */
+        .designer-layout {
+            display: flex;
+            min-height: calc(100vh - 80px);
+        }
+
+        .steps-sidebar {
+            width: 320px;
+            background: white;
+            border-right: 1px solid #e9ecef;
+            padding: 32px 24px;
+        }
+
+        .steps-header h3 {
+            color: #2d3748;
+            font-size: 20px;
+            font-weight: 600;
+            margin: 0 0 8px 0;
+        }
+
+        .steps-header p {
+            color: #718096;
+            font-size: 14px;
+            margin: 0 0 32px 0;
+        }
+
+        .step-item {
+            display: flex;
+            align-items: center;
+            padding: 16px;
+            margin-bottom: 8px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .step-item:hover {
+            background: #f7fafc;
+        }
+
+        .step-item.active {
+            background: #000;
+            color: white;
+        }
+
+        .step-number {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: #e2e8f0;
+            color: #4a5568;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            margin-right: 12px;
+            flex-shrink: 0;
+        }
+
+        .step-item.active .step-number {
+            background: white;
+            color: #000;
+        }
+
+        .step-content {
+            flex: 1;
+        }
+
+        .step-title {
+            font-weight: 600;
+            font-size: 16px;
+            margin-bottom: 4px;
+        }
+
+        .step-desc {
+            font-size: 12px;
+            opacity: 0.8;
+        }
+
+        .content-area {
+            flex: 1;
+            background: #f8f9fa;
+            padding: 32px;
+            overflow-y: auto;
+        }
+
+        .step-content-panel {
+            display: none;
+            width: 100%;
+            max-width: none;
+        }
+
+        .step-content-panel.active {
+            display: block;
+        }
+
+        /* 设置页面样式 - 参考系统设置 */
+        .settings-section {
+            background: white;
+            border: 1px solid #e9ecef;
+            border-radius: 12px;
+            padding: 32px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            margin-bottom: 24px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .section-header {
+            margin-bottom: 24px;
+            border-bottom: 1px solid #f1f3f4;
+            padding-bottom: 16px;
+        }
+
+        .section-header h3 {
+            color: #2d3748;
+            font-size: 20px;
+            font-weight: 600;
+            margin: 0 0 8px 0;
+        }
+
+        .section-header p {
+            color: #718096;
+            font-size: 14px;
+            margin: 0;
+        }
+
+        .settings-form {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            color: #374151;
+            font-weight: 500;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .form-input, .form-select {
+            padding: 12px 16px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 14px;
+            background: white;
+            transition: border-color 0.2s ease;
+        }
+
+        .form-input:focus, .form-select:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        /* 阶梯电价设置样式 */
+        .tariff-settings {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 16px;
+        }
+
+        .settings-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .settings-header h4 {
+            color: #2d3748;
+            font-size: 16px;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .btn-sm {
+            padding: 8px 16px;
+            font-size: 12px;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid #000;
+            color: #000;
+        }
+
+        .btn-outline:hover {
+            background: #000;
+            color: white;
+        }
+
+        /* 阶梯项目样式 */
+        .tier-item {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            margin-bottom: 16px;
+            overflow: hidden;
+        }
+
+        .tier-header {
+            background: #f8f9fa;
+            padding: 12px 16px;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .tier-label {
+            font-weight: 600;
+            color: #2d3748;
+        }
+
+        .btn-remove {
+            background: #ef4444;
+            color: white;
+            border: none;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        .btn-remove:hover {
+            background: #dc2626;
+        }
+
+        .tier-config {
+            padding: 16px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .tier-range label,
+        .tier-price label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #374151;
+            font-size: 14px;
+        }
+
+        .range-inputs,
+        .time-inputs {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .range-inputs input,
+        .time-inputs input {
+            flex: 1;
+            padding: 8px 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .range-inputs span,
+        .time-inputs span {
+            color: #6b7280;
+            font-weight: 500;
+        }
+
+        /* 分时电价样式 */
+        .time-period-item {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            margin-bottom: 16px;
+            overflow: hidden;
+        }
+
+        .period-header {
+            background: #f8f9fa;
+            padding: 12px 16px;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .period-icon {
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .period-header h5 {
+            margin: 0;
+            color: #2d3748;
+            font-weight: 600;
+        }
+
+        /* 时段图标选择和编辑样式 */
+        .period-icon-select {
+            margin-right: 12px;
+        }
+
+        .period-icon-dropdown {
+            width: 60px;
+            padding: 4px 8px;
+            font-size: 16px;
+            border: 1px solid #d1d5db;
+            border-radius: 4px;
+            background: white;
+        }
+
+        .editable-period-name {
+            outline: none;
+            border: 1px solid transparent;
+            padding: 2px 4px;
+            border-radius: 4px;
+            transition: border-color 0.2s ease;
+            flex: 1;
+        }
+
+        .editable-period-name:focus {
+            border-color: #3b82f6;
+            background: white;
+        }
+
+        .btn-remove-period {
+            background: #ef4444;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        .btn-remove-period:hover {
+            background: #dc2626;
+        }
+
+        .period-config {
+            padding: 16px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .time-range label,
+        .period-price label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #374151;
+            font-size: 14px;
+        }
+
+        /* 固定电价样式 */
+        .flat-rate-config {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 20px;
+        }
+
+        .flat-rate-config .form-group {
+            margin-bottom: 16px;
+        }
+
+        .flat-rate-config .form-group:last-child {
+            margin-bottom: 0;
+        }
+
+        /* 附加费用样式 */
+        .additional-charges-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .additional-charges-header h4 {
+            margin: 0;
+            color: #2d3748;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .charge-item {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            margin-bottom: 16px;
+            overflow: hidden;
+        }
+
+        .charge-header {
+            background: #f8f9fa;
+            padding: 16px;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .charge-info h5 {
+            margin: 0 0 4px 0;
+            color: #2d3748;
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .charge-info p {
+            margin: 0;
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+        .editable-title,
+        .editable-desc {
+            outline: none;
+            border: 1px solid transparent;
+            padding: 2px 4px;
+            border-radius: 4px;
+            transition: border-color 0.2s ease;
+        }
+
+        .editable-title:focus,
+        .editable-desc:focus {
+            border-color: #3b82f6;
+            background: white;
+        }
+
+        .btn-remove-charge {
+            background: #ef4444;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        .btn-remove-charge:hover {
+            background: #dc2626;
+        }
+
+        .charge-config {
+            padding: 16px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .charge-type label,
+        .charge-value label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #374151;
+            font-size: 14px;
+        }
+
+        .value-input-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .value-input-group input {
+            flex: 1;
+            padding: 8px 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .charge-unit {
+            color: #6b7280;
+            font-weight: 500;
+            font-size: 14px;
+            white-space: nowrap;
+        }
+
+        /* 费用预览样式 */
+        .charges-summary {
+            margin-top: 24px;
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 20px;
+        }
+
+        .charges-summary h4 {
+            margin: 0 0 16px 0;
+            color: #2d3748;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .summary-table {
+            width: 100%;
+        }
+
+        .summary-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 16px;
+            padding: 12px 0;
+            border-bottom: 1px solid #f3f4f6;
+        }
+
+        .summary-row:last-child {
+            border-bottom: none;
+        }
+
+        .summary-row.header {
+            font-weight: 600;
+            color: #374151;
+            background: #f8f9fa;
+            padding: 12px 16px;
+            margin: 0 -16px 8px -16px;
+            border-radius: 4px;
+        }
+
+        .summary-row:not(.header) {
+            color: #6b7280;
+        }
+
+        .summary-row span:last-child {
+            font-weight: 500;
+            color: #2d3748;
+        }
+
+        /* 费率测试样式 */
+        .test-inputs-section {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .time-usage-inputs {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .usage-period {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .usage-period label {
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #374151;
+            font-size: 14px;
+        }
+
+        .total-usage {
+            text-align: center;
+            padding: 12px;
+            background: #f3f4f6;
+            border-radius: 6px;
+            font-weight: 600;
+            color: #2d3748;
+        }
+
+        .results-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .results-header h4 {
+            margin: 0;
+            color: #2d3748;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        /* 账单汇总表样式 */
+        .bill-summary-table {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .bill-table-header {
+            background: #f8f9fa;
+            display: grid;
+            grid-template-columns: 2fr 1fr 2fr;
+            gap: 16px;
+            padding: 16px;
+            font-weight: 600;
+            color: #374151;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .bill-item {
+            display: grid;
+            grid-template-columns: 2fr 1fr 2fr;
+            gap: 16px;
+            padding: 12px 16px;
+            border-bottom: 1px solid #f3f4f6;
+            align-items: center;
+        }
+
+        .bill-item:last-child {
+            border-bottom: none;
+        }
+
+        .bill-item.total {
+            background: #f8f9fa;
+            font-weight: 600;
+            color: #2d3748;
+            border-top: 2px solid #e5e7eb;
+        }
+
+        .bill-item span:nth-child(2) {
+            font-weight: 600;
+            color: #059669;
+        }
+
+        .bill-item.total span:nth-child(2) {
+            color: #dc2626;
+            font-size: 18px;
+        }
+
+        /* 电量费明细样式 */
+        .electricity-detail {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .detail-header {
+            background: #f8f9fa;
+            padding: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .detail-header h5 {
+            margin: 0;
+            color: #2d3748;
+            font-weight: 600;
+        }
+
+        .detail-toggle {
+            background: white;
+            color: #000;
+            border: 1px solid #000;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.2s ease;
+        }
+
+        .detail-toggle:hover {
+            background: #f8f9fa;
+        }
+
+        .detail-breakdown {
+            padding: 16px;
+        }
+
+        .breakdown-table {
+            width: 100%;
+        }
+
+        .breakdown-header {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+            gap: 12px;
+            padding: 12px 0;
+            font-weight: 600;
+            color: #374151;
+            border-bottom: 2px solid #e5e7eb;
+            margin-bottom: 8px;
+        }
+
+        .breakdown-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+            gap: 12px;
+            padding: 8px 0;
+            border-bottom: 1px solid #f3f4f6;
+            color: #6b7280;
+        }
+
+        .breakdown-row:last-child {
+            border-bottom: none;
+        }
+
+        .breakdown-subtotal {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+            gap: 12px;
+            padding: 12px 0;
+            border-top: 2px solid #e5e7eb;
+            font-weight: 600;
+            color: #2d3748;
+            margin-top: 8px;
+        }
+
+        .breakdown-simple {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 16px;
+            color: #2d3748;
+            justify-content: center;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 6px;
+        }
+
+        .breakdown-simple span:last-child {
+            font-weight: 600;
+            color: #059669;
+        }
+
+        /* 计算按钮区域样式 */
+        .calculation-section {
+            margin: 20px 0;
+            text-align: left;
+        }
+
+        .calculate-btn {
+            margin: 0;
+        }
+
+
+        /* 配置汇总样式 */
+        .summary-section {
+            margin-bottom: 32px;
+        }
+
+        .summary-section h4 {
+            color: #374151;
+            font-size: 16px;
+            font-weight: 600;
+            margin: 0 0 16px 0;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .detail-table {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            overflow: hidden;
+            margin-top: 16px;
+        }
+
+        .detail-header {
+            background: #f8f9fa;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 16px;
+            padding: 12px 16px;
+            font-weight: 600;
+            color: #374151;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .detail-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 16px;
+            padding: 12px 16px;
+            border-bottom: 1px solid #f3f4f6;
+            color: #6b7280;
+        }
+
+        .detail-row:last-child {
+            border-bottom: none;
+        }
+
+        .tariff-detail-summary {
+            margin-top: 16px;
+        }
+
+        .tier-setting {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            background: white;
+            border-radius: 6px;
+            margin-bottom: 8px;
+        }
+
+        .tier-setting:last-child {
+            margin-bottom: 0;
+        }
+
+        .tier-setting label {
+            color: #4a5568;
+            font-weight: 500;
+            margin: 0;
+        }
+
+        .tier-input {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .tier-input input {
+            width: 100px;
+            padding: 8px 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 4px;
+            text-align: right;
+        }
+
+        .tier-input .unit {
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+        /* 步骤导航样式 */
+        .step-navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 32px;
+            padding-top: 24px;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        .nav-left {
+            display: flex;
+            gap: 12px;
+        }
+
+        .nav-right {
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 14px;
+        }
+
+        .btn-primary {
+            background: #000;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #374151;
+        }
+
+        .btn-secondary {
+            background: #f3f4f6;
+            color: #374151;
+        }
+
+        .btn-secondary:hover {
+            background: #e5e7eb;
+        }
+
+        .btn-success {
+            background: #10b981;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #059669;
+        }
+
+        /* 计算结果样式 */
+        .calculation-results {
+            margin-top: 24px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .calculation-results h4 {
+            color: #2d3748;
+            font-size: 16px;
+            font-weight: 600;
+            margin: 0 0 16px 0;
+        }
+
+        .result-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .result-card {
+            background: white;
+            padding: 16px;
+            border-radius: 8px;
+            text-align: center;
+            border: 1px solid #e5e7eb;
+        }
+
+        .result-label {
+            color: #6b7280;
+            font-size: 12px;
+            font-weight: 500;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+        }
+
+        .result-value {
+            color: #1f2937;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .result-value.total {
+            color: #059669;
+            font-size: 20px;
+        }
+
+        /* 汇总网格样式 */
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 16px;
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .summary-label {
+            color: #4a5568;
+            font-weight: 500;
+        }
+
+        .summary-value {
+            color: #2d3748;
+            font-weight: 600;
+        }
+
+        /* 电费类型卡片样式 */
+        .tariff-type-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 24px;
+        }
+
+        .tariff-card {
+            background: white;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 24px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .tariff-card:hover {
+            border-color: #3b82f6;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .tariff-card.selected {
+            border-color: #3b82f6;
+            background: linear-gradient(135deg, #f8faff 0%, #f1f5ff 100%);
+            box-shadow: 0 4px 20px rgba(59, 130, 246, 0.15);
+        }
+
+        .tariff-card.selected::before {
+            content: '✓';
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            background: #3b82f6;
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .card-header {
+            margin-bottom: 16px;
+        }
+
+        .card-icon {
+            font-size: 32px;
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        .card-header h4 {
+            color: #1f2937;
+            font-size: 18px;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .card-description {
+            color: #6b7280;
+            font-size: 14px;
+            line-height: 1.5;
+            margin: 0 0 16px 0;
+        }
+
+        .card-features {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .feature-tag {
+            background: #f3f4f6;
+            color: #374151;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .tariff-card.selected .feature-tag {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        /* 全宽表单组 */
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .designer-layout {
+                flex-direction: column;
+            }
+
+            .steps-sidebar {
+                width: 100%;
+                border-right: none;
+                border-bottom: 1px solid #e9ecef;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .result-cards {
+                grid-template-columns: 1fr;
+            }
+
+            .summary-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .tariff-type-cards {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</body>
+</html>
