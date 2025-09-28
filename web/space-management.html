@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title data-zh="空间管理" data-en="Space Management">空间管理</title>
+    <title data-zh="建筑管理" data-en="Building Management">建筑管理</title>
     <link rel="stylesheet" href="assets/css/common.css">
     <link rel="stylesheet" href="assets/css/navbar.css">
 </head>
@@ -16,26 +16,56 @@
             </div>
             <div class="nav-menu">
                 <a href="dashboard.html" class="nav-link" data-zh="仪表盘" data-en="Dashboard">仪表盘</a>
-                <a href="pricing-templates.html" class="nav-link" data-zh="电价模版" data-en="Pricing Templates">电价模版</a>
-                <a href="space-management.html" class="nav-link active" data-zh="空间管理" data-en="Space Management">空间管理</a>
                 <a href="device-management.html" class="nav-link" data-zh="设备管理" data-en="Device Management">设备管理</a>
+                <a href="space-management.html" class="nav-link active" data-zh="建筑管理" data-en="Building Management">建筑管理</a>
                 <a href="user-management.html" class="nav-link" data-zh="用户管理" data-en="User Management">用户管理</a>
                 <a href="bills.html" class="nav-link" data-zh="账单管理" data-en="Bill Management">账单管理</a>
             </div>
-            <div class="nav-actions">
+            <div class="nav-actions" style="overflow: visible !important;">
                 <div class="lang-dropdown">
                     <select id="language-select" class="form-select lang-select">
                         <option value="zh" data-zh="中文" data-en="Chinese">中文</option>
                         <option value="en" data-zh="English" data-en="English">English</option>
                     </select>
                 </div>
-                <div class="user-menu">
-                    <div class="user-avatar">管</div>
-                    <span data-zh="管理员" data-en="Admin">管理员</span>
+                <div class="user-menu" style="position: relative; overflow: visible !important;">
+                    <input type="checkbox" id="user-dropdown-toggle" style="display: none;">
+                    <label for="user-dropdown-toggle" style="display: flex; align-items: center; cursor: pointer; gap: 8px;">
+                        <div class="user-avatar">管</div>
+                        <span data-zh="管理员" data-en="Admin">管理员</span>
+                        <span style="font-size: 12px; margin-left: 4px;">▼</span>
+                    </label>
+                    <div class="dropdown-menu" style="position: fixed; top: 64px; right: 20px; background: white; border: 1px solid #e5e7eb; border-radius: 8px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); min-width: 120px; display: none; z-index: 9999; padding: 4px 0;">
+                        <label for="logout-confirm-toggle" style="display: flex; align-items: center; padding: 12px 16px; color: #dc2626; font-size: 14px; cursor: pointer; gap: 8px;">
+                            <span style="font-size: 16px;">🚪</span>
+                            <span data-zh="退出登录" data-en="Logout">退出登录</span>
+                        </label>
+                    </div>
                 </div>
+                <style>
+                    .navbar, .nav-content, .nav-actions, .user-menu { overflow: visible !important; }
+                    #user-dropdown-toggle:checked + label + .dropdown-menu { display: block !important; }
+                    #user-dropdown-toggle:checked + label span:last-child { transform: rotate(180deg); }
+                    .dropdown-menu label:hover { background-color: #f9fafb !important; }
+                    #logout-confirm-toggle:checked + .logout-modal { display: flex !important; }
+                </style>
             </div>
         </div>
     </nav>
+
+    <!-- 退出确认弹窗 -->
+    <input type="checkbox" id="logout-confirm-toggle" style="display: none;">
+    <div class="logout-modal" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); display: none; z-index: 99999; align-items: center; justify-content: center;">
+        <div style="background: white; border-radius: 12px; padding: 32px; max-width: 420px; width: 90%; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);">
+            <div style="text-align: center; font-size: 48px; margin-bottom: 20px;">⚠️</div>
+            <h3 style="text-align: center; font-size: 20px; font-weight: 600; color: #1f2937; margin-bottom: 12px; margin-top: 0;">确认退出</h3>
+            <p style="text-align: center; color: #6b7280; font-size: 16px; margin-bottom: 28px; margin-top: 0;">您确定要退出登录吗？退出后需要重新输入用户名和密码。</p>
+            <div style="display: flex; gap: 12px; justify-content: center;">
+                <label for="logout-confirm-toggle" style="padding: 12px 24px; background: #f3f4f6; color: #374151; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 500; min-width: 80px;">取消</label>
+                <a href="index.html" style="padding: 12px 24px; background: #dc2626; color: white; border-radius: 8px; text-decoration: none; font-size: 14px; font-weight: 500; min-width: 80px; text-align: center;">确认退出</a>
+            </div>
+        </div>
+    </div>
 
     <!-- 主内容区域 -->
     <main class="main-content">
@@ -59,37 +89,32 @@
 
             <!-- 右侧内容区域 -->
             <div class="main-container">
-                <!-- 搜索和操作区域 -->
-                <div class="search-section">
-                    <div class="search-controls">
-                        <input type="text" id="room-search" class="form-input" placeholder="房间号/电表号..." data-zh-placeholder="房间号/电表号..." data-en-placeholder="Room/Meter...">
-                        <select id="room-status-filter" class="form-select">
-                            <option value="all" data-zh="全部状态" data-en="All Status">全部状态</option>
-                            <option value="vacant" data-zh="空闲" data-en="Vacant">空闲</option>
-                            <option value="occupied" data-zh="已入驻" data-en="Occupied">已入驻</option>
-                        </select>
-                    </div>
-                    <div class="search-actions">
-                        <button class="btn btn-primary" onclick="searchRooms()">
-                            <span data-zh="查询" data-en="Search">查询</span>
-                        </button>
-                        <button class="btn btn-secondary" onclick="resetFilters()">
-                            <span data-zh="重置" data-en="Reset">重置</span>
-                        </button>
-                    </div>
-                </div>
 
-                <!-- 视图切换标签页 -->
+                <!-- 状态筛选标签页 -->
                 <div class="view-tabs">
                     <div class="tabs-left">
-                        <button class="tab-btn active" onclick="switchView('table')" data-view="table">
-                            <span data-zh="表格视图" data-en="Table View">表格视图</span>
+                        <button class="tab-btn active" onclick="switchStatus('all')" data-status="all">
+                            <span data-zh="全部" data-en="All">全部</span>
+                            <span class="status-count" id="all-count">(0)</span>
                         </button>
-                        <button class="tab-btn" onclick="switchView('card')" data-view="card">
-                            <span data-zh="卡片视图" data-en="Card View">卡片视图</span>
+                        <button class="tab-btn" onclick="switchStatus('occupied')" data-status="occupied">
+                            <span data-zh="已入驻" data-en="Occupied">已入驻</span>
+                            <span class="status-count" id="occupied-count">(0)</span>
+                        </button>
+                        <button class="tab-btn" onclick="switchStatus('vacant')" data-status="vacant">
+                            <span data-zh="空闲" data-en="Vacant">空闲</span>
+                            <span class="status-count" id="vacant-count">(0)</span>
                         </button>
                     </div>
                     <div class="tabs-right">
+                        <div class="view-switch" style="display: none;">
+                            <button class="view-btn active" onclick="switchView('card')" title="卡片视图">
+                                <i class="fas fa-th-large"></i>
+                            </button>
+                            <button class="view-btn" onclick="switchView('table')" title="表格视图">
+                                <i class="fas fa-list"></i>
+                            </button>
+                        </div>
                         <button class="btn btn-success btn-sm" onclick="showAddRoomModal()">
                             <span data-zh="+ 添加房间" data-en="+ Add Room">+ 添加房间</span>
                         </button>
@@ -99,7 +124,7 @@
                 <!-- 视图内容区域 -->
                 <div class="views-layout">
                     <!-- 房间列表表格 -->
-                    <div id="table-view" class="view-container table-container">
+                    <div id="table-view" class="view-container table-container" style="display: none;">
                         <div class="view-content-header">
                             <div class="view-title">
                                 <span id="current-selection" data-zh="" data-en=""></span>
@@ -143,7 +168,7 @@
                 </div>
 
                     <!-- 房间卡片视图 -->
-                    <div id="card-view" class="view-container card-container" style="display: none;">
+                    <div id="card-view" class="view-container card-container" style="display: block;">
                         <div class="cards-grid" id="rooms-cards">
                             <!-- 卡片由JavaScript生成 -->
                         </div>
@@ -257,8 +282,14 @@
                                 <input type="text" id="room-number" name="roomNumber" class="form-input"
                                        data-zh-placeholder="如：A-101" data-en-placeholder="e.g., A-101" placeholder="如：A-101" required>
                             </div>
-                            <div class="form-group">
-                                <label for="room-building" data-zh="位置" data-en="Location">位置</label>
+                        </div>
+
+                        <div class="form-row" style="margin-top: -18px; margin-bottom: 8px;">
+                            <div class="form-group" style="gap: 2px;">
+                                <div style="display: flex; align-items: center;">
+                                    <span style="color: red; font-size: 14px; margin-right: 2px;">*</span>
+                                    <label for="room-building" data-zh="位置" data-en="Location">位置</label>
+                                </div>
                                 <div class="location-selector">
                                     <select id="room-building" name="building" class="form-input" onchange="updateFloorOptions()" required>
                                         <option value="">请选择楼栋</option>
@@ -274,33 +305,16 @@
                             <div class="form-group">
                                 <div style="display: flex; align-items: center;">
                                     <span style="color: red; font-size: 14px; margin-right: 2px;">*</span>
-                                    <label for="bind-meter" data-zh="绑定电表" data-en="Bind Meter">绑定电表</label>
+                                    <label for="room-meter" data-zh="电表" data-en="Meter">电表</label>
                                 </div>
-                                <select id="bind-meter" name="meterId" class="form-input" required>
-                                    <option value="">请选择电表</option>
-                                    <option value="METER001">METER001 - 单相电表</option>
-                                    <option value="METER002">METER002 - 三相电表</option>
-                                    <option value="METER003">METER003 - 单相电表</option>
-                                    <option value="METER004">METER004 - 三相电表</option>
-                                    <option value="METER005">METER005 - 智能电表</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <div style="display: flex; align-items: center;">
-                                    <span style="color: red; font-size: 14px; margin-right: 2px;">*</span>
-                                    <label for="billing-template" data-zh="计费模版" data-en="Billing Template">计费模版</label>
+                                <div class="meter-select-wrapper">
+                                    <select id="room-meter-select" name="meterId" class="form-input" required>
+                                        <option value="" data-zh="请选择电表" data-en="Select Meter">请选择电表</option>
+                                    </select>
                                 </div>
-                                <select id="billing-template" name="billingTemplate" class="form-input" required>
-                                    <option value="">请选择计费模版</option>
-                                    <option value="residential_basic">住宅基础计费</option>
-                                    <option value="residential_tiered">住宅阶梯计费</option>
-                                    <option value="commercial_standard">商业标准计费</option>
-                                    <option value="commercial_peak">商业峰谷计费</option>
-                                    <option value="office_flat">办公室固定计费</option>
-                                </select>
+                                <small class="form-help" data-zh="选择已连接但未绑定的电表设备" data-en="Select connected but unbound meter device">选择已连接但未绑定的电表设备</small>
                             </div>
                         </div>
-
 
                         <div class="form-row">
                             <div class="form-group full-width">
@@ -309,6 +323,8 @@
                                           rows="3" data-zh-placeholder="房间描述信息..." data-en-placeholder="Room description..." placeholder="房间描述信息..."></textarea>
                             </div>
                         </div>
+
+
                 </form>
             </div>
             <div class="modal-footer">
@@ -341,12 +357,16 @@
                                 <span style="color: red; font-size: 14px; margin-right: 2px;">*</span>
                                 <label for="checkin-tenant-select" data-zh="租户姓名" data-en="Tenant Name">租户姓名</label>
                             </div>
-                            <div class="tenant-select-wrapper">
-                                <input type="text" id="checkin-tenant-search" class="form-input" placeholder="搜索或输入租户姓名" autocomplete="off">
-                                <select id="checkin-tenant-select" name="tenantName" class="form-input tenant-dropdown" style="display: none;" required>
-                                    <option value="">请选择租户</option>
-                                </select>
-                                <div id="tenant-search-results" class="search-results"></div>
+                            <div class="tenant-searchable-select">
+                                <div class="searchable-select-container">
+                                    <input type="text" id="checkin-tenant-input" class="form-input searchable-input" placeholder="搜索或输入租户姓名" autocomplete="off" data-zh-placeholder="搜索或输入租户姓名" data-en-placeholder="Search or enter tenant name">
+                                    <div class="searchable-dropdown" id="checkin-tenant-dropdown">
+                                        <div class="searchable-options" id="checkin-tenant-options">
+                                            <!-- 选项将通过JavaScript生成 -->
+                                        </div>
+                                    </div>
+                                    <input type="hidden" id="checkin-tenant-id" name="tenantId" required>
+                                </div>
                             </div>
                         </div>
                         <div class="form-group">
@@ -625,6 +645,15 @@
             { id: 'TENANT010', name: '郑海燕', phone: '+91 98765 43219', email: 'zheng@example.com' }
         ];
 
+        // 可绑定的电表设备数据（包含未绑定的设备）
+        const availableMetersData = [
+            { id: 'MTR003', name: '设备003', nameEn: 'Device 003', type: 'single-phase', ratio: 10, status: 'offline' },
+            { id: 'MTR004', name: '设备004', nameEn: 'Device 004', type: 'single-phase', ratio: 5, status: 'online' },
+            { id: 'MTR006', name: '设备006', nameEn: 'Device 006', type: 'three-phase', ratio: 1, status: 'offline' },
+            { id: 'MTR007', name: '设备007', nameEn: 'Device 007', type: 'single-phase', ratio: 10, status: 'online' },
+            { id: 'MTR008', name: '设备008', nameEn: 'Device 008', type: 'three-phase', ratio: 1, status: 'offline' }
+        ];
+
         // 编辑和删除功能相关变量
         let isEditMode = false;
         let editingUserId = null;
@@ -643,7 +672,33 @@
         let deleteFloorId = null;
 
         // 视图管理变量
-        let currentView = 'table';
+        let currentView = 'card';
+        let currentStatus = 'all'; // 当前选择的状态过滤
+
+        // 更新房间统计数据
+        function updateRoomStats() {
+            // 根据当前选择过滤房间
+            let filteredRooms = roomsData;
+            if (currentSelectedBuilding && !currentSelectedFloor) {
+                filteredRooms = roomsData.filter(room => room.buildingId === currentSelectedBuilding);
+            } else if (currentSelectedFloor) {
+                filteredRooms = roomsData.filter(room => room.floorId === currentSelectedFloor);
+            }
+
+            // 计算统计数据
+            const totalRooms = filteredRooms.length;
+            const occupiedRooms = filteredRooms.filter(room => room.status === 'occupied').length;
+            const vacantRooms = filteredRooms.filter(room => room.status === 'vacant').length;
+
+            // 统计卡片已删除，跳过更新
+
+            // 更新tab计数
+            document.getElementById('all-count').textContent = `(${totalRooms})`;
+            document.getElementById('occupied-count').textContent = `(${occupiedRooms})`;
+            document.getElementById('vacant-count').textContent = `(${vacantRooms})`;
+
+            console.log('Room stats updated:', { totalRooms, occupiedRooms, vacantRooms, filteredRooms: filteredRooms.length });
+        }
 
         function renderRoomsTable() {
             try {
@@ -665,22 +720,6 @@
             }
 
             console.log('Filtered rooms:', filteredRooms);
-            // 应用搜索过滤
-            const searchTerm = document.getElementById('room-search').value.toLowerCase();
-            const statusFilter = document.getElementById('room-status-filter').value;
-
-            if (searchTerm) {
-                filteredRooms = filteredRooms.filter(room =>
-                    room.roomNumber.toLowerCase().includes(searchTerm) ||
-                    (room.meterId && room.meterId.toLowerCase().includes(searchTerm)) ||
-                    (room.tenant && room.tenant.toLowerCase().includes(searchTerm)) ||
-                    (room.tenantEn && room.tenantEn.toLowerCase().includes(searchTerm))
-                );
-            }
-
-            if (statusFilter !== 'all') {
-                filteredRooms = filteredRooms.filter(room => room.status === statusFilter);
-            }
 
             console.log('Filtered rooms length:', filteredRooms.length);
 
@@ -749,6 +788,9 @@
 
                 tbody.appendChild(row);
             });
+
+            // 更新统计数据
+            updateRoomStats();
             } catch (error) {
                 console.error('Error rendering rooms table:', error);
                 const tbody = document.getElementById('rooms-tbody');
@@ -848,46 +890,45 @@
                 document.getElementById('current-selection').textContent =
                     `${lang === 'en' ? building.nameEn : building.name} ${floor.number}${lang === 'en' ? 'F' : '楼'}`;
                 renderBuildingTree();
-                renderRoomsTable();
+                if (currentView === 'table') {
+                    renderRoomsTable();
+                } else {
+                    renderRoomsCards();
+                }
             }
         }
 
-        function searchRooms() {
-            // 直接应用过滤条件并重新渲染
-            if (currentView === 'table') {
-                renderRoomsTable();
-            } else {
-                renderRoomsCards();
-            }
-        }
 
-        function resetFilters() {
-            // 重置选择状态
-            currentSelectedBuilding = null;
-            currentSelectedFloor = null;
-            document.getElementById('current-selection').textContent = '';
-            document.getElementById('room-search').value = '';
-            document.getElementById('room-status-filter').value = 'all';
-            renderBuildingTree();
-            if (currentView === 'table') {
-                renderRoomsTable();
-            } else {
-                renderRoomsCards();
-            }
+        // ========== 状态切换函数 ==========
+        function switchStatus(statusType) {
+            currentStatus = statusType;
+
+            // 更新tab状态
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelector(`[data-status="${statusType}"]`).classList.add('active');
+
+            // 重新渲染卡片视图
+            renderRoomsCards();
         }
 
         // ========== 视图切换函数 ==========
         function switchView(viewType) {
             currentView = viewType;
 
-            // 更新标签页状态
-            const tabBtns = document.querySelectorAll('.tab-btn');
-            tabBtns.forEach(btn => {
+            // 更新视图切换按钮状态
+            const viewBtns = document.querySelectorAll('.view-btn');
+            viewBtns.forEach(btn => {
                 btn.classList.remove('active');
-                if (btn.dataset.view === viewType) {
-                    btn.classList.add('active');
-                }
             });
+
+            // 根据viewType激活对应按钮
+            if (viewType === 'card') {
+                document.querySelector('.view-btn[onclick="switchView(\'card\')"]').classList.add('active');
+            } else if (viewType === 'table') {
+                document.querySelector('.view-btn[onclick="switchView(\'table\')"]').classList.add('active');
+            }
 
             // 切换视图容器
             const tableView = document.getElementById('table-view');
@@ -921,21 +962,9 @@
                 filteredRooms = roomsData.filter(room => room.floorId === currentSelectedFloor);
             }
 
-            // 应用搜索过滤
-            const searchTerm = document.getElementById('room-search').value.toLowerCase();
-            const statusFilter = document.getElementById('room-status-filter').value;
-
-            if (searchTerm) {
-                filteredRooms = filteredRooms.filter(room =>
-                    room.roomNumber.toLowerCase().includes(searchTerm) ||
-                    (room.meterId && room.meterId.toLowerCase().includes(searchTerm)) ||
-                    (room.tenant && room.tenant.toLowerCase().includes(searchTerm)) ||
-                    (room.tenantEn && room.tenantEn.toLowerCase().includes(searchTerm))
-                );
-            }
-
-            if (statusFilter !== 'all') {
-                filteredRooms = filteredRooms.filter(room => room.status === statusFilter);
+            // 应用状态过滤
+            if (currentStatus !== 'all') {
+                filteredRooms = filteredRooms.filter(room => room.status === currentStatus);
             }
 
             // 生成房间卡片
@@ -981,13 +1010,13 @@
                             ${room.tenantPhone ? `<p><strong>${lang === 'en' ? 'Phone:' : '联系电话：'}</strong>${room.tenantPhone}</p>` : ''}
                         </div>
                         <div class="card-actions">
-                            <button class="btn btn-sm btn-primary" onclick="editRoom('${room.id}')">${lang === 'en' ? 'Edit' : '编辑'}</button>
+                            <button class="btn btn-sm btn-outline-dark" onclick="editRoom('${room.id}')">${lang === 'en' ? 'Edit' : '编辑'}</button>
                             <button class="btn btn-sm btn-danger" onclick="deleteRoom('${room.id}')">${lang === 'en' ? 'Delete' : '删除'}</button>
-                            ${room.status === 'vacant' ?
-                                `<button class="btn btn-sm btn-success" onclick="assignTenant('${room.id}')">${lang === 'en' ? 'Check In' : '入驻'}</button>` :
-                                room.status === 'occupied' ?
-                                `<button class="btn btn-sm btn-warning" onclick="checkoutTenant('${room.id}')">${lang === 'en' ? 'Check Out' : '退租'}</button>` :
-                                ''}
+                            <button class="btn btn-sm ${room.status === 'occupied' ? 'btn-warning' : 'btn-success'}" onclick="assignTenant('${room.id}')">
+                                ${room.status === 'occupied' ?
+                                    (lang === 'en' ? 'Check Out' : '退租') :
+                                    (lang === 'en' ? 'Check In' : '入驻')}
+                            </button>
                         </div>
                     </div>
                 `;
@@ -998,6 +1027,9 @@
                 const lang = getCurrentLanguage();
                 cardsContainer.innerHTML = `<div class="no-data">${lang === 'en' ? 'No room data' : '暂无房间数据'}</div>`;
             }
+
+            // 更新统计数据
+            updateRoomStats();
             } catch (error) {
                 console.error('Error rendering rooms cards:', error);
                 const cardsContainer = document.getElementById('rooms-cards');
@@ -1147,7 +1179,11 @@
                     }
 
                     renderBuildingTree();
-                    renderRoomsTable();
+                    if (currentView === 'table') {
+                        renderRoomsTable();
+                    } else {
+                        renderRoomsCards();
+                    }
                     hideBuildingDeleteConfirm();
 
                     if (typeof EnergySystem !== 'undefined') {
@@ -1289,7 +1325,11 @@
                         }
 
                         renderBuildingTree();
-                        renderRoomsTable();
+                        if (currentView === 'table') {
+                            renderRoomsTable();
+                        } else {
+                            renderRoomsCards();
+                        }
                         hideFloorDeleteConfirm();
 
                         if (typeof EnergySystem !== 'undefined') {
@@ -1368,47 +1408,40 @@
         }
 
         function initializeMeterOptions() {
-            const meterSelect = document.getElementById('bind-meter');
+            const meterSelect = document.getElementById('room-meter-select');
+            if (!meterSelect) return;
+
             const lang = getCurrentLanguage();
 
-            const meterOptions = [
-                { value: 'METER001', nameZh: 'METER001 - 单相电表', nameEn: 'METER001 - Single Phase Meter' },
-                { value: 'METER002', nameZh: 'METER002 - 三相电表', nameEn: 'METER002 - Three Phase Meter' },
-                { value: 'METER003', nameZh: 'METER003 - 单相电表', nameEn: 'METER003 - Single Phase Meter' },
-                { value: 'METER004', nameZh: 'METER004 - 三相电表', nameEn: 'METER004 - Three Phase Meter' },
-                { value: 'METER005', nameZh: 'METER005 - 智能电表', nameEn: 'METER005 - Smart Meter' }
-            ];
+            // 清空现有选项
+            meterSelect.innerHTML = `<option value="" data-zh="请选择电表" data-en="Select Meter">${lang === 'en' ? 'Select Meter' : '请选择电表'}</option>`;
 
-            meterSelect.innerHTML = `<option value="">${lang === 'en' ? 'Select Meter' : '请选择电表'}</option>`;
+            // 获取已连接但未绑定的电表（在线状态且未被房间使用的电表）
+            const usedMeterIds = roomsData.map(room => room.meterId).filter(id => id);
+            const unboundMeters = availableMetersData.filter(meter =>
+                meter.status === 'online' && !usedMeterIds.includes(meter.id)
+            );
 
-            meterOptions.forEach(meter => {
+            // 添加可用电表选项
+            unboundMeters.forEach(meter => {
                 const option = document.createElement('option');
-                option.value = meter.value;
-                option.textContent = lang === 'en' ? meter.nameEn : meter.nameZh;
+                option.value = meter.id;
+                option.textContent = `${lang === 'en' ? meter.nameEn : meter.name} (${meter.id})`;
                 meterSelect.appendChild(option);
             });
+
+            // 如果没有可用电表，显示提示
+            if (unboundMeters.length === 0) {
+                const option = document.createElement('option');
+                option.value = '';
+                option.textContent = lang === 'en' ? 'No available meters' : '暂无可用电表';
+                option.disabled = true;
+                meterSelect.appendChild(option);
+            }
         }
 
         function initializeBillingTemplateOptions() {
-            const billingSelect = document.getElementById('billing-template');
-            const lang = getCurrentLanguage();
-
-            const billingOptions = [
-                { value: 'residential_basic', nameZh: '住宅基础计费', nameEn: 'Residential Basic' },
-                { value: 'residential_tiered', nameZh: '住宅阶梯计费', nameEn: 'Residential Tiered' },
-                { value: 'commercial_standard', nameZh: '商业标准计费', nameEn: 'Commercial Standard' },
-                { value: 'commercial_peak', nameZh: '商业峰谷计费', nameEn: 'Commercial Peak' },
-                { value: 'office_flat', nameZh: '办公室固定计费', nameEn: 'Office Flat Rate' }
-            ];
-
-            billingSelect.innerHTML = `<option value="">${lang === 'en' ? 'Select Billing Template' : '请选择计费模版'}</option>`;
-
-            billingOptions.forEach(billing => {
-                const option = document.createElement('option');
-                option.value = billing.value;
-                option.textContent = lang === 'en' ? billing.nameEn : billing.nameZh;
-                billingSelect.appendChild(option);
-            });
+            // 计费模版选项初始化函数已删除，因为计费模版字段已移除
         }
 
         function initializeFloorSelectDefault() {
@@ -1443,6 +1476,12 @@
             roomNumberField.style.color = '';
             roomNumberField.style.cursor = '';
 
+            // 重置电表选择器
+            const meterSelect = document.getElementById('room-meter-select');
+            if (meterSelect) {
+                meterSelect.value = '';
+            }
+
             // 显示弹窗
             document.getElementById('user-modal').style.display = 'flex';
             document.body.classList.add('modal-open');
@@ -1468,6 +1507,12 @@
             document.getElementById('room-building').value = '';
             document.getElementById('room-floor').disabled = true;
             document.getElementById('room-floor').innerHTML = '<option value="">请先选择楼栋</option>';
+
+            // 重置电表选择器
+            const meterSelect = document.getElementById('room-meter-select');
+            if (meterSelect) {
+                meterSelect.value = '';
+            }
         }
 
         function saveUser() {
@@ -1476,6 +1521,10 @@
             // 获取表单数据
             const buildingId = formData.get('building');
             const floorId = formData.get('floor');
+
+            // 获取电表选择器的数据
+            const meterSelect = document.getElementById('room-meter-select');
+            const selectedMeterId = meterSelect.value || '';
 
             // 查找楼栋和楼层信息
             const building = buildingsData.find(b => b.id === buildingId);
@@ -1486,14 +1535,14 @@
                 buildingId: buildingId,
                 floorId: floorId,
                 floorNumber: floor ? floor.number : null,
-                meterId: formData.get('meterId'),
+                meterId: selectedMeterId,
                 billingTemplate: formData.get('billingTemplate'),
                 description: formData.get('description').trim()
             };
 
             // 验证必填字段
-            if (!roomData.roomNumber || !buildingId || !floorId || !roomData.meterId || !roomData.billingTemplate) {
-                alert('请填写所有必填字段，包括选择楼栋和楼层');
+            if (!roomData.roomNumber || !buildingId || !floorId || !selectedMeterId) {
+                alert('请填写所有必填字段，包括选择楼栋、楼层和电表');
                 return;
             }
 
@@ -1582,8 +1631,6 @@
 
                 // 填充表单数据
                 document.getElementById('room-number').value = room.roomNumber || '';
-                document.getElementById('bind-meter').value = room.meterId || '';
-                document.getElementById('billing-template').value = room.billingTemplate || '';
 
                 // 设置楼栋和楼层选择
                 if (room.buildingId) {
@@ -1599,6 +1646,14 @@
                 }
 
                 document.getElementById('room-description').value = (lang === 'en' ? room.descriptionEn : room.description) || '';
+
+                // 设置电表选择器
+                const meterSelect = document.getElementById('room-meter-select');
+                if (meterSelect && room.meterId) {
+                    meterSelect.value = room.meterId;
+                } else if (meterSelect) {
+                    meterSelect.value = '';
+                }
 
                 // 设置房间号为只读（编辑时不允许修改房间号）
                 const roomNumberField = document.getElementById('room-number');
@@ -1659,6 +1714,12 @@
         function assignTenant(roomId) {
             const room = roomsData.find(r => r.id === roomId);
             if (room) {
+                // 如果房间已入驻，显示退租弹窗
+                if (room.status === 'occupied') {
+                    checkoutTenant(roomId);
+                    return;
+                }
+
                 // 填充入驻表单
                 document.getElementById('checkin-user-name').textContent = `房间: ${room.roomNumber}`;
                 document.getElementById('checkin-user-id').value = roomId;
@@ -1678,70 +1739,181 @@
 
         // 初始化租户搜索功能
         function initTenantSearch() {
-            const searchInput = document.getElementById('checkin-tenant-search');
-            const resultsDiv = document.getElementById('tenant-search-results');
+            const searchInput = document.getElementById('checkin-tenant-input');
+            const dropdown = document.getElementById('checkin-tenant-dropdown');
+            const optionsContainer = document.getElementById('checkin-tenant-options');
+            const hiddenInput = document.getElementById('checkin-tenant-id');
             let selectedTenant = null;
 
-            searchInput.addEventListener('input', function() {
-                const query = this.value.toLowerCase().trim();
+            // 显示所有租户选项
+            function showAllOptions() {
+                optionsContainer.innerHTML = '';
+                tenantsData.forEach(tenant => {
+                    const option = document.createElement('div');
+                    option.className = 'searchable-option';
+                    option.textContent = tenant.name;
+                    option.addEventListener('click', function() {
+                        selectTenant(tenant);
+                    });
+                    optionsContainer.appendChild(option);
+                });
+                dropdown.classList.add('show');
+            }
 
-                if (query.length === 0) {
-                    resultsDiv.style.display = 'none';
-                    selectedTenant = null;
-                    return;
-                }
-
-                // 过滤租户
+            // 过滤并显示租户选项
+            function filterOptions(query) {
                 const filteredTenants = tenantsData.filter(tenant =>
-                    tenant.name.toLowerCase().includes(query) ||
-                    tenant.phone.includes(query)
+                    tenant.name.toLowerCase().includes(query.toLowerCase()) ||
+                    tenant.phone.includes(query) ||
+                    tenant.email.toLowerCase().includes(query.toLowerCase())
                 );
 
+                optionsContainer.innerHTML = '';
+
                 if (filteredTenants.length > 0) {
-                    displaySearchResults(filteredTenants, resultsDiv, searchInput);
+                    filteredTenants.forEach(tenant => {
+                        const option = document.createElement('div');
+                        option.className = 'searchable-option';
+                        option.textContent = tenant.name;
+                        option.addEventListener('click', function() {
+                            selectTenant(tenant);
+                        });
+                        optionsContainer.appendChild(option);
+                    });
                 } else {
-                    resultsDiv.innerHTML = '<div class="search-result-item">未找到匹配的租户，可输入新租户姓名</div>';
-                    resultsDiv.style.display = 'block';
+                    const noResults = document.createElement('div');
+                    noResults.className = 'searchable-option no-results';
+                    const lang = getCurrentLanguage();
+                    noResults.textContent = lang === 'en' ? 'No tenants found, you can input new tenant name' : '未找到匹配的租户，可输入新租户姓名';
+                    optionsContainer.appendChild(noResults);
                 }
-            });
+                dropdown.classList.add('show');
+            }
 
+            // 选择租户
+            function selectTenant(tenant) {
+                selectedTenant = tenant;
+                searchInput.value = tenant.name;
+                hiddenInput.value = tenant.id;
+                dropdown.classList.remove('show');
+            }
+
+            // 隐藏下拉框
+            function hideDropdown() {
+                dropdown.classList.remove('show');
+            }
+
+            // 事件监听
             searchInput.addEventListener('focus', function() {
-                if (this.value.trim().length > 0) {
-                    resultsDiv.style.display = 'block';
+                if (this.value.trim() === '') {
+                    showAllOptions();
+                } else {
+                    filterOptions(this.value);
                 }
             });
 
-            // 点击其他地方隐藏搜索结果
+            searchInput.addEventListener('input', function() {
+                const query = this.value.trim();
+                if (query === '') {
+                    showAllOptions();
+                } else {
+                    filterOptions(query);
+                }
+                // 如果用户输入的不是选中的租户名称，清空隐藏输入框
+                if (!selectedTenant || selectedTenant.name !== query) {
+                    hiddenInput.value = '';
+                    selectedTenant = null;
+                }
+            });
+
+            // 点击外部隐藏下拉框
             document.addEventListener('click', function(e) {
-                if (!searchInput.contains(e.target) && !resultsDiv.contains(e.target)) {
-                    resultsDiv.style.display = 'none';
+                if (!searchInput.contains(e.target) && !dropdown.contains(e.target)) {
+                    hideDropdown();
                 }
             });
         }
 
-        function displaySearchResults(tenants, resultsDiv, searchInput) {
-            resultsDiv.innerHTML = '';
-
-            tenants.forEach(tenant => {
-                const item = document.createElement('div');
-                item.className = 'search-result-item';
-                item.innerHTML = `
-                    <div class="tenant-name">${tenant.name}</div>
-                    <div class="tenant-phone">${tenant.phone}</div>
-                `;
-
-                item.addEventListener('click', function() {
-                    searchInput.value = tenant.name;
-                    searchInput.dataset.tenantId = tenant.id;
-                    searchInput.dataset.tenantPhone = tenant.phone;
-                    resultsDiv.style.display = 'none';
-                });
-
-                resultsDiv.appendChild(item);
-            });
-
-            resultsDiv.style.display = 'block';
+        // 显示电表下拉列表
+        function showMeterDropdown() {
+            const dropdownList = document.getElementById('meter-dropdown-list');
+            filterMeterOptions(''); // 显示所有可用电表
         }
+
+        // 过滤电表选项
+        function filterMeterOptions(query) {
+            const dropdownList = document.getElementById('meter-dropdown-list');
+            const lang = getCurrentLanguage();
+
+            query = query.toLowerCase().trim();
+
+            if (query.length === 0) {
+                // 显示所有可用电表
+                displayMeterOptions(availableMetersData, dropdownList);
+            } else {
+                // 过滤电表
+                const filteredMeters = availableMetersData.filter(meter =>
+                    (lang === 'en' ? meter.nameEn : meter.name).toLowerCase().includes(query) ||
+                    meter.id.toLowerCase().includes(query)
+                );
+                displayMeterOptions(filteredMeters, dropdownList);
+            }
+        }
+
+        // 显示电表选项
+        function displayMeterOptions(meters, dropdownList) {
+            const lang = getCurrentLanguage();
+            dropdownList.innerHTML = '';
+
+            if (meters.length === 0) {
+                const noResult = document.createElement('div');
+                noResult.className = 'meter-dropdown-item';
+                noResult.textContent = lang === 'en' ? 'No available meters found' : '未找到可用电表';
+                noResult.style.color = '#999';
+                dropdownList.appendChild(noResult);
+            } else {
+                meters.forEach(meter => {
+                    const item = document.createElement('div');
+                    item.className = 'meter-dropdown-item';
+                    item.innerHTML = `
+                        <div class="meter-name">${lang === 'en' ? meter.nameEn : meter.name} (${meter.id})</div>
+                        <div class="meter-info">${lang === 'en' ? 'Type' : '类型'}: ${meter.type} | ${lang === 'en' ? 'Ratio' : '倍率'}: ${meter.ratio} | ${lang === 'en' ? 'Status' : '状态'}: ${meter.status === 'online' ? (lang === 'en' ? 'Online' : '在线') : (lang === 'en' ? 'Offline' : '离线')}</div>
+                    `;
+
+                    item.addEventListener('click', function() {
+                        selectMeter(meter);
+                    });
+
+                    dropdownList.appendChild(item);
+                });
+            }
+
+            dropdownList.style.display = 'block';
+        }
+
+        // 选择电表
+        function selectMeter(meter) {
+            const lang = getCurrentLanguage();
+            const searchInput = document.getElementById('room-meter-search');
+            const dropdownList = document.getElementById('meter-dropdown-list');
+
+            searchInput.value = `${lang === 'en' ? meter.nameEn : meter.name} (${meter.id})`;
+            searchInput.dataset.meterId = meter.id;
+            searchInput.dataset.meterName = lang === 'en' ? meter.nameEn : meter.name;
+
+            dropdownList.style.display = 'none';
+        }
+
+        // 隐藏电表下拉列表（点击其他地方时）
+        document.addEventListener('click', function(e) {
+            const meterWrapper = document.querySelector('.meter-select-wrapper');
+            if (meterWrapper && !meterWrapper.contains(e.target)) {
+                const dropdownList = document.getElementById('meter-dropdown-list');
+                if (dropdownList) {
+                    dropdownList.style.display = 'none';
+                }
+            }
+        });
 
         function checkoutTenant(roomId) {
             const room = roomsData.find(r => r.id === roomId);
@@ -1777,11 +1949,12 @@
             document.getElementById('checkin-user-name').textContent = '--';
             document.getElementById('checkin-user-id').value = '';
             // 清空搜索输入
-            const searchInput = document.getElementById('checkin-tenant-search');
-            searchInput.value = '';
-            searchInput.dataset.tenantId = '';
-            searchInput.dataset.tenantPhone = '';
-            document.getElementById('tenant-search-results').style.display = 'none';
+            const searchInput = document.getElementById('checkin-tenant-input');
+            const hiddenInput = document.getElementById('checkin-tenant-id');
+            const dropdown = document.getElementById('checkin-tenant-dropdown');
+            if (searchInput) searchInput.value = '';
+            if (hiddenInput) hiddenInput.value = '';
+            if (dropdown) dropdown.classList.remove('show');
         }
 
         function readCurrentMeter() {
@@ -1799,15 +1972,25 @@
         function saveCheckin() {
             const formData = new FormData(document.getElementById('checkin-form'));
             const roomId = document.getElementById('checkin-user-id').value;
-            const searchInput = document.getElementById('checkin-tenant-search');
+            const searchInput = document.getElementById('checkin-tenant-input');
+            const hiddenInput = document.getElementById('checkin-tenant-id');
 
             // 获取表单数据
             const checkinData = {
+                tenantId: hiddenInput.value || null,
                 tenantName: searchInput.value.trim(),
-                tenantPhone: searchInput.dataset.tenantPhone || '',
+                tenantPhone: '',
                 checkinDate: formData.get('checkinDate'),
                 electricityReading: parseFloat(formData.get('electricityReading'))
             };
+
+            // 如果选择了现有租户，获取其联系信息
+            if (checkinData.tenantId) {
+                const tenant = tenantsData.find(t => t.id === checkinData.tenantId);
+                if (tenant) {
+                    checkinData.tenantPhone = tenant.phone;
+                }
+            }
 
             // 验证必填字段
             if (!checkinData.tenantName || !checkinData.checkinDate ||
@@ -1995,7 +2178,7 @@
 
         // 初始化页面
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('空间管理页面加载开始');
+            console.log('建筑管理页面加载开始');
 
             // 检查EnergySystem是否可用
             if (typeof EnergySystem !== 'undefined') {
@@ -2026,15 +2209,19 @@
             // 渲染建筑树和房间表格
             console.log('准备渲染建筑树...');
             renderBuildingTree();
-            console.log('准备渲染房间表格...');
-            renderRoomsTable();
+            console.log('准备渲染房间视图...');
+            if (currentView === 'table') {
+                renderRoomsTable();
+            } else {
+                renderRoomsCards();
+            }
 
             // 初始化表单选项
             initializeBuildingOptions();
             initializeMeterOptions();
             initializeBillingTemplateOptions();
             initializeFloorSelectDefault();
-            console.log('空间管理页面初始化完成');
+            console.log('建筑管理页面初始化完成');
 
             // 添加语言切换事件监听器
             const languageSelect = document.getElementById('language-select');
@@ -2095,7 +2282,11 @@
                 if (roomsTbody && (!roomsTbody.innerHTML || roomsTbody.innerHTML.trim() === '')) {
                     console.log('房间表格为空，强制显示房间数据');
                     // 直接调用一次渲染函数
-                    renderRoomsTable();
+                    if (currentView === 'table') {
+                        renderRoomsTable();
+                    } else {
+                        renderRoomsCards();
+                    }
 
                     // 如果还是没有数据，手动插入示例数据
                     setTimeout(function() {
@@ -2335,10 +2526,10 @@
             .btn-icon {
                 background: none;
                 border: none;
-                padding: 2px 4px;
+                padding: 4px 8px;
                 border-radius: 4px;
                 cursor: pointer;
-                font-size: 12px;
+                font-size: 14px;
                 transition: all 0.2s ease;
             }
 
@@ -2377,6 +2568,59 @@
                 flex: 1;
                 min-width: 0;
                 padding-top: 0;
+            }
+
+            .stats-section {
+                margin-bottom: 16px;
+            }
+
+            .stats-card {
+                background: white;
+                border-radius: 8px;
+                box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+                border: 1px solid #e5e7eb;
+                padding: 20px 16px;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                width: 100%;
+                min-height: 60px;
+            }
+
+            .stats-item {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                flex: 1;
+                justify-content: center;
+            }
+
+            .stats-number {
+                font-size: 20px;
+                font-weight: 600;
+                color: #333;
+                line-height: 1;
+            }
+
+            .stats-number.occupied {
+                color: #28a745;
+            }
+
+            .stats-number.vacant {
+                color: #ffc107;
+            }
+
+            .stats-label {
+                font-size: 14px;
+                color: #666;
+                font-weight: 400;
+                white-space: nowrap;
+            }
+
+            .status-count {
+                font-size: 12px;
+                color: #888;
+                margin-left: 4px;
             }
 
             /* 表格标题样式 */
@@ -2552,8 +2796,8 @@
             .table .btn-sm {
                 display: inline-block;
                 margin: 0 1px;
-                padding: 2px 4px;
-                font-size: 9px;
+                padding: 6px 10px;
+                font-size: 12px;
                 line-height: 1.2;
             }
 
@@ -2924,12 +3168,96 @@
                 font-style: italic;
             }
 
+            .form-help {
+                display: block;
+                font-size: 12px;
+                color: #666;
+                margin-top: 4px;
+                font-style: italic;
+            }
+
             .form-input[required]:invalid {
                 border-color: var(--error);
             }
 
             .form-input[required]:invalid:focus {
                 box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
+            }
+
+            /* 可搜索下拉框样式 */
+            .searchable-select-container {
+                position: relative;
+                width: 100%;
+            }
+            .searchable-input {
+                width: 100%;
+                padding: 12px 16px;
+                border: 2px solid var(--border-color);
+                border-radius: var(--radius);
+                background: var(--surface);
+                color: var(--text);
+                font-size: 14px;
+                transition: all 0.2s ease;
+                outline: none;
+                font-family: inherit;
+                cursor: pointer;
+            }
+            .searchable-input:focus {
+                border-color: var(--primary);
+                box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+                background: var(--background);
+                cursor: text;
+            }
+            .searchable-input:hover {
+                border-color: var(--accent);
+            }
+            .searchable-dropdown {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: var(--surface);
+                border: 2px solid var(--border-color);
+                border-top: none;
+                border-radius: 0 0 var(--radius) var(--radius);
+                max-height: 200px;
+                overflow-y: auto;
+                z-index: 1000;
+                display: none;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            }
+            .searchable-dropdown.show {
+                display: block;
+            }
+            .searchable-options {
+                padding: 0;
+            }
+            .searchable-option {
+                padding: 12px 16px;
+                cursor: pointer;
+                transition: background-color 0.2s ease;
+                border-bottom: 1px solid var(--border-color);
+                color: var(--text);
+                font-size: 14px;
+            }
+            .searchable-option:last-child {
+                border-bottom: none;
+            }
+            .searchable-option:hover {
+                background-color: var(--accent-hover);
+            }
+            .searchable-option.selected {
+                background-color: var(--primary);
+                color: white;
+            }
+            .searchable-option.no-results {
+                padding: 12px 16px;
+                color: var(--text-secondary);
+                font-style: italic;
+                cursor: default;
+            }
+            .searchable-option.no-results:hover {
+                background-color: transparent;
             }
 
             /* 按钮样式 - 与bills.html保持一致 */
@@ -3006,6 +3334,17 @@
 
                 .tree-container {
                     padding: var(--space-3);
+                }
+
+                .stats-card {
+                    gap: 20px;
+                    padding: 10px 12px;
+                    justify-content: space-around;
+                }
+
+                .stats-item {
+                    min-width: auto;
+                    gap: 6px;
                 }
 
                 .search-section {
@@ -3158,6 +3497,42 @@
                 margin-right: 0;
             }
 
+            .view-switch {
+                display: flex;
+                background: #f8f9fa;
+                border: 1px solid #dee2e6;
+                border-radius: 6px;
+                overflow: hidden;
+                margin-right: 12px;
+            }
+
+            .view-btn {
+                background: transparent;
+                border: none;
+                padding: 8px 12px;
+                cursor: pointer;
+                color: #6c757d;
+                transition: all 0.2s ease;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                min-width: 36px;
+            }
+
+            .view-btn:hover {
+                background: #e9ecef;
+                color: #495057;
+            }
+
+            .view-btn.active {
+                background: #007bff;
+                color: white;
+            }
+
+            .view-btn i {
+                font-size: 14px;
+            }
+
             .tab-btn {
                 padding: 12px 24px;
                 border: none;
@@ -3182,12 +3557,12 @@
             }
 
             .tab-btn.active {
-                background: white;
-                color: var(--primary-color);
+                background: #000000;
+                color: white;
                 font-weight: 600;
-                border: 1px solid #e0e0e0;
-                border-bottom: 1px solid white;
-                box-shadow: 0 -2px 4px rgba(0,0,0,0.05);
+                border: 1px solid #000000;
+                border-bottom: 1px solid #000000;
+                box-shadow: 0 -2px 4px rgba(0,0,0,0.1);
             }
 
             .tab-btn.active::after {
@@ -3228,7 +3603,7 @@
             /* 位置选择器样式 */
             .location-selector {
                 display: flex;
-                gap: 8px;
+                gap: 4px;
                 align-items: center;
             }
 
@@ -3253,6 +3628,9 @@
                 transition: all 0.3s ease;
                 box-shadow: 0 2px 4px rgba(0,0,0,0.1);
                 cursor: default;
+                display: flex;
+                flex-direction: column;
+                height: 100%;
             }
 
             .room-card:hover {
@@ -3360,13 +3738,68 @@
                 margin-top: 2px;
             }
 
+            .meter-select-wrapper {
+                position: relative;
+            }
+
+            .meter-dropdown-list {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: white;
+                border: 1px solid #ddd;
+                border-top: none;
+                border-radius: 0 0 6px 6px;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+                max-height: 200px;
+                overflow-y: auto;
+                z-index: 1000;
+                display: none;
+            }
+
+            .meter-dropdown-item {
+                padding: 12px 16px;
+                cursor: pointer;
+                border-bottom: 1px solid #f0f0f0;
+                transition: background-color 0.2s;
+            }
+
+            .meter-dropdown-item:hover {
+                background-color: #f5f5f5;
+            }
+
+            .meter-dropdown-item:last-child {
+                border-bottom: none;
+            }
+
+            .meter-dropdown-item.selected {
+                background-color: #e3f2fd;
+                color: #1976d2;
+            }
+
+            .meter-name {
+                font-weight: 500;
+                color: #333;
+            }
+
+            .meter-info {
+                font-size: 12px;
+                color: #666;
+                margin-top: 2px;
+            }
+
 
             .card-body {
                 padding: 20px;
+                display: flex;
+                flex-direction: column;
+                flex: 1;
             }
 
             .card-info {
                 margin-bottom: 16px;
+                flex: 1;
             }
 
             .card-info p {
@@ -3385,11 +3818,13 @@
                 display: flex;
                 gap: 8px;
                 justify-content: flex-end;
+                margin-top: auto;
+                flex-shrink: 0;
             }
 
             .card-actions .btn {
-                font-size: 12px;
-                padding: 6px 12px;
+                font-size: 14px;
+                padding: 8px 16px;
                 font-weight: 600;
                 border-radius: 6px;
                 transition: all 0.2s ease;
@@ -3398,6 +3833,18 @@
             .card-actions .btn:focus {
                 outline: 2px solid var(--primary-color);
                 outline-offset: 2px;
+            }
+
+            .btn-outline-dark {
+                background: white;
+                color: #111;
+                border: 1px solid #111;
+            }
+
+            .btn-outline-dark:hover {
+                background: #111;
+                color: white;
+                border-color: #111;
             }
 
             .no-data {

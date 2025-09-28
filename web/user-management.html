@@ -16,26 +16,56 @@
             </div>
             <div class="nav-menu">
                 <a href="dashboard.html" class="nav-link" data-zh="仪表盘" data-en="Dashboard">仪表盘</a>
-                <a href="pricing-templates.html" class="nav-link" data-zh="电价模版" data-en="Pricing Templates">电价模版</a>
-                <a href="space-management.html" class="nav-link" data-zh="空间管理" data-en="Space Management">空间管理</a>
                 <a href="device-management.html" class="nav-link" data-zh="设备管理" data-en="Device Management">设备管理</a>
+                <a href="space-management.html" class="nav-link" data-zh="建筑管理" data-en="Building Management">建筑管理</a>
                 <a href="user-management.html" class="nav-link active" data-zh="用户管理" data-en="User Management">用户管理</a>
                 <a href="bills.html" class="nav-link" data-zh="账单管理" data-en="Bill Management">账单管理</a>
             </div>
-            <div class="nav-actions">
+            <div class="nav-actions" style="overflow: visible !important;">
                 <div class="lang-dropdown">
                     <select id="language-select" class="form-select lang-select">
                         <option value="zh" data-zh="中文" data-en="Chinese">中文</option>
                         <option value="en" data-zh="English" data-en="English">English</option>
                     </select>
                 </div>
-                <div class="user-menu">
-                    <div class="user-avatar">管</div>
-                    <span data-zh="管理员" data-en="Admin">管理员</span>
+                <div class="user-menu" style="position: relative; overflow: visible !important;">
+                    <input type="checkbox" id="user-dropdown-toggle" style="display: none;">
+                    <label for="user-dropdown-toggle" style="display: flex; align-items: center; cursor: pointer; gap: 8px;">
+                        <div class="user-avatar">管</div>
+                        <span data-zh="管理员" data-en="Admin">管理员</span>
+                        <span style="font-size: 12px; margin-left: 4px;">▼</span>
+                    </label>
+                    <div class="dropdown-menu" style="position: fixed; top: 64px; right: 20px; background: white; border: 1px solid #e5e7eb; border-radius: 8px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); min-width: 120px; display: none; z-index: 9999; padding: 4px 0;">
+                        <label for="logout-confirm-toggle" style="display: flex; align-items: center; padding: 12px 16px; color: #dc2626; font-size: 14px; cursor: pointer; gap: 8px;">
+                            <span style="font-size: 16px;">🚪</span>
+                            <span data-zh="退出登录" data-en="Logout">退出登录</span>
+                        </label>
+                    </div>
                 </div>
+                <style>
+                    .navbar, .nav-content, .nav-actions, .user-menu { overflow: visible !important; }
+                    #user-dropdown-toggle:checked + label + .dropdown-menu { display: block !important; }
+                    #user-dropdown-toggle:checked + label span:last-child { transform: rotate(180deg); }
+                    .dropdown-menu label:hover { background-color: #f9fafb !important; }
+                    #logout-confirm-toggle:checked + .logout-modal { display: flex !important; }
+                </style>
             </div>
         </div>
     </nav>
+
+    <!-- 退出确认弹窗 -->
+    <input type="checkbox" id="logout-confirm-toggle" style="display: none;">
+    <div class="logout-modal" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); display: none; z-index: 99999; align-items: center; justify-content: center;">
+        <div style="background: white; border-radius: 12px; padding: 32px; max-width: 420px; width: 90%; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);">
+            <div style="text-align: center; font-size: 48px; margin-bottom: 20px;">⚠️</div>
+            <h3 style="text-align: center; font-size: 20px; font-weight: 600; color: #1f2937; margin-bottom: 12px; margin-top: 0;">确认退出</h3>
+            <p style="text-align: center; color: #6b7280; font-size: 16px; margin-bottom: 28px; margin-top: 0;">您确定要退出登录吗？退出后需要重新输入用户名和密码。</p>
+            <div style="display: flex; gap: 12px; justify-content: center;">
+                <label for="logout-confirm-toggle" style="padding: 12px 24px; background: #f3f4f6; color: #374151; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 500; min-width: 80px;">取消</label>
+                <a href="index.html" style="padding: 12px 24px; background: #dc2626; color: white; border-radius: 8px; text-decoration: none; font-size: 14px; font-weight: 500; min-width: 80px; text-align: center;">确认退出</a>
+            </div>
+        </div>
+    </div>
 
     <!-- 主内容区域 -->
     <main class="main-content">
@@ -439,7 +469,9 @@
                 const displayName = currentLang === 'zh' ? user.name : (user.nameEn || user.name);
 
                 row.innerHTML = `
-                    <td>${displayName}</td>
+                    <td>
+                        <span class="user-name-link" onclick="viewUserBills('${user.id}')" style="cursor: pointer; color: #1976d2; text-decoration: underline; transition: color 0.2s;" title="${currentLang === 'zh' ? '查看月度账单' : 'View Monthly Bills'}" onmouseover="this.style.color='#1565c0'" onmouseout="this.style.color='#1976d2'">${displayName}</span>
+                    </td>
                     <td>${user.room || '--'}</td>
                     <td>${checkinInfo}</td>
                     <td>${checkoutInfo}</td>
@@ -598,6 +630,15 @@
             }
         }
 
+        // 查看用户月度账单
+        window.viewUserBills = function(userId) {
+            const user = usersData.find(u => u.id === userId);
+            if (user) {
+                // 跳转到月度账单页面，传递用户ID
+                window.location.href = `user-monthly-bills.html?userId=${userId}`;
+            }
+        };
+
         window.editUser = function(userId) {
             const user = usersData.find(u => u.id === userId);
             if (user) {
@@ -634,6 +675,291 @@
         let isEditMode = false;
         let editingUserId = null;
         let deleteUserId = null;
+
+        // 显示用户详情抽屉
+        window.showUserDetails = function(userId) {
+            console.log('显示用户详情，用户ID:', userId);
+
+            // 先确保所有其他模态窗口都关闭
+            const allModals = document.querySelectorAll('.modal, [id$="-modal"]');
+            allModals.forEach(modal => {
+                if (modal.style.display !== 'none') {
+                    console.log('关闭模态窗口:', modal.id);
+                    modal.style.display = 'none';
+                }
+            });
+            document.body.classList.remove('modal-open');
+
+            const user = usersData.find(u => u.id === userId);
+            if (!user) {
+                console.error('找不到用户:', userId);
+                return;
+            }
+
+            // 保存当前抽屉显示的用户ID，用于语言切换
+            currentDrawerUserId = userId;
+
+            const currentLang = getCurrentLanguage();
+            const displayName = currentLang === 'zh' ? user.name : user.nameEn;
+
+            console.log('用户信息:', { userId, displayName, room: user.room, email: user.email });
+
+            // 从月度账单页面获取账单数据
+            loadUserBillsForDrawer(userId);
+
+            // 显示抽屉
+            const drawer = document.getElementById('user-details-drawer');
+            console.log('找到抽屉元素:', drawer);
+
+            if (drawer) {
+                // 先移除可能存在的样式冲突
+                drawer.style.cssText = '';
+                drawer.className = 'drawer-overlay';
+
+                // 设置显示样式
+                drawer.style.position = 'fixed';
+                drawer.style.top = '0';
+                drawer.style.left = '0';
+                drawer.style.width = '100%';
+                drawer.style.height = '100%';
+                drawer.style.zIndex = '999999';
+                drawer.style.display = 'flex';
+                drawer.style.justifyContent = 'flex-end';
+                drawer.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
+
+                console.log('抽屉设置为显示');
+
+                setTimeout(() => {
+                    drawer.classList.add('show');
+                    console.log('抽屉添加show类');
+                }, 50);
+
+                document.body.style.overflow = 'hidden';
+                console.log('抽屉应该已显示');
+            } else {
+                console.error('找不到抽屉元素！');
+            }
+        };
+
+        // 关闭用户详情抽屉
+        window.closeUserDetailsDrawer = function() {
+            const drawer = document.getElementById('user-details-drawer');
+            drawer.classList.remove('show');
+            setTimeout(() => {
+                drawer.style.display = 'none';
+                document.body.style.overflow = '';
+                currentDrawerUserId = null; // 清除当前用户ID
+            }, 300);
+        };
+
+        // 加载用户账单数据到抽屉
+        function loadUserBillsForDrawer(userId) {
+            // 模拟月度账单数据（与user-monthly-bills.html中的数据保持一致）
+            const monthlyBillsData = {
+                'TNT001': [
+                    {
+                        id: 'BILL-2024-01-001',
+                        year: '2024',
+                        month: '01',
+                        period: '2024-01',
+                        periodName: { zh: '2024年1月', en: 'January 2024' },
+                        amount: 1250.50,
+                        consumption: 165.5,
+                        room: 'A-101'
+                    },
+                    {
+                        id: 'BILL-2024-02-001',
+                        year: '2024',
+                        month: '02',
+                        period: '2024-02',
+                        periodName: { zh: '2024年2月', en: 'February 2024' },
+                        amount: 1485.75,
+                        consumption: 198.2,
+                        room: 'A-101'
+                    },
+                    {
+                        id: 'BILL-2024-03-001',
+                        year: '2024',
+                        month: '03',
+                        period: '2024-03',
+                        periodName: { zh: '2024年3月', en: 'March 2024' },
+                        amount: 1124.30,
+                        consumption: 142.8,
+                        room: 'A-101'
+                    }
+                ],
+                'TNT002': [
+                    {
+                        id: 'BILL-2024-01-002',
+                        year: '2024',
+                        month: '01',
+                        period: '2024-01',
+                        periodName: { zh: '2024年1月', en: 'January 2024' },
+                        amount: 987.25,
+                        consumption: 132.4,
+                        room: 'B-205'
+                    },
+                    {
+                        id: 'BILL-2024-02-002',
+                        year: '2024',
+                        month: '02',
+                        period: '2024-02',
+                        periodName: { zh: '2024年2月', en: 'February 2024' },
+                        amount: 1156.80,
+                        consumption: 155.6,
+                        room: 'B-205'
+                    }
+                ],
+                'TNT003': [
+                    {
+                        id: 'BILL-2024-01-003',
+                        year: '2024',
+                        month: '01',
+                        period: '2024-01',
+                        periodName: { zh: '2024年1月', en: 'January 2024' },
+                        amount: 2145.60,
+                        consumption: 285.7,
+                        room: 'C-303'
+                    }
+                ],
+                'TNT004': [
+                    {
+                        id: 'BILL-2024-01-004',
+                        year: '2024',
+                        month: '01',
+                        period: '2024-01',
+                        periodName: { zh: '2024年1月', en: 'January 2024' },
+                        amount: 1678.90,
+                        consumption: 223.5,
+                        room: 'A-202'
+                    },
+                    {
+                        id: 'BILL-2024-02-004',
+                        year: '2024',
+                        month: '02',
+                        period: '2024-02',
+                        periodName: { zh: '2024年2月', en: 'February 2024' },
+                        amount: 1589.45,
+                        consumption: 211.8,
+                        room: 'A-202'
+                    }
+                ]
+            };
+
+            const userBills = monthlyBillsData[userId] || [];
+            const currentLang = getCurrentLanguage();
+
+            // 更新统计数据
+            updateDrawerBillsStats(userBills, currentLang);
+
+            // 渲染账单卡片
+            renderDrawerBillsCards(userBills, currentLang);
+        }
+
+        // 更新抽屉中的账单统计数据
+        function updateDrawerBillsStats(bills, currentLang) {
+            const totalBills = bills.length;
+            const totalConsumption = bills.reduce((sum, bill) => sum + bill.consumption, 0);
+            const totalAmount = bills.reduce((sum, bill) => sum + bill.amount, 0);
+            const avgConsumption = totalBills > 0 ? totalConsumption / totalBills : 0;
+            const avgAmount = totalBills > 0 ? totalAmount / totalBills : 0;
+
+            document.getElementById('drawer-total-bills').textContent = totalBills;
+            document.getElementById('drawer-total-consumption').textContent = totalConsumption.toFixed(1);
+            document.getElementById('drawer-avg-consumption').textContent = avgConsumption.toFixed(1);
+            document.getElementById('drawer-total-amount').textContent = `₹${totalAmount.toFixed(2)}`;
+            document.getElementById('drawer-avg-amount').textContent = `₹${avgAmount.toFixed(2)}`;
+        }
+
+        // 渲染抽屉中的账单卡片
+        function renderDrawerBillsCards(bills, currentLang) {
+            const container = document.getElementById('drawer-bills-container');
+            const noBillsElement = document.getElementById('drawer-no-bills');
+
+            if (bills.length === 0) {
+                container.style.display = 'none';
+                noBillsElement.style.display = 'block';
+                return;
+            }
+
+            container.style.display = 'grid';
+            noBillsElement.style.display = 'none';
+
+            container.innerHTML = bills.map(bill => {
+                const periodName = currentLang === 'zh' ? bill.periodName.zh : bill.periodName.en;
+                const detailText = currentLang === 'zh' ? '详情' : 'Details';
+                return `
+                    <div class="bill-card" onclick="viewBillDetail('${bill.id}')">
+                        <div class="bill-card-header">
+                            <div class="bill-header-left">
+                                <div class="bill-period-room">
+                                    <span class="bill-period">${periodName}</span>
+                                    <span class="bill-room">${bill.room}</span>
+                                </div>
+                            </div>
+                            <button class="bill-detail-btn" onclick="event.stopPropagation(); viewBillDetail('${bill.id}')">${detailText}</button>
+                        </div>
+                        <div class="bill-metrics">
+                            <div class="bill-metric-item">
+                                <div class="bill-metric-label">${currentLang === 'zh' ? '用电量' : 'Consumption'}</div>
+                                <div class="bill-metric-value">${bill.consumption} kWh</div>
+                            </div>
+                            <div class="bill-metric-item">
+                                <div class="bill-metric-label">${currentLang === 'zh' ? '金额' : 'Amount'}</div>
+                                <div class="bill-metric-value">₹${bill.amount.toFixed(2)}</div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // 查看账单详情（跳转到账单详情页面）
+        function viewBillDetail(billId) {
+            console.log('查看账单详情:', billId);
+
+            // 从账单数据中查找对应的账单信息
+            let targetBill = null;
+            Object.values(monthlyBillsData).forEach(userBills => {
+                const bill = userBills.find(b => b.id === billId);
+                if (bill) {
+                    targetBill = bill;
+                }
+            });
+
+            if (targetBill) {
+                // 构建跳转URL，传递账单ID和月份参数
+                const detailUrl = `bill-detail.html?id=${encodeURIComponent(billId)}&month=${encodeURIComponent(targetBill.period)}`;
+                console.log('跳转到账单详情页面:', detailUrl);
+
+                // 跳转到账单详情页面
+                window.location.href = detailUrl;
+            } else {
+                console.error('找不到账单信息:', billId);
+
+                // 如果找不到账单信息，使用默认月份尝试跳转
+                const defaultMonth = '2025-09';
+                const detailUrl = `bill-detail.html?id=${encodeURIComponent(billId)}&month=${defaultMonth}`;
+                console.log('使用默认参数跳转:', detailUrl);
+
+                window.location.href = detailUrl;
+            }
+        }
+
+        // 更新抽屉语言
+        let currentDrawerUserId = null; // 存储当前抽屉显示的用户ID
+
+        function updateDrawerLanguage() {
+            if (!currentDrawerUserId) return;
+
+            const user = usersData.find(u => u.id === currentDrawerUserId);
+            if (!user) return;
+
+            const currentLang = getCurrentLanguage();
+
+            // 重新加载账单数据以应用新语言
+            loadUserBillsForDrawer(currentDrawerUserId);
+        }
 
         // Make sure deleteUser is globally accessible
         window.deleteUser = function(userId) {
@@ -984,6 +1310,12 @@
                         console.log('重新渲染用户表格...');
                         renderUsersTable(); // 重新渲染表格以应用新语言
                         updatePlaceholders(); // 更新占位符文本
+
+                        // 如果抽屉打开，更新抽屉内容
+                        const drawer = document.getElementById('user-details-drawer');
+                        if (drawer && drawer.classList.contains('show')) {
+                            updateDrawerLanguage();
+                        }
                     }, 100); // 延迟执行确保语言切换完成
                 });
 
@@ -1046,6 +1378,7 @@
             waitForNavManager();
         });
     </script>
+
 
     <script>
         // 添加用户管理页面特有样式 - 与bills.html保持一致
@@ -1756,6 +2089,260 @@
                 to {
                     opacity: 1;
                     transform: translateY(0);
+                }
+            }
+
+
+            /* 响应式设计 */
+                font-size: 18px;
+                font-weight: 700;
+                color: #111827;
+                position: relative;
+                padding-left: 12px;
+            }
+
+            .bills-section h5::before {
+                content: '';
+                position: absolute;
+                left: 0;
+                top: 50%;
+                transform: translateY(-50%);
+                width: 4px;
+                height: 20px;
+                background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+                border-radius: 2px;
+            }
+
+            .bills-cards-grid {
+                display: grid;
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+
+            .bill-card {
+                background: linear-gradient(135deg, #ffffff 0%, #f9fafb 100%);
+                border: 1px solid #e1e5e9;
+                border-radius: 16px;
+                padding: 24px;
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                cursor: pointer;
+                position: relative;
+                overflow: hidden;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+            }
+
+            .bill-card::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                height: 3px;
+                background: linear-gradient(90deg, #374151, #111827);
+                opacity: 0;
+                transition: opacity 0.3s ease;
+            }
+
+            .bill-card:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+                border-color: #9ca3af;
+            }
+
+            .bill-card:hover::before {
+                opacity: 1;
+            }
+
+            .bill-card-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: flex-start;
+                margin-bottom: 16px;
+                padding-bottom: 12px;
+                border-bottom: 1px solid #f3f4f6;
+            }
+
+            .bill-header-left {
+                flex: 1;
+            }
+
+            .bill-period-room {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+            }
+
+            .bill-period {
+                font-size: 16px;
+                font-weight: 700;
+                color: #111827;
+            }
+
+            .bill-room {
+                font-size: 12px;
+                font-weight: 600;
+                color: #6b7280;
+                background: #f3f4f6;
+                padding: 3px 8px;
+                border-radius: 6px;
+            }
+
+            .bill-metrics {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 16px;
+                margin-bottom: 16px;
+            }
+
+            .bill-metric-item {
+                display: flex;
+                flex-direction: column;
+                gap: 4px;
+                text-align: center;
+            }
+
+            .bill-metric-label {
+                font-size: 11px;
+                color: #6b7280;
+                font-weight: 600;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+            }
+
+            .bill-metric-value {
+                font-size: 16px;
+                font-weight: 700;
+                color: #111827;
+            }
+
+            .bill-detail-btn {
+                background: #111827;
+                color: white;
+                border: none;
+                padding: 6px 12px;
+                border-radius: 6px;
+                font-size: 11px;
+                font-weight: 600;
+                cursor: pointer;
+                transition: all 0.2s;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+                height: fit-content;
+            }
+
+            .bill-detail-btn:hover {
+                background: #374151;
+                transform: translateY(-1px);
+            }
+
+            .no-bills-message {
+                text-align: center;
+                padding: 40px 20px;
+                color: #6b7280;
+            }
+
+            .no-bills-message p {
+                margin: 0;
+                font-size: 16px;
+            }
+
+            /* 响应式设计 */
+            @media (max-width: 768px) {
+                .drawer-container {
+                    width: 100%;
+                }
+
+                .drawer-content {
+                    padding: 16px;
+                }
+
+                .stats-grid {
+                    grid-template-columns: 1fr;
+                    gap: 12px;
+                }
+
+                .stats-card {
+                    padding: 16px;
+                    flex-direction: row;
+                    text-align: left;
+                    gap: 16px;
+                    border-radius: 12px;
+                }
+
+                .stats-icon {
+                    font-size: 32px;
+                    margin-bottom: 0;
+                }
+
+                .stats-main {
+                    flex-direction: column;
+                    gap: 6px;
+                    align-items: flex-start;
+                }
+
+                .stats-content {
+                    flex: 1;
+                    text-align: left;
+                }
+
+                .stats-label {
+                    text-align: left;
+                    margin-bottom: 4px;
+                }
+
+                .stats-number-container {
+                    justify-content: flex-start;
+                }
+
+                .stats-number {
+                    font-size: 20px;
+                }
+
+                .stats-sub {
+                    justify-content: flex-start;
+                }
+
+                .bill-card {
+                    padding: 16px;
+                }
+
+                .bill-card-header {
+                    flex-direction: column;
+                    align-items: stretch;
+                    gap: 12px;
+                }
+
+                .bill-period-room {
+                    flex-direction: column;
+                    align-items: flex-start;
+                    gap: 4px;
+                }
+
+                .bill-detail-btn {
+                    align-self: flex-end;
+                    font-size: 10px;
+                    padding: 4px 8px;
+                }
+
+                .bill-metrics {
+                    grid-template-columns: 1fr;
+                    gap: 12px;
+                }
+
+                .bill-metric-item {
+                    flex-direction: row;
+                    justify-content: space-between;
+                    align-items: center;
+                    text-align: left;
+                }
+
+                .bill-metric-label {
+                    text-transform: none;
+                    font-size: 12px;
+                }
+
+                .bill-metric-value {
+                    font-size: 14px;
                 }
             }
         `;

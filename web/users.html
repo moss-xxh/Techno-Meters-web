@@ -15,26 +15,53 @@
             </div>
             <div class="nav-menu">
                 <a href="dashboard.html" class="nav-link" data-zh="仪表盘" data-en="Dashboard">仪表盘</a>
-                <a href="pricing-templates.html" class="nav-link" data-zh="电价模版" data-en="Pricing Templates">电价模版</a>
-                <a href="space-management.html" class="nav-link" data-zh="空间管理" data-en="Space Management">空间管理</a>
                 <a href="device-management.html" class="nav-link" data-zh="设备管理" data-en="Device Management">设备管理</a>
+                <a href="space-management.html" class="nav-link" data-zh="建筑管理" data-en="Building Management">建筑管理</a>
                 <a href="user-management.html" class="nav-link active" data-zh="用户管理" data-en="User Management">用户管理</a>
                 <a href="bills.html" class="nav-link" data-zh="账单管理" data-en="Bill Management">账单管理</a>
             </div>
-            <div class="nav-actions">
+            <div class="nav-actions" style="overflow: visible !important;">
                 <div class="lang-dropdown">
                     <select id="language-select" class="form-select lang-select">
                         <option value="zh" data-zh="中文" data-en="Chinese">中文</option>
                         <option value="en" data-zh="English" data-en="English">English</option>
                     </select>
                 </div>
-                <div class="user-menu">
-                    <div class="user-avatar">管</div>
-                    <span data-zh="管理员" data-en="Admin">管理员</span>
+                <div class="user-menu" style="position: relative; overflow: visible !important;">
+                    <input type="checkbox" id="user-dropdown-toggle" style="display: none;">
+                    <label for="user-dropdown-toggle" style="display: flex; align-items: center; cursor: pointer; gap: 8px;">
+                        <div class="user-avatar">管</div>
+                        <span data-zh="管理员" data-en="Admin">管理员</span>
+                        <span style="font-size: 12px; margin-left: 4px;">▼</span>
+                    </label>
+                    <div class="dropdown-menu" style="position: fixed; top: 64px; right: 20px; background: white; border: 1px solid #e5e7eb; border-radius: 8px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); min-width: 120px; display: none; z-index: 9999; padding: 4px 0;">
+                        <label for="logout-confirm-toggle" style="display: flex; align-items: center; padding: 12px 16px; color: #dc2626; font-size: 14px; cursor: pointer; gap: 8px;">
+                            <span style="font-size: 16px;">🚪</span>
+                            <span data-zh="退出登录" data-en="Logout">退出登录</span>
+                        </label>
+                    </div>
                 </div>
+                <style>
+                    #user-dropdown-toggle:checked + label + .dropdown-menu { display: block !important; }
+                    #logout-confirm-toggle:checked + .logout-modal { display: flex !important; }
+                </style>
             </div>
         </div>
     </nav>
+
+    <!-- 退出确认弹窗 -->
+    <input type="checkbox" id="logout-confirm-toggle" style="display: none;">
+    <div class="logout-modal" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); display: none; z-index: 99999; align-items: center; justify-content: center;">
+        <div style="background: white; border-radius: 12px; padding: 32px; max-width: 420px; width: 90%; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);">
+            <div style="text-align: center; font-size: 48px; margin-bottom: 20px;">⚠️</div>
+            <h3 style="text-align: center; font-size: 20px; font-weight: 600; color: #1f2937; margin: 0 0 12px 0;">确认退出</h3>
+            <p style="text-align: center; color: #6b7280; font-size: 16px; margin: 0 0 28px 0;">您确定要退出登录吗？退出后需要重新输入用户名和密码。</p>
+            <div style="display: flex; gap: 12px; justify-content: center;">
+                <label for="logout-confirm-toggle" style="padding: 12px 24px; background: #f3f4f6; color: #374151; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 500; min-width: 80px; text-align: center;">取消</label>
+                <a href="index.html" style="padding: 12px 24px; background: #dc2626; color: white; border-radius: 8px; text-decoration: none; font-size: 14px; font-weight: 500; min-width: 80px; text-align: center;">确认退出</a>
+            </div>
+        </div>
+    </div>
 
     <!-- 主内容区域 -->
     <main class="main-content">

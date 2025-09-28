@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title data-zh="设备管理" data-en="Device Management">Device Management</title>
+    <title data-zh="设备管理" data-en="Device Management">设备管理</title>
     <link rel="stylesheet" href="assets/css/common.css">
     <link rel="stylesheet" href="assets/css/navbar.css">
+    <!-- 禁用navbar.js以避免自动重定向 -->
 </head>
 <body>
     <!-- 导航栏 -->
@@ -16,26 +17,132 @@
             </div>
             <div class="nav-menu">
                 <a href="dashboard.html" class="nav-link" data-zh="仪表盘" data-en="Dashboard">仪表盘</a>
-                <a href="pricing-templates.html" class="nav-link" data-zh="电价模版" data-en="Pricing Templates">电价模版</a>
-                <a href="space-management.html" class="nav-link" data-zh="空间管理" data-en="Space Management">空间管理</a>
                 <a href="device-management.html" class="nav-link active" data-zh="设备管理" data-en="Device Management">设备管理</a>
+                <a href="space-management.html" class="nav-link" data-zh="建筑管理" data-en="Building Management">建筑管理</a>
                 <a href="user-management.html" class="nav-link" data-zh="用户管理" data-en="User Management">用户管理</a>
                 <a href="bills.html" class="nav-link" data-zh="账单管理" data-en="Bill Management">账单管理</a>
             </div>
-            <div class="nav-actions">
+            <div class="nav-actions" style="overflow: visible !important;">
                 <div class="lang-dropdown">
                     <select id="language-select" class="form-select lang-select">
-                        <option value="en" data-zh="English" data-en="English">English</option>
                         <option value="zh" data-zh="中文" data-en="Chinese">中文</option>
+                        <option value="en" data-zh="English" data-en="English">English</option>
                     </select>
                 </div>
-                <div class="user-menu">
-                    <div class="user-avatar">管</div>
-                    <span data-zh="管理员" data-en="Admin">Admin</span>
+                <div class="user-menu" style="position: relative; overflow: visible !important;">
+                    <input type="checkbox" id="user-dropdown-toggle" style="display: none;">
+                    <label for="user-dropdown-toggle" style="display: flex; align-items: center; cursor: pointer; gap: 8px;">
+                        <div class="user-avatar">管</div>
+                        <span data-zh="管理员" data-en="Admin">管理员</span>
+                        <span style="font-size: 12px; margin-left: 4px;">▼</span>
+                    </label>
+
+                    <!-- 下拉菜单 -->
+                    <div class="dropdown-menu" style="position: fixed; top: 64px; right: 20px; background: white; border: 1px solid #e5e7eb; border-radius: 8px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); min-width: 120px; display: none; z-index: 9999; padding: 4px 0;">
+                        <label for="logout-confirm-toggle" style="display: flex; align-items: center; padding: 12px 16px; text-decoration: none; color: #dc2626; font-size: 14px; transition: background-color 0.15s ease; gap: 8px; cursor: pointer;">
+                            <span style="font-size: 16px;">🚪</span>
+                            <span data-zh="退出登录" data-en="Logout">退出登录</span>
+                        </label>
+                    </div>
                 </div>
+
+                <style>
+                    .navbar, .nav-content, .nav-actions, .user-menu {
+                        overflow: visible !important;
+                    }
+
+                    #user-dropdown-toggle:checked + label + .dropdown-menu {
+                        display: block !important;
+                        animation: dropdownFadeIn 0.2s ease-out;
+                    }
+
+                    #user-dropdown-toggle:checked + label span:last-child {
+                        transform: rotate(180deg);
+                        transition: transform 0.2s ease;
+                    }
+
+                    .dropdown-menu a:hover {
+                        background-color: #f9fafb !important;
+                    }
+
+                    .dropdown-menu a[href="login.html"]:hover {
+                        background-color: #fef2f2 !important;
+                    }
+
+                    @keyframes dropdownFadeIn {
+                        from {
+                            opacity: 0;
+                            transform: translateY(-10px);
+                        }
+                        to {
+                            opacity: 1;
+                            transform: translateY(0);
+                        }
+                    }
+
+                    /* 退出确认弹窗样式 */
+                    #logout-confirm-toggle:checked + .logout-modal {
+                        display: flex !important;
+                        animation: modalFadeIn 0.3s ease-out;
+                    }
+
+                    #logout-confirm-toggle:checked + .logout-modal > div {
+                        transform: scale(1) !important;
+                        animation: modalSlideIn 0.3s ease-out;
+                    }
+
+                    @keyframes modalFadeIn {
+                        from { opacity: 0; }
+                        to { opacity: 1; }
+                    }
+
+                    @keyframes modalSlideIn {
+                        from {
+                            transform: scale(0.8) translateY(-20px);
+                            opacity: 0;
+                        }
+                        to {
+                            transform: scale(1) translateY(0);
+                            opacity: 1;
+                        }
+                    }
+
+                    /* hover效果 */
+                    .logout-modal label:hover {
+                        background-color: #e5e7eb !important;
+                    }
+
+                    .logout-modal a:hover {
+                        background-color: #b91c1c !important;
+                    }
+                </style>
             </div>
         </div>
     </nav>
+
+    <!-- 退出确认弹窗 -->
+    <input type="checkbox" id="logout-confirm-toggle" style="display: none;">
+    <div class="logout-modal" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); display: none; z-index: 99999; align-items: center; justify-content: center; backdrop-filter: blur(4px);">
+        <div style="background: white; border-radius: 12px; padding: 32px; max-width: 420px; width: 90%; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3); transform: scale(0.9); transition: transform 0.2s ease;">
+            <!-- 关闭按钮 -->
+            <label for="logout-confirm-toggle" style="position: absolute; top: 16px; right: 16px; width: 32px; height: 32px; cursor: pointer; display: flex; align-items: center; justify-content: center; border-radius: 50%; background: #f3f4f6; color: #6b7280; font-size: 18px; line-height: 1;">×</label>
+
+            <!-- 图标 -->
+            <div style="text-align: center; font-size: 48px; margin-bottom: 20px;">⚠️</div>
+
+            <!-- 标题 -->
+            <h3 style="text-align: center; font-size: 20px; font-weight: 600; color: #1f2937; margin-bottom: 12px; margin-top: 0;" data-zh="确认退出" data-en="Confirm Logout">确认退出</h3>
+
+            <!-- 描述 -->
+            <p style="text-align: center; color: #6b7280; font-size: 16px; line-height: 1.5; margin-bottom: 28px; margin-top: 0;" data-zh="您确定要退出登录吗？退出后需要重新输入用户名和密码。" data-en="Are you sure you want to logout? You will need to enter your username and password again.">您确定要退出登录吗？退出后需要重新输入用户名和密码。</p>
+
+            <!-- 按钮组 -->
+            <div style="display: flex; gap: 12px; justify-content: center;">
+                <label for="logout-confirm-toggle" style="padding: 12px 24px; background: #f3f4f6; color: #374151; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 500; text-align: center; transition: background-color 0.2s ease; min-width: 80px;" data-zh="取消" data-en="Cancel">取消</label>
+                <a href="index.html" style="padding: 12px 24px; background: #dc2626; color: white; border-radius: 8px; text-decoration: none; font-size: 14px; font-weight: 500; text-align: center; transition: background-color 0.2s ease; min-width: 80px; display: block;" data-zh="确认退出" data-en="Confirm">确认退出</a>
+            </div>
+        </div>
+    </div>
 
     <!-- 主内容区域 -->
     <main class="main-content">
@@ -45,57 +152,57 @@
                 <!-- 搜索和操作区域 -->
                 <div class="search-section">
                     <div class="search-controls">
-                        <input type="text" id="device-search" class="form-input" placeholder="Device ID/Name/Location..." data-zh-placeholder="设备ID/名称/位置..." data-en-placeholder="Device ID/Name/Location...">
-                        <select id="device-type-filter" class="form-select">
-                            <option value="all" data-zh="全部类型" data-en="All Types">All Types</option>
-                            <option value="single-phase" data-zh="单相电表" data-en="Single Phase">Single Phase</option>
-                            <option value="three-phase" data-zh="三相电表" data-en="Three Phase">Three Phase</option>
-                        </select>
+                        <input type="text" id="device-search" class="form-input" placeholder="设备ID/名称/位置..." data-zh-placeholder="设备ID/名称/位置..." data-en-placeholder="Device ID/Name/Location...">
                         <select id="device-status-filter" class="form-select">
-                            <option value="all" data-zh="全部状态" data-en="All Status">All Status</option>
-                            <option value="online" data-zh="在线" data-en="Online">Online</option>
-                            <option value="offline" data-zh="离线" data-en="Offline">Offline</option>
-                            <option value="error" data-zh="故障" data-en="Error">Error</option>
+                            <option value="all" data-zh="全部状态" data-en="All Status">全部状态</option>
+                            <option value="online" data-zh="在线" data-en="Online">在线</option>
+                            <option value="offline" data-zh="离线" data-en="Offline">离线</option>
+                            <option value="error" data-zh="故障" data-en="Error">故障</option>
                         </select>
                     </div>
                     <div class="search-actions">
                         <button class="btn btn-primary" onclick="searchDevices()">
-                            <span data-zh="查询" data-en="Search">Search</span>
+                            <span data-zh="查询" data-en="Search">查询</span>
                         </button>
                         <button class="btn btn-secondary" onclick="resetFilters()">
-                            <span data-zh="重置" data-en="Reset">Reset</span>
+                            <span data-zh="重置" data-en="Reset">重置</span>
                         </button>
                     </div>
                 </div>
 
-                <!-- 设备列表表格 -->
+                <!-- 设备管理卡片 -->
                 <div class="table-container">
+                    <!-- 设备状态标签页 -->
+                    <div class="device-tabs">
+                        <button class="device-tab active" data-status="unconnected" onclick="filterDevicesByStatus('unconnected')">
+                            <span data-zh="未连接" data-en="Unconnected">未连接</span>
+                            <span class="tab-count" id="count-unconnected">(3)</span>
+                        </button>
+                        <button class="device-tab" data-status="connected-unbound" onclick="filterDevicesByStatus('connected-unbound')">
+                            <span data-zh="已连接，未绑定" data-en="Connected, Unbound">已连接，未绑定</span>
+                            <span class="tab-count" id="count-connected-unbound">(5)</span>
+                        </button>
+                        <button class="device-tab" data-status="bound" onclick="filterDevicesByStatus('bound')">
+                            <span data-zh="已绑定" data-en="Bound">已绑定</span>
+                            <span class="tab-count" id="count-bound">(7)</span>
+                        </button>
+                    </div>
                     <div class="table-header">
                         <div class="table-actions-left">
                             <button class="btn btn-success" onclick="showAddDeviceModal()">
-                                <span data-zh="+ 添加设备" data-en="+ Add Device">+ Add Device</span>
+                                <span data-zh="+ 添加设备" data-en="+ Add Device">+ 添加设备</span>
                             </button>
                         </div>
                         <div class="table-actions-right" id="batch-actions">
-                            <span class="selected-count" id="selected-count">Selected 0 devices</span>
+                            <span class="selected-count" id="selected-count" data-zh="已选择 0 个设备" data-en="Selected 0 devices">已选择 0 个设备</span>
                             <button class="btn btn-primary" id="ota-upgrade-btn" onclick="showOtaUpgradeModal()" disabled>
-                                <span data-zh="OTA升级" data-en="OTA Upgrade">OTA Upgrade</span>
+                                <span data-zh="OTA升级" data-en="OTA Upgrade">OTA升级</span>
                             </button>
                         </div>
                     </div>
                     <table class="table" id="devices-table">
-                        <thead>
-                            <tr>
-                                <th style="width: 50px;">
-                                    <input type="checkbox" id="select-all-devices" onchange="toggleSelectAll()">
-                                </th>
-                                <th data-sortable data-zh="设备ID" data-en="Device ID">Device ID</th>
-                                <th data-sortable data-zh="设备名称" data-en="Device Name">Device Name</th>
-                                <th data-sortable data-zh="位置" data-en="Position">Position</th>
-                                <th data-sortable data-zh="倍率" data-en="Ratio">Ratio</th>
-                                <th data-sortable data-zh="状态" data-en="Status">Status</th>
-                                <th data-zh="操作" data-en="Actions">Actions</th>
-                            </tr>
+                        <thead id="devices-thead">
+                            <!-- 表头由JavaScript动态生成 -->
                         </thead>
                         <tbody id="devices-tbody">
                             <!-- 数据由JavaScript生成 -->
@@ -148,18 +255,6 @@
                             </div>
                         </div>
 
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="device-position" data-zh="位置" data-en="Position">位置</label>
-                                <select id="device-position" name="devicePosition" class="form-select">
-                                    <option value="" data-zh="请选择位置" data-en="Select position">请选择位置</option>
-                                    <option value="building-1" data-zh="1号楼" data-en="Building 1">1号楼</option>
-                                    <option value="building-2" data-zh="2号楼" data-en="Building 2">2号楼</option>
-                                    <option value="parking" data-zh="停车场" data-en="Parking">停车场</option>
-                                    <option value="outdoor" data-zh="室外区域" data-en="Outdoor">室外区域</option>
-                                </select>
-                            </div>
-                        </div>
 
                         <div class="form-row">
                             <div class="form-group">
@@ -196,8 +291,8 @@
                 <button class="modal-close" onclick="hideDeleteConfirm()">&times;</button>
             </div>
             <div class="modal-body">
-                <p>确定要删除设备 "<span id="delete-device-name"></span>" 吗？</p>
-                <p class="delete-warning">此操作不可撤销。</p>
+                <p data-zh="确定要删除设备 &quot;<span id='delete-device-name'></span>&quot; 吗？" data-en="Are you sure you want to delete device &quot;<span id='delete-device-name'></span>&quot;?">确定要删除设备 "<span id="delete-device-name"></span>" 吗？</p>
+                <p class="delete-warning" data-zh="此操作不可撤销。" data-en="This action cannot be undone.">此操作不可撤销。</p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" onclick="hideDeleteConfirm()" data-zh="取消" data-en="Cancel">取消</button>
@@ -253,12 +348,13 @@
         </div>
     </div>
 
+    <!-- 重新启用navbar.js和common.js以确保语言功能正常 -->
     <script src="assets/js/navbar.js"></script>
     <script src="assets/js/common.js"></script>
     <script>
-        // 获取当前语言
+        // 使用全局语言函数
         function getDevicePageLanguage() {
-            return document.getElementById('language-select')?.value || 'zh';
+            return getCurrentLanguage(); // 使用全局语言设置
         }
 
         // 强制翻译所有静态文本
@@ -311,45 +407,267 @@
         const devicesData = [
             {
                 id: 'MTR001',
-                name: '1号楼主电表',
-                nameEn: 'Building 1 Main Meter',
+                name: '设备001',
+                nameEn: 'Device 001',
                 type: 'three-phase',
-                position: 'building-1',
+                position: '1号楼/1层/101',
                 ratio: 1,
                 status: 'online',
+                bound: true,
                 lastReading: '2025-09-22 10:30'
             },
             {
                 id: 'MTR002',
-                name: '2号楼主电表',
-                nameEn: 'Building 2 Main Meter',
+                name: '设备002',
+                nameEn: 'Device 002',
                 type: 'three-phase',
-                position: 'building-2',
+                position: '2号楼/2层/202',
                 ratio: 1,
                 status: 'online',
+                bound: true,
                 lastReading: '2025-09-22 10:28'
             },
             {
                 id: 'MTR003',
-                name: '3层东侧分电表',
-                nameEn: 'Floor 3 East Sub-meter',
+                name: '设备003',
+                nameEn: 'Device 003',
                 type: 'single-phase',
                 position: 'building-1',
                 ratio: 10,
                 status: 'offline',
+                bound: false,
                 lastReading: '2025-09-22 08:15'
+            },
+            {
+                id: 'MTR004',
+                name: '设备004',
+                nameEn: 'Device 004',
+                type: 'single-phase',
+                position: 'building-1',
+                ratio: 5,
+                status: 'online',
+                bound: false,
+                lastReading: '2025-09-22 10:25'
+            },
+            {
+                id: 'MTR005',
+                name: '设备005',
+                nameEn: 'Device 005',
+                type: 'three-phase',
+                position: '1号楼/地下1层/B101',
+                ratio: 1,
+                status: 'online',
+                bound: true,
+                lastReading: '2025-09-22 10:20'
+            },
+            {
+                id: 'MTR006',
+                name: '设备006',
+                nameEn: 'Device 006',
+                type: 'three-phase',
+                position: 'building-2',
+                ratio: 1,
+                status: 'offline',
+                bound: false,
+                lastReading: '2025-09-22 09:45'
+            },
+            {
+                id: 'MTR007',
+                name: '设备007',
+                nameEn: 'Device 007',
+                type: 'single-phase',
+                position: 'building-2',
+                ratio: 10,
+                status: 'online',
+                bound: false,
+                lastReading: '2025-09-22 10:32'
+            },
+            {
+                id: 'MTR008',
+                name: '设备008',
+                nameEn: 'Device 008',
+                type: 'three-phase',
+                position: 'building-1',
+                ratio: 1,
+                status: 'offline',
+                bound: false,
+                lastReading: '2025-09-22 08:30'
             }
         ];
 
         // 分页变量
         let currentPage = 1;
-        let filteredDevices = [...devicesData];
+        let currentStatus = 'unconnected'; // 当前选中的状态
+        let filteredDevices = devicesData.filter(device => device.status === 'offline' && !device.bound); // 默认显示未连接设备
+
+        // 根据状态定义表头配置
+        const tableHeaders = {
+            'unconnected': [
+                { key: 'id', zh: '设备ID', en: 'Device ID' },
+                { key: 'name', zh: '设备名称', en: 'Device Name' },
+                { key: 'ratio', zh: '倍率', en: 'Ratio' },
+                { key: 'status', zh: '连接状态', en: 'Connection Status' }
+            ],
+            'connected-unbound': [
+                { key: 'id', zh: '设备ID', en: 'Device ID' },
+                { key: 'name', zh: '设备名称', en: 'Device Name' },
+                { key: 'position', zh: '位置', en: 'Position' },
+                { key: 'ratio', zh: '倍率', en: 'Ratio' },
+                { key: 'status', zh: '连接状态', en: 'Connection Status' }
+            ],
+            'bound': [
+                { key: 'id', zh: '设备ID', en: 'Device ID' },
+                { key: 'name', zh: '设备名称', en: 'Device Name' },
+                { key: 'position', zh: '位置', en: 'Position' },
+                { key: 'ratio', zh: '倍率', en: 'Ratio' },
+                { key: 'status', zh: '连接状态', en: 'Connection Status' }
+            ]
+        };
+
+        // 根据状态定义操作按钮配置
+        const actionButtons = {
+            'unconnected': [
+                { action: 'edit', zh: '编辑', en: 'Edit', class: 'btn-primary' },
+                { action: 'delete', zh: '删除', en: 'Delete', class: 'btn-danger' }
+            ],
+            'connected-unbound': [
+                { action: 'edit', zh: '编辑', en: 'Edit', class: 'btn-primary' },
+                { action: 'view', zh: '详情', en: 'Details', class: 'btn-info' },
+                { action: 'delete', zh: '删除', en: 'Delete', class: 'btn-danger' }
+            ],
+            'bound': [
+                { action: 'edit', zh: '编辑', en: 'Edit', class: 'btn-primary' },
+                { action: 'view', zh: '详情', en: 'Details', class: 'btn-info' },
+                { action: 'delete', zh: '删除', en: 'Delete', class: 'btn-danger' }
+            ]
+        };
+
+        // 渲染表头
+        function renderTableHeaders(status) {
+            const thead = document.getElementById('devices-thead');
+            const headers = tableHeaders[status];
+            const currentLang = getDevicePageLanguage();
+
+            let headerHtml = `
+                <tr>
+                    <th style="width: 50px;">
+                        <input type="checkbox" id="select-all-devices" onchange="toggleSelectAll()">
+                    </th>
+            `;
+
+            headers.forEach(header => {
+                const headerText = currentLang === 'en' ? header.en : header.zh;
+                headerHtml += `<th data-sortable data-zh="${header.zh}" data-en="${header.en}">${headerText}</th>`;
+            });
+
+            headerHtml += `<th data-zh="操作" data-en="Actions">${currentLang === 'en' ? 'Actions' : '操作'}</th></tr>`;
+            thead.innerHTML = headerHtml;
+        }
+
+        // 渲染设备行
+        function renderDeviceRow(device, status) {
+            const headers = tableHeaders[status];
+            const actions = actionButtons[status];
+            const currentLang = getDevicePageLanguage();
+
+            let rowHtml = `
+                <tr>
+                    <td><input type="checkbox" class="device-checkbox" value="${device.id}"></td>
+            `;
+
+            headers.forEach(header => {
+                let cellValue = '';
+                switch(header.key) {
+                    case 'id':
+                        cellValue = device.id;
+                        break;
+                    case 'name':
+                        cellValue = currentLang === 'en' ? (device.nameEn || device.name) : device.name;
+                        break;
+                    case 'position':
+                        // 已连接未绑定的设备显示--
+                        if (device.status === 'online' && !device.bound) {
+                            cellValue = '--';
+                        } else if (device.bound) {
+                            // 已绑定设备直接显示位置信息
+                            cellValue = device.position || '-';
+                        } else {
+                            const positionMap = currentLang === 'en' ? {
+                                'building-1': 'Building 1',
+                                'building-2': 'Building 2',
+                                'parking': 'Parking',
+                                'outdoor': 'Outdoor Area'
+                            } : {
+                                'building-1': '1号楼',
+                                'building-2': '2号楼',
+                                'parking': '停车场',
+                                'outdoor': '室外区域'
+                            };
+                            cellValue = positionMap[device.position] || device.position || '-';
+                        }
+                        break;
+                    case 'ratio':
+                        cellValue = device.ratio;
+                        break;
+                    case 'status':
+                        let statusText, statusClass;
+
+                        // 根据设备状态和绑定情况确定显示文本
+                        if (device.status === 'offline' && !device.bound) {
+                            statusText = currentLang === 'en' ? 'Unconnected' : '未连接';
+                            statusClass = 'status-unconnected';
+                        } else if (device.status === 'online' && !device.bound) {
+                            statusText = currentLang === 'en' ? 'Connected, Unbound' : '已连接，未绑定';
+                            statusClass = 'status-connected-unbound';
+                        } else if (device.bound) {
+                            statusText = currentLang === 'en' ? 'Bound' : '已绑定';
+                            statusClass = 'status-bound';
+                        } else {
+                            statusText = device.status === 'online' ?
+                                (currentLang === 'en' ? 'Online' : '在线') :
+                                (currentLang === 'en' ? 'Offline' : '离线');
+                            statusClass = device.status === 'online' ? 'status-online' : 'status-offline';
+                        }
+
+                        cellValue = `<span class="${statusClass}">${statusText}</span>`;
+                        break;
+                    default:
+                        cellValue = device[header.key] || '-';
+                }
+                rowHtml += `<td>${cellValue}</td>`;
+            });
+
+            // 添加操作列
+            rowHtml += '<td><div class="actions">';
+            actions.forEach(action => {
+                const buttonText = currentLang === 'en' ? action.en : action.zh;
+                let onclick = '';
+                switch(action.action) {
+                    case 'edit':
+                        onclick = `editDevice('${device.id}')`;
+                        break;
+                    case 'view':
+                        onclick = `viewDevice('${device.id}')`;
+                        break;
+                    case 'delete':
+                        onclick = `deleteDevice('${device.id}')`;
+                        break;
+                }
+                rowHtml += `<button class="btn btn-sm ${action.class}" onclick="${onclick}">${buttonText}</button>`;
+            });
+            rowHtml += '</div></td></tr>';
+
+            return rowHtml;
+        }
 
         function renderDevicesTable() {
             console.log('=== renderDevicesTable called ===');
             console.log('devicesData:', devicesData);
             console.log('devicesData length:', devicesData.length);
             console.log('filteredDevices length:', filteredDevices.length);
+
+            // 首先渲染表头
+            renderTableHeaders(currentStatus);
 
             const tbody = document.getElementById('devices-tbody');
             console.log('tbody element:', tbody);
@@ -368,7 +686,8 @@
             if (pageDevices.length === 0) {
                 console.warn('No devices to display on current page');
                 const currentLang = getDevicePageLanguage();
-                tbody.innerHTML = `<tr><td colspan="7" style="text-align:center; padding: 20px;">${currentLang === 'en' ? 'No device data' : '暂无设备数据'}</td></tr>`;
+                const columnCount = tableHeaders[currentStatus].length + 2; // +2 for checkbox and actions columns
+                tbody.innerHTML = `<tr><td colspan="${columnCount}" style="text-align:center; padding: 20px;">${currentLang === 'en' ? 'No device data' : '暂无设备数据'}</td></tr>`;
                 return;
             }
 
@@ -402,25 +721,7 @@
                     };
                     const positionText = positionMap[device.position] || device.position || '-';
 
-                    return `
-                        <tr>
-                            <td>
-                                <input type="checkbox" class="device-checkbox" value="${device.id}" onchange="updateBatchActions()">
-                            </td>
-                            <td><strong>${device.id}</strong></td>
-                            <td>${currentLang === 'en' ? (device.nameEn || device.name) : device.name}</td>
-                            <td>${positionText}</td>
-                            <td>${device.ratio || 1}</td>
-                            <td><span class="device-status ${statusClass}">${statusText}</span></td>
-                            <td>
-                                <div class="actions">
-                                    <button class="btn btn-sm btn-secondary" onclick="editDevice('${device.id}')">${currentLang === 'en' ? 'Edit' : '编辑'}</button>
-                                    <button class="btn btn-sm btn-primary" onclick="viewDevice('${device.id}')">${currentLang === 'en' ? 'Details' : '详情'}</button>
-                                    <button class="btn btn-sm btn-danger" onclick="deleteDevice('${device.id}')">${currentLang === 'en' ? 'Delete' : '删除'}</button>
-                                </div>
-                            </td>
-                        </tr>
-                    `;
+                    return renderDeviceRow(device, currentStatus);
                 }).join('');
                 console.log('表格HTML生成成功，长度:', tbody.innerHTML.length);
                 updatePagination();
@@ -447,6 +748,56 @@
         function resetFilters() {
             const currentLang = getDevicePageLanguage();
             alert(currentLang === 'en' ? 'Reset filters functionality' : '重置功能');
+        }
+
+        // 设备状态标签页过滤功能
+        function filterDevicesByStatus(status) {
+            // 更新当前状态
+            currentStatus = status;
+
+            // 更新标签页激活状态
+            document.querySelectorAll('.device-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelector(`[data-status="${status}"]`).classList.add('active');
+
+            // 根据状态过滤设备
+            let newFilteredDevices = [];
+            switch(status) {
+                case 'unconnected':
+                    newFilteredDevices = devicesData.filter(device => device.status === 'offline' && !device.bound);
+                    break;
+                case 'connected-unbound':
+                    newFilteredDevices = devicesData.filter(device => device.status === 'online' && !device.bound);
+                    break;
+                case 'bound':
+                    newFilteredDevices = devicesData.filter(device => device.bound === true);
+                    break;
+            }
+
+            // 更新全局过滤设备数据
+            filteredDevices = newFilteredDevices;
+            currentPage = 1;
+            renderDevicesTable();
+            updatePagination();
+
+            console.log(`过滤状态: ${status}, 设备数量: ${filteredDevices.length}`);
+        }
+
+        // 更新设备状态统计
+        function updateDeviceTabCounts() {
+            const counts = {
+                unconnected: devicesData.filter(d => d.status === 'offline' && !d.bound).length,
+                'connected-unbound': devicesData.filter(d => d.status === 'online' && !d.bound).length,
+                bound: devicesData.filter(d => d.bound === true).length
+            };
+
+            Object.keys(counts).forEach(status => {
+                const countElement = document.getElementById(`count-${status}`);
+                if (countElement) {
+                    countElement.textContent = `(${counts[status]})`;
+                }
+            });
         }
 
         function showAddDeviceModal() {
@@ -490,14 +841,17 @@
             const deviceId = form.getAttribute('data-device-id');
 
             // 获取表单数据
+
+
             const deviceData = {
                 id: formData.get('deviceId').trim() || 'MTR' + String(Math.floor(Math.random() * 900) + 100),
                 name: formData.get('deviceName').trim() || '未命名设备',
-                type: 'single-phase', // 默认设备类型
-                position: formData.get('devicePosition'),
-                ratio: formData.get('deviceRatio').trim() || '1',
-                remarks: formData.get('deviceRemarks').trim() || '',
-                status: 'online',
+                nameEn: formData.get('deviceName').trim() || 'Unnamed Device',
+                type: 'single-phase',
+                position: 'building-1', // 默认位置
+                ratio: parseInt(formData.get('deviceRatio').trim()) || 1,
+                status: 'offline',
+                bound: false,
                 lastReading: new Date().toLocaleString('zh-CN', {
                     year: 'numeric',
                     month: '2-digit',
@@ -513,10 +867,11 @@
                     const index = devicesData.findIndex(d => d.id === deviceId);
                     if (index > -1) {
                         devicesData[index] = { ...devicesData[index], ...deviceData };
-                        filteredDevices = [...devicesData];
 
-                        // 重新渲染表格
-                        renderDevicesTable();
+                        // 更新设备状态统计
+                        updateDeviceTabCounts();
+                        // 重新过滤当前状态的设备
+                        filterDevicesByStatus(currentStatus);
 
                         // 关闭模态框
                         hideAddDeviceModal();
@@ -526,10 +881,11 @@
                 } else {
                     // 添加模式：新增设备
                     devicesData.push(deviceData);
-                    filteredDevices = [...devicesData];
 
-                    // 重新渲染表格
-                    renderDevicesTable();
+                    // 更新设备状态统计
+                    updateDeviceTabCounts();
+                    // 重新过滤当前状态的设备
+                    filterDevicesByStatus(currentStatus);
 
                     // 关闭模态框
                     hideAddDeviceModal();
@@ -557,9 +913,7 @@
             const currentLang = getDevicePageLanguage();
             document.getElementById('device-name').value = currentLang === 'en' ? (device.nameEn || device.name) : device.name;
             document.getElementById('device-id').value = device.id;
-            document.getElementById('device-position').value = device.position || '';
             document.getElementById('device-ratio').value = device.ratio || '1';
-            document.getElementById('device-remarks').value = device.remarks || '';
 
             // 修改标题和保存函数
             document.getElementById('modal-title').textContent = currentLang === 'en' ? 'Edit Device' : '编辑设备';
@@ -767,20 +1121,7 @@
             updateProgress();
         }
 
-        // 简单的语言系统初始化
-        function initLanguageSystem() {
-            const languageSelect = document.getElementById('language-select');
-            const savedLanguage = localStorage.getItem('selectedLanguage') || 'en';
-
-            languageSelect.value = savedLanguage;
-            updateLanguage(savedLanguage);
-
-            languageSelect.addEventListener('change', function() {
-                const selectedLanguage = this.value;
-                localStorage.setItem('selectedLanguage', selectedLanguage);
-                updateLanguage(selectedLanguage);
-            });
-        }
+        // 语言系统由全局NavigationManager处理
 
         function updateLanguage(language) {
             const elements = document.querySelectorAll('[data-zh][data-en]');
@@ -812,25 +1153,8 @@
         document.addEventListener('DOMContentLoaded', function() {
             console.log('页面加载开始');
 
-            // 检查EnergySystem是否可用
-            if (typeof EnergySystem !== 'undefined') {
-                console.log('EnergySystem可用');
-                EnergySystem.setActiveNavigation('device-management.html');
-                // 检查initLanguageSystem方法是否存在
-                if (typeof EnergySystem.initLanguageSystem === 'function') {
-                    EnergySystem.initLanguageSystem();
-                } else {
-                    console.log('EnergySystem.initLanguageSystem方法不存在，使用备用语言系统');
-                    if (typeof initLanguageSystem === 'function') {
-                        initLanguageSystem();
-                    }
-                }
-            } else {
-                console.log('EnergySystem不可用，使用简单语言系统');
-                if (typeof initLanguageSystem === 'function') {
-                    initLanguageSystem();
-                }
-            }
+            // 语言系统由全局NavigationManager处理，无需额外初始化
+            console.log('使用全局语言管理系统');
 
             // 确认数据存在
             console.log('设备数据长度:', devicesData.length);
@@ -841,8 +1165,10 @@
             console.log('表格tbody:', tbody);
             if (tbody) {
                 console.log('tbody存在，开始渲染');
-                // 先渲染表格
-                renderDevicesTable();
+                // 更新设备状态统计
+                updateDeviceTabCounts();
+                // 初始化显示未连接设备
+                filterDevicesByStatus('unconnected');
             } else {
                 console.error('无法找到devices-tbody元素');
             }
@@ -1774,8 +2100,353 @@
                     padding: 16px;
                 }
             }
+            /* 位置选择器样式 */
+            .location-selector {
+                display: flex;
+                gap: 8px;
+                align-items: center;
+            }
+
+            .location-selector select {
+                flex: 1;
+                min-width: 120px;
+            }
+
+            @media (max-width: 768px) {
+                .location-selector {
+                    flex-direction: column;
+                    gap: 8px;
+                }
+
+                .location-selector select {
+                    width: 100%;
+                }
+            }
+
+            /* 设备状态标签页样式 */
+            .device-tabs {
+                display: flex;
+                background: var(--surface);
+                border-bottom: var(--border);
+                padding: var(--space-4) var(--space-6);
+                margin: 0;
+                gap: var(--space-2);
+                border-radius: var(--radius) var(--radius) 0 0;
+            }
+
+            .device-tab {
+                display: flex;
+                align-items: center;
+                gap: var(--space-2);
+                padding: var(--space-2) var(--space-4);
+                background: transparent;
+                border: none;
+                border-radius: var(--radius);
+                color: var(--text-secondary);
+                font-size: 14px;
+                font-weight: var(--font-weight-medium);
+                cursor: pointer;
+                transition: all 0.15s ease;
+                white-space: nowrap;
+                position: relative;
+            }
+
+            .device-tab:hover {
+                background: var(--hover);
+                color: var(--text-primary);
+            }
+
+            .device-tab.active {
+                background: var(--background);
+                color: var(--primary);
+                font-weight: var(--font-weight-semibold);
+            }
+
+            .device-tab.active::after {
+                content: '';
+                position: absolute;
+                bottom: -1px;
+                left: 0;
+                right: 0;
+                height: 2px;
+                background: var(--primary);
+                border-radius: 1px;
+            }
+
+            .device-tab.active:hover {
+                background: var(--background);
+                color: var(--primary);
+            }
+
+            .tab-count {
+                font-size: 13px;
+                font-weight: var(--font-weight-normal);
+                opacity: 0.8;
+            }
+
+            /* 响应式设计 */
+            @media (max-width: 768px) {
+                .device-tabs {
+                    flex-wrap: wrap;
+                    gap: var(--space-2);
+                }
+
+                .device-tab {
+                    flex: 1;
+                    min-width: 0;
+                    justify-content: center;
+                    padding: var(--space-2) var(--space-3);
+                    font-size: 13px;
+                }
+            }
+
+            /* 按钮样式补充 - 匹配图片颜色 */
+            .btn-primary {
+                background: #f5f5f5 !important;
+                color: #333333 !important;
+                border: 1px solid #e0e0e0 !important;
+            }
+
+            .btn-primary:hover {
+                background: #ebebeb !important;
+                border-color: #d0d0d0 !important;
+                color: #333333 !important;
+            }
+
+            .btn-info {
+                background: #000000 !important;
+                color: white !important;
+                border: 1px solid #000000 !important;
+            }
+
+            .btn-info:hover {
+                background: #333333 !important;
+                border-color: #333333 !important;
+            }
+
+            .btn-danger {
+                background: #c53030 !important;
+                color: white !important;
+                border: 1px solid #c53030 !important;
+            }
+
+            .btn-danger:hover {
+                background: #b91c1c !important;
+                border-color: #b91c1c !important;
+            }
+
+            /* 状态样式 */
+            .status-online {
+                color: var(--success);
+                font-weight: var(--font-weight-medium);
+            }
+
+            .status-offline {
+                color: var(--error);
+                font-weight: var(--font-weight-medium);
+            }
+
+            .status-unconnected {
+                color: #6b7280;
+                font-weight: var(--font-weight-medium);
+            }
+
+            .status-connected-unbound {
+                color: #f59e0b;
+                font-weight: var(--font-weight-medium);
+            }
+
+            .status-bound {
+                color: var(--success);
+                font-weight: var(--font-weight-medium);
+            }
         `;
         document.head.appendChild(style);
+
+        // 位置树结构数据
+        const locationData = {
+            buildings: [
+                {
+                    id: 'BUILDING001',
+                    name: 'A栋',
+                    nameEn: 'Building A',
+                    floors: [
+                        {
+                            id: 'FLOOR001',
+                            number: '1',
+                            rooms: [
+                                { id: 'ROOM001', number: 'A-101' },
+                                { id: 'ROOM002', number: 'A-102' },
+                                { id: 'ROOM003', number: 'A-103' }
+                            ]
+                        },
+                        {
+                            id: 'FLOOR002',
+                            number: '2',
+                            rooms: [
+                                { id: 'ROOM004', number: 'A-201' },
+                                { id: 'ROOM005', number: 'A-202' }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    id: 'BUILDING002',
+                    name: 'B栋',
+                    nameEn: 'Building B',
+                    floors: [
+                        {
+                            id: 'FLOOR003',
+                            number: '1',
+                            rooms: [
+                                { id: 'ROOM006', number: 'B-101' },
+                                { id: 'ROOM007', number: 'B-102' }
+                            ]
+                        },
+                        {
+                            id: 'FLOOR004',
+                            number: '2',
+                            rooms: [
+                                { id: 'ROOM008', number: 'B-201' }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        };
+
+        // 初始化楼栋选择器
+        function initializeDeviceBuildingOptions() {
+            const buildingSelect = document.getElementById('device-building');
+            const lang = getCurrentLanguage();
+
+            buildingSelect.innerHTML = `<option value="">${lang === 'en' ? 'Select Building' : '请选择楼栋'}</option>`;
+
+            locationData.buildings.forEach(building => {
+                const option = document.createElement('option');
+                option.value = building.id;
+                option.textContent = lang === 'en' ? building.nameEn : building.name;
+                buildingSelect.appendChild(option);
+            });
+        }
+
+        // 更新楼层选择器
+        function updateDeviceFloorOptions() {
+            const buildingSelect = document.getElementById('device-building');
+            const floorSelect = document.getElementById('device-floor');
+            const roomSelect = document.getElementById('device-room');
+            const lang = getCurrentLanguage();
+
+            const selectedBuildingId = buildingSelect.value;
+
+            // 重置楼层和房间选择器
+            floorSelect.innerHTML = '';
+            roomSelect.innerHTML = '';
+            roomSelect.disabled = true;
+
+            if (!selectedBuildingId) {
+                floorSelect.disabled = true;
+                floorSelect.innerHTML = `<option value="">${lang === 'en' ? 'Select Building First' : '请先选择楼栋'}</option>`;
+                roomSelect.innerHTML = `<option value="">${lang === 'en' ? 'Select Floor First' : '请先选择楼层'}</option>`;
+                return;
+            }
+
+            // 找到选中的楼栋
+            const building = locationData.buildings.find(b => b.id === selectedBuildingId);
+            if (!building) return;
+
+            // 启用楼层选择器并填充选项
+            floorSelect.disabled = false;
+            floorSelect.innerHTML = `<option value="">${lang === 'en' ? 'Select Floor' : '请选择楼层'}</option>`;
+
+            building.floors.forEach(floor => {
+                const option = document.createElement('option');
+                option.value = floor.id;
+                option.textContent = floor.number + (lang === 'en' ? 'F' : '楼');
+                floorSelect.appendChild(option);
+            });
+
+            roomSelect.innerHTML = `<option value="">${lang === 'en' ? 'Select Floor First' : '请先选择楼层'}</option>`;
+        }
+
+        // 更新房间选择器
+        function updateDeviceRoomOptions() {
+            const floorSelect = document.getElementById('device-floor');
+            const roomSelect = document.getElementById('device-room');
+            const lang = getCurrentLanguage();
+
+            const selectedFloorId = floorSelect.value;
+
+            // 重置房间选择器
+            roomSelect.innerHTML = '';
+
+            if (!selectedFloorId) {
+                roomSelect.disabled = true;
+                roomSelect.innerHTML = `<option value="">${lang === 'en' ? 'Select Floor First' : '请先选择楼层'}</option>`;
+                return;
+            }
+
+            // 找到选中的楼层
+            const floor = locationData.buildings
+                .flatMap(b => b.floors)
+                .find(f => f.id === selectedFloorId);
+
+            if (!floor) return;
+
+            // 启用房间选择器并填充选项
+            roomSelect.disabled = false;
+            roomSelect.innerHTML = `<option value="">${lang === 'en' ? 'Select Room' : '请选择房间'}</option>`;
+
+            floor.rooms.forEach(room => {
+                const option = document.createElement('option');
+                option.value = room.id;
+                option.textContent = room.number;
+                roomSelect.appendChild(option);
+            });
+        }
+
+        // 修改showAddDeviceModal函数以初始化位置选择器
+        const originalShowAddDeviceModal = showAddDeviceModal;
+        showAddDeviceModal = function() {
+            originalShowAddDeviceModal();
+            initializeDeviceBuildingOptions();
+
+            // 重置所有选择器
+            document.getElementById('device-building').value = '';
+            document.getElementById('device-floor').disabled = true;
+            document.getElementById('device-room').disabled = true;
+            document.getElementById('device-floor').innerHTML = '<option value="">请先选择楼栋</option>';
+            document.getElementById('device-room').innerHTML = '<option value="">请先选择楼层</option>';
+        };
+
+        // 添加语言切换事件监听器
+        window.addEventListener('languageChanged', function(event) {
+            console.log('Language changed to:', event.detail.language);
+
+            // 重新翻译静态文本
+            forceTranslateStaticText();
+
+            // 重新渲染设备列表
+            renderDevicesTable();
+
+            // 更新批量操作文本
+            updateBatchActions();
+
+            // 重新初始化位置选择器（如果模态框已打开）
+            const modal = document.getElementById('device-modal');
+            if (modal && modal.style.display === 'flex') {
+                initializeDeviceBuildingOptions();
+            }
+
+            // 更新搜索框placeholder
+            const searchInput = document.getElementById('device-search');
+            if (searchInput) {
+                const lang = getCurrentLanguage();
+                searchInput.placeholder = lang === 'en' ? 'Device ID/Name/Location...' : '设备ID/名称/位置...';
+            }
+        });
+
     </script>
+
 </body>
 </html>

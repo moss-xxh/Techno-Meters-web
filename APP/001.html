@@ -164,14 +164,227 @@
         }
 
 
-        /* 电费卡片样式 - 黑色填充 */
-        .bill-card {
+        /* 本月账单状态卡片 */
+        .current-bill-status-card {
+            background: #fff;
+            margin: 70px 16px 16px 16px;
+            border-radius: 16px;
+            padding: 24px;
+            border: none;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            position: relative;
+            z-index: 1;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .current-bill-status-card:hover {
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+            transform: translateY(-2px);
+        }
+
+        .card-main-content {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .card-header-section {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .status-content {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .status-icon {
+            width: 40px;
+            height: 40px;
+            background: #4CAF50;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 18px;
+        }
+
+        .status-info h3 {
+            font-size: 18px;
+            font-weight: 600;
+            color: #000;
+            margin: 0 0 4px 0;
+        }
+
+        .status-info p {
+            font-size: 14px;
+            color: #666;
+            margin: 0;
+        }
+
+        .status-badge {
+            background: #4CAF50;
+            color: #fff;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .current-usage-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            padding: 16px 0;
+            border-top: 1px solid #f0f0f0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .usage-section h4 {
+            font-size: 14px;
+            font-weight: 600;
+            color: #666;
+            margin: 0 0 12px 0;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .usage-stats {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .usage-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .usage-label {
+            font-size: 13px;
+            color: #666;
+        }
+
+        .usage-value {
+            font-size: 14px;
+            font-weight: 600;
+            color: #000;
+        }
+
+        .view-details-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            color: #007AFF;
+            font-size: 14px;
+            font-weight: 500;
+            padding: 8px 0;
+        }
+
+        .view-details-btn i {
+            font-size: 12px;
+        }
+
+        /* 本期账单卡片 - 黑色设计 */
+        .current-period-card {
             background: #000;
-            margin: 70px 16px 24px 16px;
+            margin: 84px 16px 20px 16px;
+            border-radius: 12px;
+            padding: 18px 20px;
+            border: none;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .current-period-card:hover {
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .period-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 14px;
+        }
+
+        .period-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #fff;
+            margin: 0;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        .view-all-btn {
+            background: #fff;
+            color: #000;
+            border: none;
+            border-radius: 20px;
+            padding: 8px 16px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .view-all-btn:hover {
+            background: rgba(255, 255, 255, 0.9);
+            transform: scale(1.05);
+        }
+
+        .period-data-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 14px;
+        }
+
+        .period-data-item {
+            text-align: center;
+            padding: 10px 8px;
+        }
+
+        .period-label {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.85);
+            margin-bottom: 4px;
+            font-weight: 600;
+            text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+        }
+
+        .period-value {
+            font-size: 18px;
+            font-weight: 800;
+            color: #fff;
+            line-height: 1.2;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+        }
+
+        .period-unit {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.8);
+            font-weight: 400;
+            margin-left: 2px;
+        }
+
+
+        /* 电费卡片样式 - 白色填充 */
+        .bill-card {
+            background: #fff;
+            margin: 20px 16px 24px 16px;
             border-radius: 16px;
             padding: 32px 24px;
             border: none;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
         }
 
         .card-header {
@@ -219,7 +432,7 @@
         }
 
         .bill-detail-btn {
-            color: rgba(255, 255, 255, 0.6);
+            color: #666;
             font-size: 16px;
             font-weight: 400;
             cursor: pointer;
@@ -238,11 +451,12 @@
 
         .bill-user-info {
             position: absolute;
-            top: -90px;
+            top: -275px;
             left: -20px;
             display: flex;
             align-items: center;
             gap: 16px;
+            z-index: 10;
         }
 
         .bill-avatar {
@@ -272,7 +486,7 @@
         .bill-title {
             font-size: 24px;
             font-weight: 700;
-            color: #ffffff;
+            color: #000;
             text-align: left;
             margin-bottom: 8px;
             letter-spacing: -0.03em;
@@ -280,7 +494,7 @@
 
         .bill-period {
             font-size: 14px;
-            color: rgba(255, 255, 255, 0.7);
+            color: #666;
             text-align: left;
             margin-bottom: 24px;
             font-weight: 500;
@@ -308,7 +522,7 @@
 
         .current-bill-label {
             font-size: 14px;
-            color: rgba(255, 255, 255, 0.8);
+            color: #666;
             margin-bottom: 12px;
             font-weight: 600;
         }
@@ -316,7 +530,7 @@
         .current-bill-value {
             font-size: 28px;
             font-weight: 800;
-            color: #ffffff;
+            color: #000;
             letter-spacing: -0.8px;
             line-height: 1.1;
         }
@@ -324,7 +538,7 @@
         .unit {
             font-size: 16px;
             font-weight: 600;
-            color: rgba(255, 255, 255, 0.7);
+            color: #666;
             margin-left: 3px;
         }
 
@@ -398,7 +612,7 @@
             gap: 24px;
             margin-top: 32px;
             padding-top: 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            border-top: 1px solid #f0f0f0;
         }
 
         .stats-grid-bill .stat-item {
@@ -409,18 +623,18 @@
         }
 
         .stats-grid-bill .stat-value {
-            font-size: 14px;
-            font-weight: 400;
-            color: rgba(255, 255, 255, 0.5);
+            font-size: 16px;
+            font-weight: 600;
+            color: #000;
             margin-bottom: 4px;
             letter-spacing: 0;
         }
 
         .stats-grid-bill .stat-label {
-            font-size: 12px;
-            color: rgba(255, 255, 255, 0.4);
+            font-size: 13px;
+            color: #666;
             line-height: 1.2;
-            font-weight: 400;
+            font-weight: 500;
         }
 
 
@@ -693,6 +907,26 @@
         </div>
     </div>
 
+
+    <!-- 本期账单卡片 -->
+    <div class="current-period-card fade-in">
+        <div class="period-header">
+            <h3 class="period-title" data-zh="本期账单" data-en="Current Period Bill">Current Period Bill</h3>
+            <button class="view-all-btn clickable" onclick="viewCurrentPeriodDetail()" data-zh="查看" data-en="View">View</button>
+        </div>
+
+        <div class="period-data-grid">
+            <div class="period-data-item">
+                <div class="period-label" data-zh="用电量" data-en="Usage">Usage</div>
+                <div class="period-value">450 <span class="period-unit">kWh</span></div>
+            </div>
+            <div class="period-data-item">
+                <div class="period-label" data-zh="金额" data-en="Amount">Amount</div>
+                <div class="period-value">₹2,840 <span class="period-unit">INR</span></div>
+            </div>
+        </div>
+    </div>
+
     <!-- 电费卡片 -->
     <div class="bill-card fade-in">
         <div class="bill-header">
@@ -707,10 +941,10 @@
             <div class="bill-header-content">
                 <div style="display: flex; justify-content: space-between; align-items: baseline;">
                     <div>
-                        <h2 class="bill-title" data-zh="2025年9月账单" data-en="September 2025 Bill">September 2025 Bill</h2>
-                        <div class="bill-period" data-zh="（9月1日-9月30日）" data-en="(Sep 1 - Sep 30)">(Sep 1 - Sep 30)</div>
+                        <h2 class="bill-title" data-zh="2025年8月账单" data-en="August 2025 Bill">August 2025 Bill</h2>
+                        <div class="bill-period" data-zh="（8月1日-8月31日）" data-en="(Aug 1 - Aug 31)">(Aug 1 - Aug 31)</div>
                     </div>
-                    <a href="bill-detail-new.html?month=2025-09" class="bill-detail-btn">
+                    <a href="bill-detail-august.html?month=2025-08" class="bill-detail-btn">
                         <span data-zh="详情 >" data-en="Details >">Details ></span>
                     </a>
                 </div>
@@ -928,6 +1162,24 @@
                     }
                 });
             }
+        }
+
+        // 查看本月详情
+        function viewCurrentMonthDetail() {
+            // 添加页面切换动画
+            document.body.style.opacity = '0.8';
+            setTimeout(() => {
+                window.location.href = 'bill-detail-new.html?month=2025-10';
+            }, 150);
+        }
+
+        // 查看本期账单详情
+        function viewCurrentPeriodDetail() {
+            // 添加页面切换动画
+            document.body.style.opacity = '0.8';
+            setTimeout(() => {
+                window.location.href = 'bill-detail-new.html?month=2025-09';
+            }, 150);
         }
 
         // 页面初始化

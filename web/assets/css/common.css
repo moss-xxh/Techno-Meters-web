@@ -10,6 +10,13 @@
     box-sizing: border-box;
 }
 
+html {
+    font-size: 16px; /* 基础字体大小 */
+    -webkit-text-size-adjust: 100%;
+    -moz-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+}
+
 :root {
     /* Ultra-Premium Colors */
     --primary: #000000;
@@ -55,11 +62,15 @@
 
 body {
     font-family: var(--font-primary);
+    font-size: 16px; /* 确保正常字体大小 */
     background: var(--background);
     color: var(--text-primary);
     line-height: 1.5;
     -webkit-font-smoothing: antialiased;
     letter-spacing: -0.01em;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
 }
 
 /* Navigation Bar */

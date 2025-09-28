@@ -3,10 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title data-zh="设备详情" data-en="Device Details">设备详情</title>
+    <title data-zh="设备详情 - 点击这里退出" data-en="Device Details - Click here to logout">设备详情 - 点击这里退出</title>
+    <style>
+        .logout-btn {
+            position: fixed !important;
+            top: 100px !important;
+            left: 50% !important;
+            transform: translateX(-50%) !important;
+            background: red !important;
+            color: white !important;
+            font-size: 24px !important;
+            font-weight: bold !important;
+            padding: 20px 40px !important;
+            border: 5px solid black !important;
+            border-radius: 10px !important;
+            text-decoration: none !important;
+            z-index: 999999 !important;
+            box-shadow: 0 0 30px rgba(255, 0, 0, 0.8) !important;
+            animation: blink 1s infinite !important;
+        }
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0.5; }
+        }
+    </style>
     <link rel="stylesheet" href="assets/css/common.css">
 </head>
 <body>
+
     <!-- 导航栏 -->
     <nav class="navbar">
         <div class="nav-content">
@@ -15,26 +39,55 @@
             </div>
             <div class="nav-menu">
                 <a href="dashboard.html" class="nav-link" data-zh="仪表盘" data-en="Dashboard">仪表盘</a>
-                <a href="pricing-templates.html" class="nav-link" data-zh="电价模版" data-en="Pricing Templates">电价模版</a>
-                <a href="space-management.html" class="nav-link" data-zh="空间管理" data-en="Space Management">空间管理</a>
                 <a href="device-management.html" class="nav-link active" data-zh="设备管理" data-en="Device Management">设备管理</a>
+                <a href="space-management.html" class="nav-link" data-zh="建筑管理" data-en="Building Management">建筑管理</a>
                 <a href="user-management.html" class="nav-link" data-zh="用户管理" data-en="User Management">用户管理</a>
                 <a href="bills.html" class="nav-link" data-zh="账单管理" data-en="Bill Management">账单管理</a>
             </div>
-            <div class="nav-actions">
+            <div class="nav-actions" style="overflow: visible;">
                 <div class="lang-dropdown">
                     <select id="language-select" class="form-select lang-select">
                         <option value="zh" data-zh="中文" data-en="Chinese">中文</option>
                         <option value="en" data-zh="English" data-en="English">English</option>
                     </select>
                 </div>
-                <div class="user-menu">
-                    <div class="user-avatar">管</div>
-                    <span data-zh="管理员" data-en="Admin">管理员</span>
+                <div class="user-menu" style="position: relative; overflow: visible !important;">
+                    <input type="checkbox" id="user-dropdown-toggle" style="display: none;">
+                    <label for="user-dropdown-toggle" style="display: flex; align-items: center; cursor: pointer; gap: 8px;">
+                        <div class="user-avatar">管</div>
+                        <span data-zh="管理员" data-en="Admin">管理员</span>
+                        <span style="font-size: 12px; margin-left: 4px;">▼</span>
+                    </label>
+                    <div class="dropdown-menu" style="position: fixed; top: 64px; right: 20px; background: white; border: 1px solid #e5e7eb; border-radius: 8px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); min-width: 120px; display: none; z-index: 9999; padding: 4px 0;">
+                        <label for="logout-confirm-toggle" style="display: flex; align-items: center; padding: 12px 16px; color: #dc2626; font-size: 14px; cursor: pointer; gap: 8px;">
+                            <span style="font-size: 16px;">🚪</span>
+                            <span data-zh="退出登录" data-en="Logout">退出登录</span>
+                        </label>
+                    </div>
                 </div>
+                <style>
+                    .user-avatar { width: 32px; height: 32px; border-radius: 50%; background: #4169E1; color: white; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 500; }
+                    #user-dropdown-toggle:checked + label + .dropdown-menu { display: block !important; }
+                    #user-dropdown-toggle:checked + label span:last-child { transform: rotate(180deg); }
+                    #logout-confirm-toggle:checked + .logout-modal { display: flex !important; }
+                </style>
             </div>
         </div>
     </nav>
+
+    <!-- 退出确认弹窗 -->
+    <input type="checkbox" id="logout-confirm-toggle" style="display: none;">
+    <div class="logout-modal" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); display: none; z-index: 99999; align-items: center; justify-content: center;">
+        <div style="background: white; border-radius: 12px; padding: 32px; max-width: 420px; width: 90%; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);">
+            <div style="text-align: center; font-size: 48px; margin-bottom: 20px;">⚠️</div>
+            <h3 style="text-align: center; font-size: 20px; font-weight: 600; color: #1f2937; margin: 0 0 12px 0;">确认退出</h3>
+            <p style="text-align: center; color: #6b7280; font-size: 16px; margin: 0 0 28px 0;">您确定要退出登录吗？退出后需要重新输入用户名和密码。</p>
+            <div style="display: flex; gap: 12px; justify-content: center;">
+                <label for="logout-confirm-toggle" style="padding: 12px 24px; background: #f3f4f6; color: #374151; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 500; min-width: 80px; text-align: center;">取消</label>
+                <a href="index.html" style="padding: 12px 24px; background: #dc2626; color: white; border-radius: 8px; text-decoration: none; font-size: 14px; font-weight: 500; min-width: 80px; text-align: center;">确认退出</a>
+            </div>
+        </div>
+    </div>
 
     <!-- 主内容区域 -->
     <main class="main-content">
@@ -132,11 +185,24 @@
         </div>
     </main>
 
+    <script src="assets/js/navbar.js"></script>
     <script src="assets/js/common.js"></script>
+
+    <!-- 用户退出登录脚本 -->
+    <script>
+        function doLogout() {
+            if (confirm('确定要退出登录吗？')) {
+                sessionStorage.removeItem('isLoggedIn');
+                sessionStorage.removeItem('username');
+                window.location.href = 'login.html';
+            }
+        }
+    </script>
+
     <script>
         // 获取当前语言
         function getDeviceDetailLanguage() {
-            return document.getElementById('language-select')?.value || 'zh';
+            return getCurrentLanguage();
         }
 
         // 强制翻译所有静态文本
@@ -347,7 +413,7 @@
 
             const currentLang = getDeviceDetailLanguage();
 
-            // 创建右侧抽屉 - 完全按照bill-detail.html的结构
+            // 创建右侧抽屉结构
             const drawer = document.createElement('div');
             drawer.className = 'right-drawer';
             drawer.innerHTML = `
@@ -358,46 +424,38 @@
                         <button class="drawer-close" onclick="closeMonthlyDetail()">×</button>
                     </div>
                     <div class="drawer-body">
-                        <!-- 模块 -->
-                        <div class="drawer-usage-module">
-                            <div class="drawer-module-header">
-                                <div class="drawer-header-left">
-                                </div>
-                                <div class="drawer-header-right">
+                        <div class="drawer-usage-view active" id="drawer-table-view">
+                            <div class="drawer-table-container">
+                                <div class="drawer-header-left" style="display: flex; justify-content: flex-end; margin-bottom: var(--space-4);">
                                     <button class="drawer-export-btn" onclick="exportDrawerData()">
                                         📊 <span>${currentLang === 'en' ? 'Export' : '导出'}</span>
                                     </button>
                                 </div>
-                            </div>
 
-                            <!-- 表格视图 -->
-                            <div id="drawer-table-view" class="drawer-usage-view active">
-                                <div class="drawer-table-container">
-                                    <div class="drawer-daily-table">
-                                        <div class="drawer-daily-table-header" id="drawer-table-header">
-                                            <span>${currentLang === 'en' ? 'Date' : '日期'}</span>
-                                            <span>${currentLang === 'en' ? 'Start Reading' : '开始读数'}</span>
-                                            <span>${currentLang === 'en' ? 'End Reading' : '结束读数'}</span>
-                                            <span>${currentLang === 'en' ? 'Usage (kWh)' : '用电量(kWh)'}</span>
-                                            <span></span>
-                                        </div>
-                                        <div class="drawer-daily-table-body" id="drawer-table-body">
-                                            <!-- 数据将从主页面复制 -->
-                                        </div>
+                                <div class="drawer-daily-table">
+                                    <div class="drawer-daily-table-header">
+                                        <span>${currentLang === 'en' ? 'Date' : '日期'}</span>
+                                        <span>${currentLang === 'en' ? 'Start Reading' : '开始读数'}</span>
+                                        <span>${currentLang === 'en' ? 'End Reading' : '结束读数'}</span>
+                                        <span>${currentLang === 'en' ? 'Usage (kWh)' : '用电量(kWh)'}</span>
+                                        <span></span>
                                     </div>
-                                </div>
-                                <!-- 每小时详情面板（在表格视图中，用于右侧显示） -->
-                                <div id="drawer-hourly-details-panel" class="drawer-hourly-details-panel" style="display: none;">
-                                    <div class="drawer-hourly-header">
-                                        <h4 id="drawer-selected-date-title">${currentLang === 'en' ? 'Hourly Details' : '每小时明细'}</h4>
-                                        <button class="drawer-hourly-close" onclick="closeDrawerHourlyDetails()">×</button>
-                                    </div>
-                                    <div class="drawer-hourly-content" id="drawer-hourly-details-content">
-                                        <!-- 每小时数据将在这里显示 -->
+                                    <div class="drawer-daily-table-body" id="drawer-table-body">
+                                        <!-- 日期数据 -->
                                     </div>
                                 </div>
                             </div>
 
+                            <!-- 右侧滑动面板 - 每小时详情 -->
+                            <div class="right-slide-panel" id="right-slide-panel">
+                                <div class="right-panel-header">
+                                    <h4 id="right-panel-date-title">${currentLang === 'en' ? 'Hourly Details' : '每小时明细'}</h4>
+                                    <button class="right-panel-close" onclick="closeRightPanel()">×</button>
+                                </div>
+                                <div class="right-panel-content" id="right-panel-hourly-content">
+                                    <!-- 每小时详情内容 -->
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -428,10 +486,10 @@
             }, 10);
         }
 
-        // 复制数据到抽屉 - 按照bill-detail.html实现
+        // 复制数据到抽屉
         function copyDataToDrawer(month, totalUsage) {
-            const drawerTableBody = document.getElementById('drawer-table-body');
-            if (!drawerTableBody) {
+            const tableBody = document.getElementById('drawer-table-body');
+            if (!tableBody) {
                 console.error('drawer-table-body not found!');
                 return;
             }
@@ -441,11 +499,10 @@
             const monthNum = parseInt(month.split('/')[1]);
             const daysInMonth = new Date(year, monthNum, 0).getDate();
 
-            drawerTableBody.innerHTML = '';
+            tableBody.innerHTML = '';
 
             for (let day = 1; day <= daysInMonth; day++) {
                 const dailyUsage = (totalUsage / daysInMonth).toFixed(1);
-                const dailyCost = (dailyUsage * 6.5).toFixed(2);
                 const dateStr = `${month}/${day.toString().padStart(2, '0')}`;
 
                 const newRow = document.createElement('div');
@@ -456,23 +513,142 @@
                 const endReading = startReading + parseFloat(dailyUsage);
 
                 newRow.innerHTML = `
-                    <span class="drawer-daily-date">${dateStr}</span>
-                    <span class="drawer-start-reading">${startReading.toFixed(1)}</span>
-                    <span class="drawer-end-reading">${endReading.toFixed(1)}</span>
-                    <span class="drawer-daily-usage">${dailyUsage}</span>
+                    <span class="daily-date">${dateStr}</span>
+                    <span class="start-reading">${startReading.toFixed(1)}</span>
+                    <span class="end-reading">${endReading.toFixed(1)}</span>
+                    <span class="daily-usage">${dailyUsage}</span>
                     <span class="drawer-expand-icon">▶</span>
                 `;
 
-                // 添加点击事件 - 点击整行触发toggle
+                // 添加点击事件
                 newRow.addEventListener('click', function() {
                     console.log('Table row clicked, date:', dateStr);
-                    toggleDrawerHourlyDetails(dateStr, dailyUsage, day);
+                    showRightSlidePanel(dateStr, dailyUsage, day);
                 });
 
-                drawerTableBody.appendChild(newRow);
+                tableBody.appendChild(newRow);
             }
         }
 
+
+        // 切换右侧滑动面板显示/隐藏
+        function showRightSlidePanel(date, dailyUsage, day) {
+            console.log('showRightSlidePanel called:', date, dailyUsage);
+
+            const clickedRow = document.querySelector(`[data-date="${date}"]`);
+            const rightPanel = document.getElementById('right-slide-panel');
+            const rightPanelContent = document.getElementById('right-panel-hourly-content');
+            const rightPanelTitle = document.getElementById('right-panel-date-title');
+
+            if (!clickedRow || !rightPanel || !rightPanelContent || !rightPanelTitle) {
+                console.error('Required elements not found');
+                return;
+            }
+
+            // 检查当前行是否已经选中（即右侧面板是否已显示此日期）
+            const isCurrentlySelected = clickedRow.classList.contains('selected');
+
+            if (isCurrentlySelected) {
+                // 如果已经选中，则收起
+                closeRightPanel();
+                return;
+            }
+
+            // 清除所有选中状态
+            document.querySelectorAll('.drawer-daily-table-row').forEach(rowEl => {
+                rowEl.classList.remove('selected');
+                const icon = rowEl.querySelector('.drawer-expand-icon');
+                if (icon) {
+                    icon.textContent = '▶';
+                }
+            });
+
+            // 设置当前行为选中状态
+            clickedRow.classList.add('selected');
+            const expandIcon = clickedRow.querySelector('.drawer-expand-icon');
+            if (expandIcon) {
+                expandIcon.textContent = '▼';
+            }
+
+            // 扩展主抽屉以容纳右侧面板
+            const drawer = document.querySelector('.right-drawer');
+            if (drawer) {
+                drawer.classList.add('expanded');
+            }
+
+            // 显示右侧面板
+            rightPanel.classList.add('show');
+
+            // 更新右侧面板标题
+            const currentLang = getDeviceDetailLanguage();
+            rightPanelTitle.textContent = currentLang === 'en' ? `${date} Hourly Details` : `${date} 每小时明细`;
+
+            // 生成每小时详情内容
+            generateRightPanelContent(date, dailyUsage, rightPanelContent);
+        }
+
+        // 生成右侧面板内容
+        function generateRightPanelContent(date, dailyUsage, contentElement) {
+            const currentLang = getDeviceDetailLanguage();
+
+            let hourlyHTML = `
+                <div class="right-panel-table">
+                    <div class="right-panel-table-header">
+                        <span>${currentLang === 'en' ? 'Time' : '时间'}</span>
+                        <span>${currentLang === 'en' ? 'Start Reading' : '开始读数'}</span>
+                        <span>${currentLang === 'en' ? 'End Reading' : '结束读数'}</span>
+                        <span>${currentLang === 'en' ? 'Usage (kWh)' : '用电量(kWh)'}</span>
+                    </div>
+                    <div class="right-panel-table-body">
+            `;
+
+            for (let hour = 0; hour < 24; hour++) {
+                const hourlyUsage = (parseFloat(dailyUsage) / 24).toFixed(2);
+                const baseReading = 5000 + hour * 10 + Math.random() * 5;
+                const hourlyStartReading = baseReading.toFixed(1);
+                const hourlyEndReading = (baseReading + parseFloat(hourlyUsage)).toFixed(1);
+
+                hourlyHTML += `
+                    <div class="right-panel-table-row">
+                        <span>${hour.toString().padStart(2, '0')}:00</span>
+                        <span>${hourlyStartReading}</span>
+                        <span>${hourlyEndReading}</span>
+                        <span>${hourlyUsage}</span>
+                    </div>
+                `;
+            }
+
+            hourlyHTML += `
+                    </div>
+                </div>
+            `;
+
+            contentElement.innerHTML = hourlyHTML;
+        }
+
+        // 关闭右侧面板
+        function closeRightPanel() {
+            const rightPanel = document.getElementById('right-slide-panel');
+            const drawer = document.querySelector('.right-drawer');
+
+            if (rightPanel) {
+                rightPanel.classList.remove('show');
+            }
+
+            // 收缩主抽屉
+            if (drawer) {
+                drawer.classList.remove('expanded');
+            }
+
+            // 清除选中状态
+            document.querySelectorAll('.drawer-daily-table-row').forEach(rowEl => {
+                rowEl.classList.remove('selected');
+                const icon = rowEl.querySelector('.drawer-expand-icon');
+                if (icon) {
+                    icon.textContent = '▶';
+                }
+            });
+        }
 
         // 切换每小时详情显示/隐藏 - 按照bills.html的toggle逻辑
         function toggleDrawerHourlyDetails(date, dailyUsage, day) {
@@ -599,6 +775,7 @@
 
             content.innerHTML = hourlyHTML;
         }
+
 
         // 关闭每小时详情 - 按照bills.html的收缩逻辑
         function closeDrawerHourlyDetails() {
@@ -733,6 +910,34 @@
 
         // 页面加载完成后初始化
         document.addEventListener('DOMContentLoaded', initPage);
+
+        // 添加语言切换事件监听器
+        window.addEventListener('languageChanged', function(event) {
+            console.log('Device detail page: Language changed to:', event.detail.language);
+
+            // 重新翻译静态文本
+            forceTranslateStaticText();
+
+            // 重新渲染表格
+            renderTableHeader();
+            renderTable();
+
+            // 更新年份选择器的选项文本
+            updateYearPickerOptions();
+        });
+
+        function updateYearPickerOptions() {
+            const yearPicker = document.getElementById('year-picker');
+            const currentLang = getDeviceDetailLanguage();
+
+            // 更新年份选择器的选项文本
+            Array.from(yearPicker.options).forEach(option => {
+                const year = option.value;
+                option.textContent = currentLang === 'en' ? year : `${year}年`;
+            });
+        }
+
+
     </script>
 
     <style>
@@ -1826,6 +2031,237 @@
             font-weight: 600;
         }
 
+        /* 右侧固定面板样式 */
+        .right-slide-panel {
+            display: none;
+            width: 500px;
+            height: 100%;
+            background: var(--background);
+            border-left: var(--border);
+            box-shadow: var(--shadow-elevated);
+            flex-direction: column;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .right-slide-panel.show {
+            display: flex;
+        }
+
+        /* 抽屉扩展时显示右侧面板 */
+        .right-drawer.expanded .drawer-content {
+            width: 1050px;
+            max-width: 95vw;
+        }
+
+        .right-drawer.expanded .drawer-usage-view.active {
+            display: flex;
+            gap: 0;
+        }
+
+        .right-drawer.expanded .drawer-table-container {
+            width: 500px;
+            flex-shrink: 0;
+        }
+
+        /* 右侧面板头部 */
+        .right-panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: var(--space-6);
+            padding-left: calc(var(--space-6) - 20px);
+            border-bottom: var(--border);
+            background: var(--surface);
+            flex-shrink: 0;
+        }
+
+        .right-panel-header h4 {
+            margin: 0;
+            font-size: 16px;
+            font-weight: var(--font-weight-medium);
+            color: var(--text-primary);
+            flex: 1;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            padding-right: var(--space-4);
+        }
+
+        .right-panel-close {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            font-size: 18px;
+            cursor: pointer;
+            color: var(--text-primary);
+            padding: var(--space-2);
+            line-height: 1;
+            transition: all 0.15s ease;
+            border-radius: 50%;
+            min-width: 32px;
+            min-height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-weight: bold;
+        }
+
+        .right-panel-close:hover {
+            color: white;
+            background: var(--error);
+            border-color: var(--error);
+        }
+
+        /* 右侧面板内容 */
+        .right-panel-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: var(--space-6);
+            padding-left: calc(var(--space-6) - 20px);
+        }
+
+        /* 右侧面板表格样式 */
+        .right-panel-table {
+            border: var(--border);
+            border-radius: var(--radius);
+            overflow: hidden;
+            background: var(--background);
+        }
+
+        .right-panel-table-header {
+            display: grid;
+            grid-template-columns: 70px 110px 110px 110px;
+            gap: var(--space-2);
+            background: var(--surface);
+            padding: var(--space-3);
+            font-weight: var(--font-weight-medium);
+            font-size: 12px;
+            color: var(--text-secondary);
+            border-bottom: var(--border);
+        }
+
+        .right-panel-table-body {
+            max-height: calc(100vh - 250px);
+            overflow-y: auto;
+        }
+
+        .right-panel-table-row {
+            display: grid;
+            grid-template-columns: 70px 110px 110px 110px;
+            gap: var(--space-2);
+            padding: var(--space-3);
+            border-bottom: var(--border);
+            font-size: 12px;
+            align-items: center;
+        }
+
+        .right-panel-table-row:last-child {
+            border-bottom: none;
+        }
+
+        .right-panel-table-row:hover {
+            background: var(--surface);
+        }
+
+        /* 右侧面板滚动条 */
+        .right-panel-content::-webkit-scrollbar,
+        .right-panel-table-body::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .right-panel-content::-webkit-scrollbar-track,
+        .right-panel-table-body::-webkit-scrollbar-track {
+            background: var(--surface);
+        }
+
+        .right-panel-content::-webkit-scrollbar-thumb,
+        .right-panel-table-body::-webkit-scrollbar-thumb {
+            background: var(--divider);
+            border-radius: 3px;
+        }
+
+        .right-panel-content::-webkit-scrollbar-thumb:hover,
+        .right-panel-table-body::-webkit-scrollbar-thumb:hover {
+            background: var(--text-tertiary);
+        }
+
+        /* 用户头像容器样式 */
+        .avatar-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .avatar-trigger {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+            cursor: pointer;
+            padding: var(--space-2) var(--space-3);
+            border-radius: var(--radius);
+            transition: all 0.2s ease;
+            user-select: none;
+        }
+
+        .avatar-trigger:hover {
+            background: rgba(0, 0, 0, 0.05);
+        }
+
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: var(--font-weight-medium);
+        }
+
+        .user-name {
+            font-size: 14px;
+            color: var(--text-primary);
+            font-weight: var(--font-weight-medium);
+        }
+
+        .avatar-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            min-width: 140px;
+            display: none;
+            opacity: 0;
+            visibility: hidden;
+            z-index: 1000;
+            margin-top: 8px;
+        }
+
+        .dropdown-item {
+            padding: 12px 16px;
+            color: #333;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 14px;
+            border-radius: 6px;
+            margin: 4px;
+        }
+
+        .dropdown-item:hover {
+            background: #ff4757;
+            color: white;
+        }
+
+        .dropdown-item span {
+            font-weight: 500;
+        }
+
         /* 响应式设计 */
         @media (max-width: 1200px) {
             .content-layout {
@@ -1871,6 +2307,7 @@
             .page-header h2 {
                 font-size: 24px;
             }
+
         }
     </style>
 </body>

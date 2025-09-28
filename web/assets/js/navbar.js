@@ -190,15 +190,9 @@ class NavigationManager {
         return this.currentLanguage;
     }
 
-    // 检查登录状态
+    // 检查登录状态 - 已禁用自动重定向
     checkLoginStatus() {
-        if (sessionStorage.getItem('isLoggedIn') !== 'true') {
-            // 排除登录页面
-            if (!window.location.pathname.includes('login.html')) {
-                window.location.href = 'login.html';
-                return false;
-            }
-        }
+        // 暂时禁用登录状态检查，避免自动重定向
         return true;
     }
 }
@@ -208,8 +202,8 @@ let navigationManager = new NavigationManager();
 
 // DOM加载完成后进行额外初始化
 document.addEventListener('DOMContentLoaded', function() {
-    // 检查登录状态
-    navigationManager.checkLoginStatus();
+    // 已禁用登录状态检查
+    // navigationManager.checkLoginStatus();
 
     // 确保语言应用到所有元素
     navigationManager.applyLanguage();

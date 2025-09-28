@@ -18,8 +18,8 @@
                 <a href="dashboard.html" class="nav-link" data-zh="仪表盘" data-en="Dashboard">仪表盘</a>
                 <a href="device-management.html" class="nav-link" data-zh="设备管理" data-en="Device Management">设备管理</a>
                 <a href="space-management.html" class="nav-link" data-zh="建筑管理" data-en="Building Management">建筑管理</a>
-                <a href="user-management.html" class="nav-link" data-zh="用户管理" data-en="User Management">用户管理</a>
-                <a href="bills.html" class="nav-link active" data-zh="账单管理" data-en="Bill Management">账单管理</a>
+                <a href="user-management.html" class="nav-link active" data-zh="用户管理" data-en="User Management">用户管理</a>
+                <a href="bills.html" class="nav-link" data-zh="账单管理" data-en="Bill Management">账单管理</a>
             </div>
             <div class="nav-actions">
                 <div class="lang-dropdown">
@@ -715,8 +715,23 @@
         }
 
         function goBack() {
-            // 直接跳转到账单管理页面
-            window.location.href = 'bills.html';
+            // 获取URL参数中的用户ID
+            const urlParams = new URLSearchParams(window.location.search);
+            const userId = urlParams.get('userId');
+
+            // 如果有用户ID，返回到该用户的月度账单页面，否则返回用户管理页面
+            if (userId) {
+                window.location.href = `user-monthly-bills.html?userId=${userId}`;
+            } else {
+                // 从账单ID获取用户ID
+                const billId = urlParams.get('billId');
+                if (billId) {
+                    // 这里需要根据billId查找userId，暂时返回用户管理页面
+                    window.location.href = 'user-management.html';
+                } else {
+                    window.location.href = 'user-management.html';
+                }
+            }
         }
 
         function downloadBill() {

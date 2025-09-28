@@ -884,25 +884,117 @@
             </div>
             <div class="nav-menu">
                 <a href="dashboard.html" class="nav-link active" data-zh="仪表盘" data-en="Dashboard">仪表盘</a>
-                <a href="space-management.html" class="nav-link" data-zh="空间管理" data-en="Space Management">空间管理</a>
                 <a href="device-management.html" class="nav-link" data-zh="设备管理" data-en="Device Management">设备管理</a>
+                <a href="space-management.html" class="nav-link" data-zh="建筑管理" data-en="Building Management">建筑管理</a>
                 <a href="user-management.html" class="nav-link" data-zh="用户管理" data-en="User Management">用户管理</a>
                 <a href="bills.html" class="nav-link" data-zh="账单管理" data-en="Bill Management">账单管理</a>
             </div>
-            <div class="nav-actions">
+            <div class="nav-actions" style="overflow: visible !important;">
                 <div class="lang-dropdown">
                     <select id="language-select" class="form-select lang-select">
                         <option value="zh" data-zh="中文" data-en="Chinese">中文</option>
                         <option value="en" data-zh="English" data-en="English">English</option>
                     </select>
                 </div>
-                <div class="user-menu">
-                    <div class="user-avatar">管</div>
-                    <span data-zh="管理员" data-en="Admin">管理员</span>
+                <div class="user-menu" style="position: relative; overflow: visible !important;">
+                    <input type="checkbox" id="user-dropdown-toggle" style="display: none;">
+                    <label for="user-dropdown-toggle" style="display: flex; align-items: center; cursor: pointer; gap: 8px;">
+                        <div class="user-avatar">管</div>
+                        <span data-zh="管理员" data-en="Admin">管理员</span>
+                        <span style="font-size: 12px; margin-left: 4px;">▼</span>
+                    </label>
+
+                    <!-- 下拉菜单 -->
+                    <div class="dropdown-menu" style="position: fixed; top: 64px; right: 20px; background: white; border: 1px solid #e5e7eb; border-radius: 8px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); min-width: 120px; display: none; z-index: 9999; padding: 4px 0;">
+                        <label for="logout-confirm-toggle" style="display: flex; align-items: center; padding: 12px 16px; text-decoration: none; color: #dc2626; font-size: 14px; transition: background-color 0.15s ease; gap: 8px; cursor: pointer;">
+                            <span style="font-size: 16px;">🚪</span>
+                            <span data-zh="退出登录" data-en="Logout">退出登录</span>
+                        </label>
+                    </div>
                 </div>
+
+                <style>
+                    .navbar, .nav-content, .nav-actions, .user-menu {
+                        overflow: visible !important;
+                    }
+
+                    #user-dropdown-toggle:checked + label + .dropdown-menu {
+                        display: block !important;
+                        animation: dropdownFadeIn 0.2s ease-out;
+                    }
+
+                    #user-dropdown-toggle:checked + label span:last-child {
+                        transform: rotate(180deg);
+                        transition: transform 0.2s ease;
+                    }
+
+                    .dropdown-menu label:hover {
+                        background-color: #f9fafb !important;
+                    }
+
+                    @keyframes dropdownFadeIn {
+                        from {
+                            opacity: 0;
+                            transform: translateY(-10px);
+                        }
+                        to {
+                            opacity: 1;
+                            transform: translateY(0);
+                        }
+                    }
+
+                    /* 退出确认弹窗样式 */
+                    #logout-confirm-toggle:checked + .logout-modal {
+                        display: flex !important;
+                        animation: modalFadeIn 0.3s ease-out;
+                    }
+
+                    #logout-confirm-toggle:checked + .logout-modal > div {
+                        transform: scale(1) !important;
+                        animation: modalSlideIn 0.3s ease-out;
+                    }
+
+                    @keyframes modalFadeIn {
+                        from { opacity: 0; }
+                        to { opacity: 1; }
+                    }
+
+                    @keyframes modalSlideIn {
+                        from {
+                            transform: scale(0.8) translateY(-20px);
+                            opacity: 0;
+                        }
+                        to {
+                            transform: scale(1) translateY(0);
+                            opacity: 1;
+                        }
+                    }
+
+                    .logout-modal label:hover {
+                        background-color: #e5e7eb !important;
+                    }
+
+                    .logout-modal a:hover {
+                        background-color: #b91c1c !important;
+                    }
+                </style>
             </div>
         </div>
     </nav>
+
+    <!-- 退出确认弹窗 -->
+    <input type="checkbox" id="logout-confirm-toggle" style="display: none;">
+    <div class="logout-modal" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); display: none; z-index: 99999; align-items: center; justify-content: center; backdrop-filter: blur(4px);">
+        <div style="background: white; border-radius: 12px; padding: 32px; max-width: 420px; width: 90%; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3); transform: scale(0.9); transition: transform 0.2s ease;">
+            <div style="text-align: center; font-size: 48px; margin-bottom: 20px;">⚠️</div>
+            <h3 style="text-align: center; font-size: 20px; font-weight: 600; color: #1f2937; margin-bottom: 12px; margin-top: 0;" data-zh="确认退出" data-en="Confirm Logout">确认退出</h3>
+            <p style="text-align: center; color: #6b7280; font-size: 16px; line-height: 1.5; margin-bottom: 28px; margin-top: 0;" data-zh="您确定要退出登录吗？退出后需要重新输入用户名和密码。" data-en="Are you sure you want to logout? You will need to enter your username and password again.">您确定要退出登录吗？退出后需要重新输入用户名和密码。</p>
+            <div style="display: flex; gap: 12px; justify-content: center;">
+                <label for="logout-confirm-toggle" style="padding: 12px 24px; background: #f3f4f6; color: #374151; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 500; text-align: center; transition: background-color 0.2s ease; min-width: 80px;" data-zh="取消" data-en="Cancel">取消</label>
+                <a href="index.html" style="padding: 12px 24px; background: #dc2626; color: white; border-radius: 8px; text-decoration: none; font-size: 14px; font-weight: 500; text-align: center; transition: background-color 0.2s ease; min-width: 80px; display: block;" data-zh="确认退出" data-en="Confirm">确认退出</a>
+            </div>
+        </div>
+    </div>
 
     <!-- 主内容区域 -->
     <main class="main-content">
@@ -933,22 +1025,22 @@
 
                         <!-- 流程步骤 -->
                         <div class="workflow-flow">
-                            <div class="workflow-step-item" data-step="1" onclick="startSpace()">
+                            <div class="workflow-step-item" data-step="1" onclick="startDevice()">
                                 <div class="step-number">1</div>
                                 <div class="step-content">
-                                    <div class="step-title" data-zh="创建空间" data-en="Create Space">创建空间</div>
-                                    <div class="step-desc" data-zh="设置建筑物、楼层等空间结构" data-en="Set up buildings, floors and space structure">设置建筑物、楼层等空间结构</div>
-                                    <button class="btn btn-primary" data-zh="开始创建" data-en="Start Creating">开始创建</button>
+                                    <div class="step-title" data-zh="添加设备" data-en="Add Device">添加设备</div>
+                                    <div class="step-desc" data-zh="注册电表设备" data-en="Register meter devices">注册电表设备</div>
+                                    <button class="btn btn-primary" data-zh="开始添加" data-en="Start Adding">开始添加</button>
                                 </div>
                             </div>
                             <div class="step-connector">→</div>
 
-                            <div class="workflow-step-item" data-step="2" onclick="startDevice()">
+                            <div class="workflow-step-item" data-step="2" onclick="startSpace()">
                                 <div class="step-number">2</div>
                                 <div class="step-content">
-                                    <div class="step-title" data-zh="添加设备" data-en="Add Device">添加设备</div>
-                                    <div class="step-desc" data-zh="注册电表设备并分配到空间" data-en="Register meter devices and assign to spaces">注册电表设备并分配到空间</div>
-                                    <button class="btn btn-primary" data-zh="开始添加" data-en="Start Adding">开始添加</button>
+                                    <div class="step-title" data-zh="创建建筑" data-en="Create Building">创建建筑</div>
+                                    <div class="step-desc" data-zh="添加建筑物，绑定电表" data-en="Add buildings and bind meters">添加建筑物，绑定电表</div>
+                                    <button class="btn btn-primary" data-zh="开始创建" data-en="Start Creating">开始创建</button>
                                 </div>
                             </div>
                             <div class="step-connector">→</div>
@@ -957,7 +1049,7 @@
                                 <div class="step-number">3</div>
                                 <div class="step-content">
                                     <div class="step-title" data-zh="添加用户" data-en="Add User">添加用户</div>
-                                    <div class="step-desc" data-zh="创建用户账户并绑定设备" data-en="Create user accounts and bind devices">创建用户账户并绑定设备</div>
+                                    <div class="step-desc" data-zh="创建用户账号并入驻房间" data-en="Create user accounts and assign rooms">创建用户账号并入驻房间</div>
                                     <button class="btn btn-primary" data-zh="开始添加" data-en="Start Adding">开始添加</button>
                                 </div>
                             </div>
@@ -1084,10 +1176,10 @@
 
         // 工作流程状态管理
         let workflowProgress = {
-            template: false,
-            space: false,
             device: false,
-            user: false
+            space: false,
+            user: false,
+            template: false
         };
 
         function initWorkflowStatus() {
@@ -1100,7 +1192,7 @@
         }
 
         function updateWorkflowUI() {
-            const steps = ['template', 'space', 'device', 'user'];
+            const steps = ['device', 'space', 'user', 'template'];
             let completedCount = 0;
 
             steps.forEach((step, index) => {
@@ -1152,7 +1244,7 @@
                 window.location.href = 'space-management.html';
             } else {
                 showWorkflowDialog('space', {
-                    title: '创建空间',
+                    title: '创建建筑',
                     content: '您将创建建筑物和房间结构。这有助于组织和管理您的电表设备。',
                     action: () => {
                         window.location.href = 'space-management.html';
@@ -1236,10 +1328,10 @@
         function resetWorkflow() {
             if (confirm('确定要重置所有流程进度吗？这将清除所有完成状态。')) {
                 workflowProgress = {
-                    template: false,
-                    space: false,
                     device: false,
-                    user: false
+                    space: false,
+                    user: false,
+                    template: false
                 };
                 updateWorkflowUI();
             }
