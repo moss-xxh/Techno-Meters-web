@@ -1561,71 +1561,6 @@
                     <div class="stat-value">₹2,450</div>
                 </div>
             </div>
-
-            <!-- Tab 导航 -->
-            <div class="tab-nav" style="margin-top: 20px; padding-top: 16px; border-top: 1px solid #F0F0F0;">
-                <button class="tab-item active" onclick="switchDetailTab('cumulative')">Cumulative Trend</button>
-                <button class="tab-item" onclick="switchDetailTab('daily')">Daily Details</button>
-            </div>
-
-            <!-- Tab 内容区域 -->
-            <div class="tab-content-area" style="padding: 0; margin-top: -14px;">
-                <!-- 累计趋势 Tab -->
-                <div class="tab-content active" id="cumulative-detail-tab">
-                    <!-- 累计图表 -->
-                    <div class="chart-container">
-                        <div class="simple-chart" id="detailSimpleChart">
-                            <!-- 图表将通过JavaScript生成 -->
-                        </div>
-                        <div class="chart-tooltip" id="detailChartTooltip"></div>
-                    </div>
-                </div>
-
-                <!-- 每日明细 Tab -->
-                <div class="tab-content" id="daily-detail-tab">
-                    <!-- 日历视图 -->
-                    <div class="calendar-container-wrapper">
-                        <div class="calendar-title-row" style="margin-bottom: 12px;">
-                            <h3 class="card-title" id="calendar-month-title" style="margin-bottom: 0;">August 2025</h3>
-                            <div class="data-type-selector">
-                                <button class="data-type-btn active" onclick="switchDetailDataType('usage')" id="detail-usage-btn">
-                                    <i class="fas fa-bolt"></i>
-                                </button>
-                                <button class="data-type-btn" onclick="switchDetailDataType('cost')" id="detail-cost-btn">
-                                    <i class="fas fa-rupee-sign"></i>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="calendar-container">
-                            <div class="calendar-header">
-                                <div class="weekday" data-zh="日" data-en="Sun">Sun</div>
-                                <div class="weekday" data-zh="一" data-en="Mon">Mon</div>
-                                <div class="weekday" data-zh="二" data-en="Tue">Tue</div>
-                                <div class="weekday" data-zh="三" data-en="Wed">Wed</div>
-                                <div class="weekday" data-zh="四" data-en="Thu">Thu</div>
-                                <div class="weekday" data-zh="五" data-en="Fri">Fri</div>
-                                <div class="weekday" data-zh="六" data-en="Sat">Sat</div>
-                            </div>
-                            <div class="calendar-grid" id="detailCalendarGrid">
-                                <!-- 日历格子将通过JavaScript生成 -->
-                            </div>
-                        </div>
-
-                        <!-- 图例 -->
-                        <div class="calendar-legend">
-                            <div class="legend-item">
-                                <div class="legend-color highest"></div>
-                                <span data-zh="月度峰值" data-en="Monthly Peak">Monthly Peak</span>
-                            </div>
-                            <div class="legend-item">
-                                <div class="legend-color lowest"></div>
-                                <span data-zh="月度低值" data-en="Monthly Low">Monthly Low</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
         </div>
 
         <!-- 费用明细汇总 -->
@@ -1785,6 +1720,74 @@
                     </div>
                 </div>
             </div>
+        </div>
+
+        <!-- 功能完整的卡片 -->
+        <div class="bill-summary-card">
+            <!-- Tab 导航 -->
+            <div class="tab-nav">
+                <button class="tab-item active" onclick="switchDetailTab2('cumulative')">Cumulative Trend</button>
+                <button class="tab-item" onclick="switchDetailTab2('daily')">Daily Details</button>
+            </div>
+
+            <!-- Tab 内容区域 -->
+            <div class="tab-content-area" style="padding: 0; margin-top: -14px;">
+                <!-- 累计趋势 Tab -->
+                <div class="tab-content active" id="cumulative-detail-tab2">
+                    <!-- 累计图表 -->
+                    <div class="chart-container">
+                        <div class="simple-chart" id="detailSimpleChart2">
+                            <!-- 图表将通过JavaScript生成 -->
+                        </div>
+                        <div class="chart-tooltip" id="detailChartTooltip2"></div>
+                    </div>
+                </div>
+
+                <!-- 每日明细 Tab -->
+                <div class="tab-content" id="daily-detail-tab2">
+                    <!-- 日历视图 -->
+                    <div class="calendar-container-wrapper">
+                        <div class="calendar-title-row" style="margin-bottom: 12px;">
+                            <h3 class="card-title" id="calendar-month-title2" style="margin-bottom: 0;">August 2025</h3>
+                            <div class="data-type-selector">
+                                <button class="data-type-btn active" onclick="switchDetailDataType2('usage')" id="detail-usage-btn2">
+                                    <i class="fas fa-bolt"></i>
+                                </button>
+                                <button class="data-type-btn" onclick="switchDetailDataType2('cost')" id="detail-cost-btn2">
+                                    <i class="fas fa-rupee-sign"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="calendar-container">
+                            <div class="calendar-header">
+                                <div class="weekday" data-zh="日" data-en="Sun">Sun</div>
+                                <div class="weekday" data-zh="一" data-en="Mon">Mon</div>
+                                <div class="weekday" data-zh="二" data-en="Tue">Tue</div>
+                                <div class="weekday" data-zh="三" data-en="Wed">Wed</div>
+                                <div class="weekday" data-zh="四" data-en="Thu">Thu</div>
+                                <div class="weekday" data-zh="五" data-en="Fri">Fri</div>
+                                <div class="weekday" data-zh="六" data-en="Sat">Sat</div>
+                            </div>
+                            <div class="calendar-grid" id="detailCalendarGrid2">
+                                <!-- 日历格子将通过JavaScript生成 -->
+                            </div>
+                        </div>
+
+                        <!-- 图例 -->
+                        <div class="calendar-legend">
+                            <div class="legend-item">
+                                <div class="legend-color highest"></div>
+                                <span data-zh="月度峰值" data-en="Monthly Peak">Monthly Peak</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-color lowest"></div>
+                                <span data-zh="月度低值" data-en="Monthly Low">Monthly Low</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
 
 
@@ -1963,6 +1966,9 @@
 
             // 初始化详情页面tab（默认显示累计趋势）
             initializeDetailCumulative();
+
+            // 初始化第二个卡片的详情页面tab
+            initializeDetailCumulative2();
         });
 
         // 触摸反馈
@@ -2350,6 +2356,277 @@
         function viewUsageDetail() {
             // 跳转到明细页面，传递8月参数
             window.location.href = 'usage-detail.html?month=2025-08';
+        }
+
+        // 第二个卡片的相关函数
+        let currentDetailDataType2 = 'usage';
+
+        // 切换详情数据类型 - 第二个卡片
+        function switchDetailDataType2(type) {
+            currentDetailDataType2 = type;
+
+            document.querySelectorAll('#detail-usage-btn2, #detail-cost-btn2').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.getElementById('detail-' + type + '-btn2').classList.add('active');
+
+            const dailyData2 = generateDetailDailyData();
+            renderUsageCalendar2(dailyData2);
+        }
+
+        // 渲染使用量日历 - 第二个卡片
+        function renderUsageCalendar2(data) {
+            const calendarGrid = document.getElementById('detailCalendarGrid2');
+            if (!calendarGrid) return;
+
+            calendarGrid.innerHTML = '';
+
+            // August 1, 2025 是周四(4)
+            const firstDayOfWeek = 4;
+
+            // 添加空白格子
+            for (let i = 0; i < firstDayOfWeek; i++) {
+                const emptyDay = document.createElement('div');
+                emptyDay.className = 'calendar-day empty';
+                calendarGrid.appendChild(emptyDay);
+            }
+
+            // 计算最高最低值
+            const values = data.map(d => currentDetailDataType2 === 'usage' ? d.usage : d.cost);
+            const maxValue = Math.max(...values);
+            const minValue = Math.min(...values);
+
+            // 找到最高最低值对应的日期
+            const maxItem = data.find(d => (currentDetailDataType2 === 'usage' ? d.usage : d.cost) === maxValue);
+            const minItem = data.find(d => (currentDetailDataType2 === 'usage' ? d.usage : d.cost) === minValue);
+
+            // 添加日期数据
+            data.forEach(dayData => {
+                const dayElement = document.createElement('div');
+                dayElement.className = 'calendar-day';
+
+                const currentType = currentDetailDataType2;
+                const currentValue = currentType === 'usage' ? dayData.usage : dayData.cost;
+
+                // 添加高亮类 - 只标记第一个最高值和第一个最低值
+                if (dayData.day === maxItem.day) {
+                    dayElement.classList.add('highest');
+                } else if (dayData.day === minItem.day) {
+                    dayElement.classList.add('lowest');
+                }
+
+                dayElement.innerHTML = `
+                    <div class="day-number">${dayData.day}</div>
+                    <div class="day-value">${currentType === 'usage' ? dayData.usage + ' kWh' : '₹' + dayData.cost}</div>
+                `;
+
+                calendarGrid.appendChild(dayElement);
+            });
+        }
+
+        // 详情页面Tab切换功能 - 第二个卡片
+        function switchDetailTab2(tabType) {
+            // 更新按钮状态
+            const buttons = event.target.parentElement.querySelectorAll('.tab-item');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            // 更新内容显示
+            const cumulativeDiv = document.getElementById('cumulative-detail-tab2');
+            const dailyDiv = document.getElementById('daily-detail-tab2');
+
+            if (tabType === 'cumulative') {
+                cumulativeDiv.classList.add('active');
+                dailyDiv.classList.remove('active');
+                const cumulativeData = generateDetailCumulativeData();
+                renderDetailCumulativeChart2(cumulativeData);
+            } else {
+                cumulativeDiv.classList.remove('active');
+                dailyDiv.classList.add('active');
+                const dailyData = generateDetailDailyData();
+                renderUsageCalendar2(dailyData);
+            }
+        }
+
+        // 渲染累计图表 - 第二个卡片
+        function renderDetailCumulativeChart2(data) {
+            if (!window.detailChartState2) {
+                window.detailChartState2 = { data: [], showUsage: true, showCost: false };
+            }
+            detailChartState2.data = data;
+            const container = document.getElementById('detailSimpleChart2');
+            if (!container) return;
+
+            container.innerHTML = '';
+
+            // 创建SVG容器
+            const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+            svg.setAttribute('width', '100%');
+            svg.setAttribute('height', '250');
+            svg.setAttribute('viewBox', '0 0 500 250');
+
+            // 计算最大值
+            const maxUsage = Math.max(...data.map(d => d.cumulativeUsage));
+
+            // 创建坐标轴
+            const xAxis = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+            xAxis.setAttribute('x1', '60');
+            xAxis.setAttribute('y1', '210');
+            xAxis.setAttribute('x2', '480');
+            xAxis.setAttribute('y2', '210');
+            xAxis.setAttribute('stroke', '#E5E5E7');
+            xAxis.setAttribute('stroke-width', '1');
+            svg.appendChild(xAxis);
+
+            const yAxis = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+            yAxis.setAttribute('x1', '60');
+            yAxis.setAttribute('y1', '20');
+            yAxis.setAttribute('x2', '60');
+            yAxis.setAttribute('y2', '210');
+            yAxis.setAttribute('stroke', '#E5E5E7');
+            yAxis.setAttribute('stroke-width', '1');
+            svg.appendChild(yAxis);
+
+            // 绘制数据线
+            let pathData = '';
+            data.forEach((d, i) => {
+                const x = 60 + (i / (data.length - 1)) * 420;
+                const y = 210 - (d.cumulativeUsage / maxUsage) * 190;
+                pathData += (i === 0 ? 'M' : 'L') + x + ',' + y;
+            });
+
+            const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+            path.setAttribute('d', pathData);
+            path.setAttribute('stroke', '#007AFF');
+            path.setAttribute('stroke-width', '3');
+            path.setAttribute('fill', 'none');
+            svg.appendChild(path);
+
+            // 绘制数据点（带悬停功能）
+            data.forEach((d, i) => {
+                const x = 60 + (i / (data.length - 1)) * 420;
+                const y = 210 - (d.cumulativeUsage / maxUsage) * 190;
+
+                const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                circle.setAttribute('cx', x);
+                circle.setAttribute('cy', y);
+                circle.setAttribute('r', '5');
+                circle.setAttribute('fill', '#007AFF');
+                circle.setAttribute('stroke', '#fff');
+                circle.setAttribute('stroke-width', '2');
+                circle.style.cursor = 'pointer';
+
+                // 添加悬停事件
+                circle.addEventListener('mouseenter', (e) => showDetailTooltip2(e, d, x));
+                circle.addEventListener('mouseleave', hideDetailTooltip2);
+
+                svg.appendChild(circle);
+            });
+
+            // X轴标签 (英文)
+            for (let i = 0; i <= 5; i++) {
+                const x = 60 + (i / 5) * 420;
+                const dayIndex = Math.floor((data.length - 1) * i / 5);
+                if (dayIndex < data.length) {
+                    const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                    text.setAttribute('x', x);
+                    text.setAttribute('y', '230');
+                    text.setAttribute('text-anchor', 'middle');
+                    text.setAttribute('font-size', '12');
+                    text.setAttribute('fill', '#666');
+                    text.textContent = 'Day ' + data[dayIndex].day;
+                    svg.appendChild(text);
+                }
+            }
+
+            // Y轴标签 (显示0,100,200,300,400,500)
+            const yLabels = [0, 100, 200, 300, 400, 500];
+            yLabels.forEach(value => {
+                if (value <= maxUsage || value === 0) {
+                    const y = 210 - (value / maxUsage) * 190;
+                    const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                    text.setAttribute('x', '50');
+                    text.setAttribute('y', y + 4);
+                    text.setAttribute('text-anchor', 'end');
+                    text.setAttribute('font-size', '11');
+                    text.setAttribute('fill', '#666');
+                    text.textContent = value + 'kWh';
+                    svg.appendChild(text);
+                }
+            });
+
+            container.appendChild(svg);
+        }
+
+        // 显示详情工具提示 - 第二个卡片
+        function showDetailTooltip2(event, data, xPos) {
+            const tooltip = document.getElementById('detailChartTooltip2');
+            const dailyUsage = data.dailyUsage || 0;
+            const dailyCost = data.dailyCost || (dailyUsage * 6.45);
+            const cumulativeCost = data.cumulativeCost || (data.cumulativeUsage * 6.45);
+
+            const tooltipContent = `
+                <div style="text-align: center; margin-bottom: 8px; font-weight: 600; color: #fff;">
+                    August ${data.day}, 2025
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 6px;">
+                    <div style="display: flex; align-items: center; justify-content: space-between;">
+                        <div style="display: flex; align-items: center; gap: 6px;">
+                            <div style="width: 8px; height: 8px; background: #007AFF; border-radius: 50%;"></div>
+                            <span style="color: #fff; font-size: 11px;">Cumulative Usage</span>
+                        </div>
+                        <span style="color: #007AFF; font-weight: 600; font-size: 12px;">${data.cumulativeUsage} kWh</span>
+                    </div>
+                    <div style="display: flex; align-items: center; justify-content: space-between;">
+                        <div style="display: flex; align-items: center; gap: 6px;">
+                            <div style="width: 8px; height: 8px; background: #FF6B35; border-radius: 50%;"></div>
+                            <span style="color: #fff; font-size: 11px;">Cumulative Cost</span>
+                        </div>
+                        <span style="color: #FF6B35; font-weight: 600; font-size: 12px;">₹${cumulativeCost.toFixed(2)}</span>
+                    </div>
+                    <hr style="border: none; border-top: 1px solid rgba(255,255,255,0.2); margin: 4px 0;">
+                    <div style="text-align: center; color: #ccc; font-size: 10px;">
+                        Daily Usage: ${dailyUsage} kWh | Daily Cost: ₹${dailyCost.toFixed(2)}
+                    </div>
+                </div>
+            `;
+
+            tooltip.innerHTML = tooltipContent;
+            tooltip.classList.add('show');
+
+            // 定位工具提示
+            const containerRect = document.querySelector('.chart-container').getBoundingClientRect();
+            const tooltipRect = tooltip.getBoundingClientRect();
+
+            let left = event.clientX - containerRect.left - 90; // 居中显示
+            let top = event.clientY - containerRect.top - tooltipRect.height - 15;
+
+            // 边界检查
+            if (left < 10) left = 10;
+            if (left + 180 > containerRect.width - 10) {
+                left = containerRect.width - 190;
+            }
+            if (top < 10) top = event.clientY - containerRect.top + 15;
+
+            tooltip.style.left = left + 'px';
+            tooltip.style.top = top + 'px';
+        }
+
+        // 隐藏详情工具提示 - 第二个卡片
+        function hideDetailTooltip2() {
+            const tooltip = document.getElementById('detailChartTooltip2');
+            if (tooltip) {
+                tooltip.classList.remove('show');
+            }
+        }
+
+        // 初始化第二个详情累计图表
+        function initializeDetailCumulative2() {
+            const cumulativeData = generateDetailCumulativeData();
+            renderDetailCumulativeChart2(cumulativeData);
+
+            const dailyData = generateDetailDailyData();
+            renderUsageCalendar2(dailyData);
         }
     </script>
 </body>
