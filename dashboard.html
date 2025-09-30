@@ -1,0 +1,1668 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-zh="系统仪表板" data-en="System Dashboard">系统仪表板</title>
+    <link rel="stylesheet" href="assets/css/common.css">
+    <link rel="stylesheet" href="assets/css/navbar.css">
+    <style>
+        /* 仪表盘特定样式 */
+
+        /* 布局系统 - 与用户管理页面保持一致 */
+        .content-layout {
+            display: flex;
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: var(--space-12) var(--space-8);
+            gap: var(--space-6);
+        }
+
+        .main-container {
+            flex: 1;
+            min-width: 0;
+            padding-top: 0;
+        }
+
+        /* 搜索区域样式 - 用作标题区域 */
+        .search-section {
+            background: var(--background);
+            border: var(--border);
+            border-radius: var(--radius);
+            padding: var(--space-6);
+            margin-bottom: var(--space-6);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: var(--space-4);
+        }
+
+        .search-controls h3 {
+            margin: 0;
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .search-actions {
+            display: flex;
+            gap: var(--space-3);
+        }
+
+        /* 表格容器样式 - 用作内容区域 */
+        .table-container {
+            background: var(--background);
+            border: var(--border);
+            border-radius: var(--radius);
+            overflow: hidden;
+            margin-bottom: var(--space-6);
+        }
+
+        /* 快速指引模块 - 与账单管理页面风格一致 */
+        #workflowGuide {
+            background: var(--background);
+            border: var(--border);
+            border-radius: var(--radius);
+        }
+
+        .workflow-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: var(--space-6) var(--space-6) 0 var(--space-6);
+            background: var(--background);
+        }
+
+        .workflow-header-content h3 {
+            color: var(--text-primary);
+            font-size: 18px;
+            font-weight: var(--font-weight-semibold);
+            margin: 0 0 var(--space-1) 0;
+        }
+
+        .workflow-header-content p {
+            color: var(--text-secondary);
+            font-size: 14px;
+            margin: 0;
+        }
+
+        .workflow-header-actions {
+            display: flex;
+            align-items: center;
+        }
+
+        /* 极简图标按钮 */
+        .workflow-toggle-icon {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: var(--radius);
+            transition: all 0.15s ease;
+            cursor: pointer;
+        }
+
+        .workflow-toggle-icon:hover {
+            background: var(--surface);
+            color: var(--text-primary);
+        }
+
+        .workflow-toggle-icon svg {
+            transition: transform 0.15s ease;
+        }
+
+        /* 默认展开状态：箭头向下 */
+        .workflow-toggle-icon svg {
+            transform: rotate(0deg);
+        }
+
+        /* 收起状态：箭头向右 */
+        .workflow-toggle-icon.collapsed svg {
+            transform: rotate(-90deg);
+        }
+
+        /* 指标卡片网格 */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: var(--space-6);
+            margin-bottom: var(--space-8);
+        }
+
+        .metric-card {
+            background: var(--background);
+            border: var(--border);
+            border-radius: var(--radius);
+            padding: var(--space-6);
+            transition: all 0.15s ease;
+            display: flex;
+            align-items: center;
+            gap: var(--space-4);
+            text-decoration: none;
+            color: inherit;
+            box-shadow: var(--shadow);
+        }
+
+        .metric-card:hover {
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        /* 工作流程容器 - 铺满全屏 */
+        .workflow-container {
+            padding: var(--space-8) var(--space-6);
+            background: linear-gradient(135deg, var(--background) 0%, var(--surface) 100%);
+        }
+
+        /* 流程步骤布局 - 优化为全屏布局 */
+        .workflow-flow {
+            display: flex;
+            align-items: stretch;
+            justify-content: space-between;
+            gap: var(--space-6);
+            margin: 0;
+            max-width: 100%;
+        }
+
+        /* 步骤项 - 优化尺寸和设计 */
+        .workflow-step-item {
+            background: var(--background);
+            border: var(--border);
+            border-radius: var(--radius);
+            padding: var(--space-6) var(--space-4);
+            transition: all 0.2s ease;
+            text-align: center;
+            flex: 1;
+            position: relative;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+            min-height: 180px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .workflow-step-item:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-hover);
+            border-color: var(--primary);
+        }
+
+        /* 步骤数字 - 增大尺寸 */
+        .step-number {
+            width: 48px;
+            height: 48px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: var(--font-weight-bold);
+            font-size: 20px;
+            margin: 0 auto var(--space-4) auto;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* 步骤内容 - 优化布局 */
+        .step-content {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-3);
+            flex: 1;
+        }
+
+        .step-title {
+            font-size: 16px;
+            font-weight: var(--font-weight-semibold);
+            color: var(--text-primary);
+            line-height: 1.3;
+        }
+
+        .step-desc {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.4;
+            flex: 1;
+        }
+
+        /* 连接线 - 优化设计 */
+        .step-connector {
+            color: var(--primary);
+            font-size: 24px;
+            font-weight: bold;
+            margin: 0 var(--space-3);
+            align-self: center;
+            opacity: 0.6;
+        }
+
+        /* 按钮优化 */
+        .workflow-step-item .btn-primary {
+            margin-top: auto;
+            width: 100%;
+            padding: var(--space-3) var(--space-4);
+            font-weight: var(--font-weight-medium);
+        }
+
+        /* 完成状态 - 优化视觉效果 */
+        .workflow-step-item.completed {
+            background: linear-gradient(135deg, var(--success) 0%, #38a169 100%);
+            border-color: var(--success);
+            color: white;
+        }
+
+        .workflow-step-item.completed .step-number {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .workflow-step-item.completed .step-title,
+        .workflow-step-item.completed .step-desc {
+            color: white;
+        }
+
+        .workflow-step-item.completed .btn-primary {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+        }
+
+        .workflow-step-item.completed .btn-primary:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        /* 添加进度指示器 */
+        .workflow-progress-bar {
+            position: absolute;
+            top: 24px;
+            left: 24px;
+            right: 24px;
+            height: 2px;
+            background: var(--divider);
+            border-radius: 1px;
+            overflow: hidden;
+        }
+
+        .workflow-progress-fill {
+            height: 100%;
+            background: var(--primary);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        /* 房间统计卡片样式 */
+        .room-stats-card {
+            margin-bottom: var(--space-6);
+        }
+
+        .room-stats {
+            padding: var(--space-6);
+        }
+
+        .room-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--space-6);
+        }
+
+        .room-stat-item {
+            text-align: center;
+            padding: var(--space-6) var(--space-4);
+            background: var(--surface);
+            border-radius: var(--radius);
+            border: var(--border);
+            transition: all 0.15s ease;
+        }
+
+        .room-stat-item:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .room-stat-value {
+            font-size: 32px;
+            font-weight: var(--font-weight-bold);
+            color: var(--text-primary);
+            margin-bottom: var(--space-2);
+            line-height: 1;
+        }
+
+        .room-stat-item.occupied .room-stat-value {
+            color: var(--success);
+        }
+
+        .room-stat-item.vacant .room-stat-value {
+            color: var(--warning);
+        }
+
+        .room-stat-label {
+            font-size: 14px;
+            color: var(--text-secondary);
+            font-weight: var(--font-weight-medium);
+        }
+
+        /* 统计模块容器 - 50/50 布局 */
+        .stats-modules-container {
+            display: flex;
+            gap: var(--space-6);
+            margin-bottom: var(--space-6);
+        }
+
+        .stats-module {
+            flex: 1;
+        }
+
+        /* 调整设备统计高度以匹配账单统计 */
+        .stats-module:nth-child(2) .device-stats {
+            height: calc(100% - 80px);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        /* 设备统计样式 */
+        .device-stats {
+            padding: var(--space-6) var(--space-6) var(--space-8) var(--space-6);
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-6);
+        }
+
+        .device-chart-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #deviceChart {
+            max-width: 200px;
+            max-height: 200px;
+        }
+
+        .device-summary {
+            position: absolute;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .total-devices {
+            text-align: center;
+        }
+
+        .total-number {
+            display: block;
+            font-size: 24px;
+            font-weight: var(--font-weight-bold);
+            color: var(--text-primary);
+            line-height: 1;
+        }
+
+        .total-label {
+            display: block;
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-top: var(--space-1);
+        }
+
+        /* 图例样式 */
+        .device-legend {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--space-4);
+            margin-top: var(--space-6);
+            padding: var(--space-4) var(--space-2);
+        }
+
+        .legend-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--space-2);
+            padding: var(--space-3);
+            border-radius: var(--radius);
+            background: var(--surface);
+            border: var(--border);
+            transition: all 0.15s ease;
+        }
+
+        .legend-item:hover {
+            transform: translateY(-1px);
+            box-shadow: var(--shadow);
+        }
+
+        .legend-color-container {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+        }
+
+        .legend-color {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .bound-color {
+            background-color: var(--success);
+        }
+
+        .unbound-color {
+            background-color: var(--warning);
+        }
+
+        .disconnected-color {
+            background-color: var(--error);
+        }
+
+        .legend-text {
+            text-align: center;
+        }
+
+        .legend-value {
+            font-size: 18px;
+            font-weight: var(--font-weight-bold);
+            color: var(--text-primary);
+            line-height: 1.2;
+            margin-bottom: var(--space-1);
+        }
+
+        .legend-label {
+            font-size: 13px;
+            color: var(--text-secondary);
+            font-weight: var(--font-weight-medium);
+            text-align: center;
+            line-height: 1.3;
+        }
+
+        /* 账单统计样式 */
+        .bill-stats {
+            padding: var(--space-6);
+        }
+
+        /* 简化的账单统计布局 */
+        .simple-stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-6);
+        }
+
+        .stats-column {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-4);
+        }
+
+        .column-title {
+            font-size: 16px;
+            font-weight: var(--font-weight-semibold);
+            color: var(--text-primary);
+            margin: 0;
+            padding-bottom: var(--space-2);
+            border-bottom: 2px solid var(--divider);
+            text-align: center;
+        }
+
+        .stats-column .stat-item {
+            text-align: center;
+            padding: var(--space-4);
+            background: var(--surface);
+            border-radius: var(--radius);
+            border: var(--border);
+        }
+
+        .stat-value.primary {
+            color: var(--primary);
+            font-size: 20px;
+            font-weight: var(--font-weight-bold);
+            margin-bottom: var(--space-2);
+        }
+
+        .stat-value.secondary {
+            color: var(--text-secondary);
+            font-size: 20px;
+            font-weight: var(--font-weight-bold);
+            margin-bottom: var(--space-2);
+        }
+
+        /* 本月数据特殊样式 */
+        .stats-column:first-child .column-title {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+        }
+
+        /* 上月数据特殊样式 */
+        .stats-column:nth-child(2) .column-title {
+            color: var(--text-secondary);
+            border-bottom-color: var(--text-secondary);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--space-4);
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: var(--space-3);
+            background: var(--surface);
+            border-radius: var(--radius);
+            border: var(--border);
+        }
+
+        .stat-value {
+            font-size: 20px;
+            font-weight: var(--font-weight-semibold);
+            color: var(--text-primary);
+            margin-bottom: var(--space-1);
+        }
+
+        .stat-value.online {
+            color: var(--success);
+        }
+
+        .stat-value.offline {
+            color: var(--error);
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-bottom: var(--space-1);
+        }
+
+        .stat-change {
+            font-size: 11px;
+            font-weight: var(--font-weight-medium);
+        }
+
+        .stat-change.positive {
+            color: var(--success);
+        }
+
+        .metric-card .metric-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: var(--radius);
+            background: var(--surface);
+            border: var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            flex-shrink: 0;
+            color: var(--text-secondary);
+        }
+
+        .metric-content {
+            flex: 1;
+        }
+
+        .metric-value {
+            font-size: 16px;
+            font-weight: var(--font-weight-semibold);
+            color: var(--text-primary);
+            margin-bottom: var(--space-2);
+            line-height: 1.2;
+        }
+
+        .metric-label {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: var(--space-3);
+            font-weight: var(--font-weight-normal);
+        }
+
+        .metric-change {
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+            font-weight: var(--font-weight-medium);
+        }
+
+        .metric-change.positive {
+            color: var(--success);
+        }
+
+        .metric-change.positive::before {
+            content: '↗';
+            font-size: 14px;
+        }
+
+        .metric-change.negative {
+            color: var(--error);
+        }
+
+        .metric-change.negative::before {
+            content: '↘';
+            font-size: 14px;
+        }
+
+        /* 最近活动样式 */
+        .recent-activity {
+            background: var(--background);
+            border: var(--border);
+            border-radius: var(--radius);
+            padding: var(--space-6);
+        }
+
+        .recent-activity h3 {
+            margin: 0 0 var(--space-6) 0;
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .activity-list {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-4);
+        }
+
+        .activity-item {
+            display: flex;
+            align-items: flex-start;
+            gap: var(--space-3);
+            padding: var(--space-4);
+            background: var(--surface);
+            border-radius: var(--radius);
+            transition: all 0.2s ease;
+        }
+
+        .activity-item:hover {
+            background: var(--hover);
+        }
+
+        .activity-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: bold;
+            flex-shrink: 0;
+            color: white;
+        }
+
+        .activity-icon.success {
+            background: var(--success);
+        }
+
+        .activity-icon.warning {
+            background: var(--warning);
+        }
+
+        .activity-icon.info {
+            background: var(--info);
+        }
+
+        .activity-content {
+            flex: 1;
+        }
+
+        .activity-content p {
+            margin: 0 0 var(--space-1) 0;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        .activity-content strong {
+            color: var(--text-primary);
+        }
+
+        .activity-time {
+            font-size: 12px;
+            color: var(--text-tertiary);
+        }
+
+        /* 按钮样式 - 与用户管理页面保持一致 */
+        .btn {
+            padding: var(--space-2) var(--space-4);
+            border: none;
+            border-radius: var(--radius);
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: var(--font-weight-medium);
+            cursor: pointer;
+            transition: all 0.15s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--space-2);
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .btn-secondary {
+            background: var(--surface);
+            color: var(--text-primary);
+            border: var(--border);
+        }
+
+        .btn-secondary:hover {
+            background: var(--divider);
+        }
+
+        .btn-sm {
+            padding: 4px 8px;
+            font-size: 12px;
+        }
+
+        /* 工作流程对话框样式 */
+        .workflow-dialog-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .workflow-dialog {
+            background: white;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-elevated);
+            max-width: 480px;
+            width: 90%;
+            animation: slideIn 0.3s ease;
+        }
+
+        .dialog-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: var(--space-6);
+            border-bottom: var(--border);
+        }
+
+        .dialog-header h3 {
+            color: var(--text-primary);
+            font-size: 20px;
+            font-weight: var(--font-weight-semibold);
+            margin: 0;
+        }
+
+        .dialog-close {
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            padding: 0;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .dialog-content {
+            padding: var(--space-6);
+        }
+
+        .dialog-content p {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        .dialog-actions {
+            display: flex;
+            gap: var(--space-3);
+            padding: var(--space-6);
+            border-top: var(--border);
+            justify-content: flex-end;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* 页面背景 - 简化版本 */
+        body {
+            background: var(--background-page);
+        }
+
+        .main-content {
+            position: relative;
+        }
+
+        /* 搜索区域标题 */
+        .search-section h3 {
+            color: var(--text-primary);
+            font-weight: var(--font-weight-semibold);
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 1200px) {
+            .content-layout {
+                flex-direction: column;
+            }
+
+            .stats-modules-container {
+                flex-direction: column;
+                gap: var(--space-4);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .content-layout {
+                padding: var(--space-8) var(--space-4);
+            }
+
+            .search-section {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .workflow-container {
+                padding: var(--space-6) var(--space-4);
+            }
+
+            .workflow-flow {
+                flex-direction: column;
+                gap: var(--space-4);
+                align-items: stretch;
+            }
+
+            .step-connector {
+                transform: rotate(90deg);
+                margin: var(--space-3) 0;
+                font-size: 20px;
+            }
+
+            .workflow-step-item {
+                min-width: auto;
+                width: 100%;
+                min-height: 140px;
+                padding: var(--space-4);
+            }
+
+            .step-number {
+                width: 40px;
+                height: 40px;
+                font-size: 18px;
+                margin-bottom: var(--space-3);
+            }
+
+            .step-title {
+                font-size: 15px;
+            }
+
+            .step-desc {
+                font-size: 13px;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+                gap: var(--space-3);
+            }
+
+            .simple-stats-grid {
+                grid-template-columns: 1fr;
+                gap: var(--space-4);
+            }
+
+            .stats-column .stat-item {
+                padding: var(--space-3);
+            }
+
+            .stat-value.primary,
+            .stat-value.secondary {
+                font-size: 18px;
+            }
+
+            .room-stats-grid {
+                grid-template-columns: 1fr;
+                gap: var(--space-4);
+            }
+
+            .room-stat-value {
+                font-size: 28px;
+            }
+
+            .workflow-dialog {
+                margin: var(--space-4);
+                width: calc(100% - 32px);
+            }
+
+            .nav-menu {
+                gap: 10px !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="nav-content">
+            <div class="nav-brand">
+                <img src="logo.png" alt="Logo" class="nav-logo">
+            </div>
+            <div class="nav-menu">
+                <a href="dashboard.html" class="nav-link active" data-zh="仪表盘" data-en="Dashboard">仪表盘</a>
+                <a href="device-management.html" class="nav-link" data-zh="设备管理" data-en="Device Management">设备管理</a>
+                <a href="space-management.html" class="nav-link" data-zh="建筑管理" data-en="Building Management">建筑管理</a>
+                <a href="user-management.html" class="nav-link" data-zh="用户管理" data-en="User Management">用户管理</a>
+                <a href="bills.html" class="nav-link" data-zh="账单管理" data-en="Bill Management">账单管理</a>
+            </div>
+            <div class="nav-actions" style="overflow: visible !important;">
+                <div class="lang-dropdown">
+                    <select id="language-select" class="form-select lang-select">
+                        <option value="zh" data-zh="中文" data-en="Chinese">中文</option>
+                        <option value="en" data-zh="English" data-en="English">English</option>
+                    </select>
+                </div>
+                <div class="user-menu" style="position: relative; overflow: visible !important;">
+                    <input type="checkbox" id="user-dropdown-toggle" style="display: none;">
+                    <label for="user-dropdown-toggle" style="display: flex; align-items: center; cursor: pointer; gap: 8px;">
+                        <div class="user-avatar">管</div>
+                        <span data-zh="管理员" data-en="Admin">管理员</span>
+                        <span style="font-size: 12px; margin-left: 4px;">▼</span>
+                    </label>
+
+                    <!-- 下拉菜单 -->
+                    <div class="dropdown-menu" style="position: fixed; top: 64px; right: 20px; background: white; border: 1px solid #e5e7eb; border-radius: 8px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); min-width: 120px; display: none; z-index: 9999; padding: 4px 0;">
+                        <label for="logout-confirm-toggle" style="display: flex; align-items: center; padding: 12px 16px; text-decoration: none; color: #dc2626; font-size: 14px; transition: background-color 0.15s ease; gap: 8px; cursor: pointer;">
+                            <span style="font-size: 16px;">🚪</span>
+                            <span data-zh="退出登录" data-en="Logout">退出登录</span>
+                        </label>
+                    </div>
+                </div>
+
+                <style>
+                    .navbar, .nav-content, .nav-actions, .user-menu {
+                        overflow: visible !important;
+                    }
+
+                    #user-dropdown-toggle:checked + label + .dropdown-menu {
+                        display: block !important;
+                        animation: dropdownFadeIn 0.2s ease-out;
+                    }
+
+                    #user-dropdown-toggle:checked + label span:last-child {
+                        transform: rotate(180deg);
+                        transition: transform 0.2s ease;
+                    }
+
+                    .dropdown-menu label:hover {
+                        background-color: #f9fafb !important;
+                    }
+
+                    @keyframes dropdownFadeIn {
+                        from {
+                            opacity: 0;
+                            transform: translateY(-10px);
+                        }
+                        to {
+                            opacity: 1;
+                            transform: translateY(0);
+                        }
+                    }
+
+                    /* 退出确认弹窗样式 */
+                    #logout-confirm-toggle:checked + .logout-modal {
+                        display: flex !important;
+                        animation: modalFadeIn 0.3s ease-out;
+                    }
+
+                    #logout-confirm-toggle:checked + .logout-modal > div {
+                        transform: scale(1) !important;
+                        animation: modalSlideIn 0.3s ease-out;
+                    }
+
+                    @keyframes modalFadeIn {
+                        from { opacity: 0; }
+                        to { opacity: 1; }
+                    }
+
+                    @keyframes modalSlideIn {
+                        from {
+                            transform: scale(0.8) translateY(-20px);
+                            opacity: 0;
+                        }
+                        to {
+                            transform: scale(1) translateY(0);
+                            opacity: 1;
+                        }
+                    }
+
+                    .logout-modal label:hover {
+                        background-color: #e5e7eb !important;
+                    }
+
+                    .logout-modal a:hover {
+                        background-color: #b91c1c !important;
+                    }
+                </style>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 退出确认弹窗 -->
+    <input type="checkbox" id="logout-confirm-toggle" style="display: none;">
+    <div class="logout-modal" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); display: none; z-index: 99999; align-items: center; justify-content: center; backdrop-filter: blur(4px);">
+        <div style="background: white; border-radius: 12px; padding: 32px; max-width: 420px; width: 90%; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3); transform: scale(0.9); transition: transform 0.2s ease;">
+            <div style="text-align: center; font-size: 48px; margin-bottom: 20px;">⚠️</div>
+            <h3 style="text-align: center; font-size: 20px; font-weight: 600; color: #1f2937; margin-bottom: 12px; margin-top: 0;" data-zh="确认退出" data-en="Confirm Logout">确认退出</h3>
+            <p style="text-align: center; color: #6b7280; font-size: 16px; line-height: 1.5; margin-bottom: 28px; margin-top: 0;" data-zh="您确定要退出登录吗？退出后需要重新输入用户名和密码。" data-en="Are you sure you want to logout? You will need to enter your username and password again.">您确定要退出登录吗？退出后需要重新输入用户名和密码。</p>
+            <div style="display: flex; gap: 12px; justify-content: center;">
+                <label for="logout-confirm-toggle" style="padding: 12px 24px; background: #f3f4f6; color: #374151; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 500; text-align: center; transition: background-color 0.2s ease; min-width: 80px;" data-zh="取消" data-en="Cancel">取消</label>
+                <a href="index.html" style="padding: 12px 24px; background: #dc2626; color: white; border-radius: 8px; text-decoration: none; font-size: 14px; font-weight: 500; text-align: center; transition: background-color 0.2s ease; min-width: 80px; display: block;" data-zh="确认退出" data-en="Confirm">确认退出</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- 主内容区域 -->
+    <main class="main-content">
+        <div class="content-layout">
+            <div class="main-container">
+
+                <!-- 快速入门指引 -->
+                <div class="table-container" id="workflowGuide">
+                    <div class="workflow-header">
+                        <div class="workflow-header-content">
+                            <h3 data-zh="快速入门指引" data-en="Quick Start Guide">快速入门指引</h3>
+                            <p data-zh="用户可以自己点击对应的步骤" data-en="Users can click on the corresponding steps themselves">用户可以自己点击对应的步骤</p>
+                        </div>
+                        <div class="workflow-header-actions">
+                            <button class="workflow-toggle-icon" onclick="toggleWorkflowGuide()" title="收起指引">
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                    <path d="M8 12L3 7H13L8 12Z" fill="currentColor"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="workflow-container" id="workflowSteps">
+                        <!-- 进度条 -->
+                        <div class="workflow-progress-bar">
+                            <div class="workflow-progress-fill" id="workflow-progress"></div>
+                        </div>
+
+                        <!-- 流程步骤 -->
+                        <div class="workflow-flow">
+                            <div class="workflow-step-item" data-step="1" onclick="startDevice()">
+                                <div class="step-number">1</div>
+                                <div class="step-content">
+                                    <div class="step-title" data-zh="添加设备" data-en="Add Device">添加设备</div>
+                                    <div class="step-desc" data-zh="注册电表设备" data-en="Register meter devices">注册电表设备</div>
+                                    <button class="btn btn-primary" data-zh="开始添加" data-en="Start Adding">开始添加</button>
+                                </div>
+                            </div>
+                            <div class="step-connector">→</div>
+
+                            <div class="workflow-step-item" data-step="2" onclick="startSpace()">
+                                <div class="step-number">2</div>
+                                <div class="step-content">
+                                    <div class="step-title" data-zh="创建建筑" data-en="Create Building">创建建筑</div>
+                                    <div class="step-desc" data-zh="添加建筑物，绑定电表" data-en="Add buildings and bind meters">添加建筑物，绑定电表</div>
+                                    <button class="btn btn-primary" data-zh="开始创建" data-en="Start Creating">开始创建</button>
+                                </div>
+                            </div>
+                            <div class="step-connector">→</div>
+
+                            <div class="workflow-step-item" data-step="3" onclick="startUser()">
+                                <div class="step-number">3</div>
+                                <div class="step-content">
+                                    <div class="step-title" data-zh="添加用户" data-en="Add User">添加用户</div>
+                                    <div class="step-desc" data-zh="创建用户账号并入驻房间" data-en="Create user accounts and assign rooms">创建用户账号并入驻房间</div>
+                                    <button class="btn btn-primary" data-zh="开始添加" data-en="Start Adding">开始添加</button>
+                                </div>
+                            </div>
+                            <div class="step-connector">→</div>
+
+                            <div class="workflow-step-item" data-step="4" onclick="startTemplate()">
+                                <div class="step-number">4</div>
+                                <div class="step-content">
+                                    <div class="step-title" data-zh="查看账单" data-en="View Bills">查看账单</div>
+                                    <div class="step-desc" data-zh="设置电费计算规则和价格结构" data-en="Set up billing rules and pricing structure">设置电费计算规则和价格结构</div>
+                                    <button class="btn btn-primary" data-zh="开始创建" data-en="Start Creating">开始创建</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 房间统计卡片 -->
+                <div class="table-container room-stats-card">
+                    <div class="search-section">
+                        <div class="search-controls">
+                            <h3 data-zh="房间概况" data-en="Room Overview">房间概况</h3>
+                        </div>
+                    </div>
+                    <div class="room-stats">
+                        <div class="room-stats-grid">
+                            <div class="room-stat-item">
+                                <div class="room-stat-value">15</div>
+                                <div class="room-stat-label" data-zh="总房间" data-en="Total Rooms">总房间</div>
+                            </div>
+                            <div class="room-stat-item occupied">
+                                <div class="room-stat-value">12</div>
+                                <div class="room-stat-label" data-zh="入驻" data-en="Occupied">入驻</div>
+                            </div>
+                            <div class="room-stat-item vacant">
+                                <div class="room-stat-value">3</div>
+                                <div class="room-stat-label" data-zh="空闲" data-en="Vacant">空闲</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 统计模块容器 - 50/50布局 -->
+                <div class="stats-modules-container">
+                    <!-- 账单统计模块 -->
+                    <div class="table-container stats-module">
+                        <div class="search-section">
+                            <div class="search-controls">
+                                <h3 data-zh="账单统计" data-en="Bill Statistics">账单统计</h3>
+                            </div>
+                        </div>
+                        <div class="bill-stats">
+                            <div class="simple-stats-grid">
+                                <!-- 本月数据 -->
+                                <div class="stats-column">
+                                    <h4 class="column-title" data-zh="本月" data-en="This Month">本月</h4>
+                                    <div class="stat-item">
+                                        <div class="stat-value primary">12</div>
+                                        <div class="stat-label" data-zh="账单数量" data-en="Bills">账单数量</div>
+                                    </div>
+                                    <div class="stat-item">
+                                        <div class="stat-value primary">1,248</div>
+                                        <div class="stat-label" data-zh="用电量(kWh)" data-en="Usage(kWh)">用电量(kWh)</div>
+                                    </div>
+                                    <div class="stat-item">
+                                        <div class="stat-value primary">₹18,720</div>
+                                        <div class="stat-label" data-zh="账单金额" data-en="Bills">账单金额</div>
+                                    </div>
+                                </div>
+
+                                <!-- 上月数据 -->
+                                <div class="stats-column">
+                                    <h4 class="column-title" data-zh="上月" data-en="Last Month">上月</h4>
+                                    <div class="stat-item">
+                                        <div class="stat-value secondary">11</div>
+                                        <div class="stat-label" data-zh="账单数量" data-en="Bills">账单数量</div>
+                                    </div>
+                                    <div class="stat-item">
+                                        <div class="stat-value secondary">1,156</div>
+                                        <div class="stat-label" data-zh="用电量(kWh)" data-en="Usage(kWh)">用电量(kWh)</div>
+                                    </div>
+                                    <div class="stat-item">
+                                        <div class="stat-value secondary">₹17,340</div>
+                                        <div class="stat-label" data-zh="账单金额" data-en="Bills">账单金额</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 设备统计模块 -->
+                    <div class="table-container stats-module">
+                        <div class="search-section">
+                            <div class="search-controls">
+                                <h3 data-zh="设备状态" data-en="Device Status">设备状态</h3>
+                            </div>
+                        </div>
+                        <div class="device-stats">
+                            <div class="device-chart-container">
+                                <canvas id="deviceChart" width="200" height="200"></canvas>
+                                <div class="device-summary">
+                                    <div class="total-devices">
+                                        <span class="total-number">15</span>
+                                        <span class="total-label" data-zh="总电表" data-en="Total Meters">总电表</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="device-legend">
+                                <div class="legend-item">
+                                    <div class="legend-color-container">
+                                        <div class="legend-color bound-color"></div>
+                                    </div>
+                                    <div class="legend-text">
+                                        <div class="legend-value">8</div>
+                                        <div class="legend-label" data-zh="已绑定" data-en="Bound">已绑定</div>
+                                    </div>
+                                </div>
+                                <div class="legend-item">
+                                    <div class="legend-color-container">
+                                        <div class="legend-color unbound-color"></div>
+                                    </div>
+                                    <div class="legend-text">
+                                        <div class="legend-value">5</div>
+                                        <div class="legend-label" data-zh="已连接，未绑定" data-en="Connected, Unbound">已连接，未绑定</div>
+                                    </div>
+                                </div>
+                                <div class="legend-item">
+                                    <div class="legend-color-container">
+                                        <div class="legend-color disconnected-color"></div>
+                                    </div>
+                                    <div class="legend-text">
+                                        <div class="legend-value">2</div>
+                                        <div class="legend-label" data-zh="未连接" data-en="Not Connected">未连接</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <script src="assets/js/common.js"></script>
+    <script src="assets/js/navbar.js"></script>
+    <script>
+        // 设备数据统一管理
+        const deviceData = {
+            bound: 8,        // 已绑定
+            unbound: 5,      // 已连接未绑定
+            disconnected: 2, // 未连接
+            get total() {
+                return this.bound + this.unbound + this.disconnected;
+            }
+        };
+
+        // 页面特定初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            // 更新页面中的设备数据显示
+            updateDeviceDataDisplay();
+
+            // 初始化工作流程状态
+            initWorkflowStatus();
+
+            // 创建设备饼图
+            createDeviceChart();
+
+            // 监听语言变化
+            window.addEventListener('languageChanged', () => {
+                // 语言变化时重新渲染内容
+                updateWorkflowUI();
+            });
+        });
+
+        // 更新页面中的设备数据显示
+        function updateDeviceDataDisplay() {
+            // 更新中心总数显示
+            const totalElement = document.querySelector('.total-number');
+            if (totalElement) {
+                totalElement.textContent = deviceData.total;
+            }
+
+            // 更新图例数据显示
+            const legendValues = document.querySelectorAll('.legend-value');
+            if (legendValues.length >= 3) {
+                legendValues[0].textContent = deviceData.bound;      // 已绑定
+                legendValues[1].textContent = deviceData.unbound;    // 已连接未绑定
+                legendValues[2].textContent = deviceData.disconnected; // 未连接
+            }
+        }
+
+        // 工作流程状态管理
+        let workflowProgress = {
+            device: false,
+            space: false,
+            user: false,
+            template: false
+        };
+
+        function initWorkflowStatus() {
+            // 从localStorage获取工作流程状态
+            const savedProgress = localStorage.getItem('workflowProgress');
+            if (savedProgress) {
+                workflowProgress = JSON.parse(savedProgress);
+            }
+            updateWorkflowUI();
+        }
+
+        function updateWorkflowUI() {
+            const steps = ['device', 'space', 'user', 'template'];
+            let completedCount = 0;
+
+            steps.forEach((step, index) => {
+                const isCompleted = workflowProgress[step];
+                const stepElement = document.querySelector(`[data-step="${index + 1}"]`);
+                const buttonElement = stepElement.querySelector('.btn-primary');
+
+                if (isCompleted) {
+                    completedCount++;
+                    stepElement.classList.add('completed');
+                    if (buttonElement) {
+                        const currentLang = getCurrentLanguage();
+                        buttonElement.textContent = currentLang === 'zh' ? '查看详情' : 'View Details';
+                    }
+                } else {
+                    stepElement.classList.remove('completed');
+                }
+            });
+
+            // 更新进度条
+            const progressPercent = (completedCount / steps.length) * 100;
+            const progressBar = document.getElementById('workflow-progress');
+            if (progressBar) {
+                progressBar.style.width = progressPercent + '%';
+            }
+
+            // 保存状态
+            localStorage.setItem('workflowProgress', JSON.stringify(workflowProgress));
+        }
+
+        // 工作流程操作函数
+        function startTemplate() {
+            if (workflowProgress.template) {
+                window.location.href = 'pricing-templates.html';
+            } else {
+                // 显示引导对话框
+                showWorkflowDialog('template', {
+                    title: '创建电价模版',
+                    content: '您将被引导创建一个新的电价模版。这包括设置计费方式、电价结构和附加费用。',
+                    action: () => {
+                        window.location.href = 'pricing-designer.html';
+                    }
+                });
+            }
+        }
+
+        function startSpace() {
+            if (workflowProgress.space) {
+                window.location.href = 'space-management.html';
+            } else {
+                showWorkflowDialog('space', {
+                    title: '创建建筑',
+                    content: '您将创建建筑物和房间结构。这有助于组织和管理您的电表设备。',
+                    action: () => {
+                        window.location.href = 'space-management.html';
+                    }
+                });
+            }
+        }
+
+        function startDevice() {
+            if (workflowProgress.device) {
+                window.location.href = 'device-management.html';
+            } else {
+                showWorkflowDialog('device', {
+                    title: '添加设备',
+                    content: '您将注册电表设备并将其分配到相应的空间。这是监控用电量的基础。',
+                    action: () => {
+                        window.location.href = 'device-management.html';
+                    }
+                });
+            }
+        }
+
+        function startUser() {
+            if (workflowProgress.user) {
+                window.location.href = 'user-management.html';
+            } else {
+                showWorkflowDialog('user', {
+                    title: '添加用户',
+                    content: '您将创建用户账户并将其与设备绑定。用户将能够查看他们的电费账单。',
+                    action: () => {
+                        window.location.href = 'user-management.html';
+                    }
+                });
+            }
+        }
+
+        function showWorkflowDialog(type, options) {
+            const dialog = document.createElement('div');
+            dialog.className = 'workflow-dialog-overlay';
+            dialog.innerHTML = `
+                <div class="workflow-dialog">
+                    <div class="dialog-header">
+                        <h3>${options.title}</h3>
+                        <button class="dialog-close" onclick="closeWorkflowDialog()">&times;</button>
+                    </div>
+                    <div class="dialog-content">
+                        <p>${options.content}</p>
+                    </div>
+                    <div class="dialog-actions">
+                        <button class="btn btn-secondary" onclick="closeWorkflowDialog()">取消</button>
+                        <button class="btn btn-primary" onclick="executeWorkflowAction('${type}')">开始</button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(dialog);
+            dialog.workflowAction = options.action;
+        }
+
+        function closeWorkflowDialog() {
+            const dialog = document.querySelector('.workflow-dialog-overlay');
+            if (dialog) {
+                document.body.removeChild(dialog);
+            }
+        }
+
+        function executeWorkflowAction(type) {
+            const dialog = document.querySelector('.workflow-dialog-overlay');
+            if (dialog && dialog.workflowAction) {
+                dialog.workflowAction();
+            }
+            closeWorkflowDialog();
+        }
+
+        // 标记步骤完成（可以在其他页面调用）
+        function markStepCompleted(step) {
+            workflowProgress[step] = true;
+            updateWorkflowUI();
+        }
+
+        // 重置工作流程
+        function resetWorkflow() {
+            if (confirm('确定要重置所有流程进度吗？这将清除所有完成状态。')) {
+                workflowProgress = {
+                    device: false,
+                    space: false,
+                    user: false,
+                    template: false
+                };
+                updateWorkflowUI();
+            }
+        }
+
+        // 展开/收起工作流程指引
+        function toggleWorkflowGuide() {
+            const guide = document.getElementById('workflowGuide');
+            const workflowSteps = document.getElementById('workflowSteps');
+            const toggleBtn = guide.querySelector('.workflow-toggle-icon');
+            const isCollapsed = workflowSteps.style.display === 'none';
+
+            if (isCollapsed) {
+                // 展开：显示步骤内容
+                workflowSteps.style.display = 'block';
+                toggleBtn.classList.remove('collapsed');
+                toggleBtn.title = '收起指引';
+            } else {
+                // 收起：隐藏步骤内容
+                workflowSteps.style.display = 'none';
+                toggleBtn.classList.add('collapsed');
+                toggleBtn.title = '展开指引';
+            }
+        }
+
+        // 创建设备饼图
+        function createDeviceChart() {
+            const canvas = document.getElementById('deviceChart');
+            if (!canvas) return;
+
+            const ctx = canvas.getContext('2d');
+            const centerX = canvas.width / 2;
+            const centerY = canvas.height / 2;
+            const radius = 80; // 增大半径以配合更大的画布
+
+            // 使用统一的数据源
+            const bound = deviceData.bound;
+            const unbound = deviceData.unbound;
+            const disconnected = deviceData.disconnected;
+            const total = deviceData.total;
+
+            // 计算角度
+            const boundAngle = (bound / total) * 2 * Math.PI;
+            const unboundAngle = (unbound / total) * 2 * Math.PI;
+            const disconnectedAngle = (disconnected / total) * 2 * Math.PI;
+
+            // 颜色
+            const boundColor = '#48bb78';      // var(--success) - 绿色
+            const unboundColor = '#ed8936';    // var(--warning) - 橙色
+            const disconnectedColor = '#f56565'; // var(--error) - 红色
+
+            // 清除画布
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            let currentAngle = 0;
+
+            // 绘制已绑定部分
+            ctx.beginPath();
+            ctx.moveTo(centerX, centerY);
+            ctx.arc(centerX, centerY, radius, currentAngle, currentAngle + boundAngle);
+            ctx.closePath();
+            ctx.fillStyle = boundColor;
+            ctx.fill();
+            currentAngle += boundAngle;
+
+            // 绘制已连接未绑定部分
+            ctx.beginPath();
+            ctx.moveTo(centerX, centerY);
+            ctx.arc(centerX, centerY, radius, currentAngle, currentAngle + unboundAngle);
+            ctx.closePath();
+            ctx.fillStyle = unboundColor;
+            ctx.fill();
+            currentAngle += unboundAngle;
+
+            // 绘制未连接部分
+            ctx.beginPath();
+            ctx.moveTo(centerX, centerY);
+            ctx.arc(centerX, centerY, radius, currentAngle, currentAngle + disconnectedAngle);
+            ctx.closePath();
+            ctx.fillStyle = disconnectedColor;
+            ctx.fill();
+
+            // 绘制中心圆圈（创建环形效果）
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, 45, 0, 2 * Math.PI); // 增大中心圆的半径
+            ctx.fillStyle = '#ffffff';
+            ctx.fill();
+
+            // 添加鼠标事件监听器
+            canvas.addEventListener('mousemove', function(event) {
+                const rect = canvas.getBoundingClientRect();
+                const x = event.clientX - rect.left;
+                const y = event.clientY - rect.top;
+
+                // 计算鼠标相对于中心的角度
+                const mouseAngle = Math.atan2(y - centerY, x - centerX);
+                const normalizedAngle = mouseAngle < 0 ? mouseAngle + 2 * Math.PI : mouseAngle;
+
+                // 检查鼠标是否在圆环内
+                const distance = Math.sqrt((x - centerX) ** 2 + (y - centerY) ** 2);
+                if (distance >= 45 && distance <= radius) {
+                    let currentAngle = 0;
+                    let hoveredSegment = null;
+
+                    if (normalizedAngle >= currentAngle && normalizedAngle < currentAngle + boundAngle) {
+                        hoveredSegment = { type: '已绑定', value: bound, color: boundColor };
+                    }
+                    currentAngle += boundAngle;
+
+                    if (normalizedAngle >= currentAngle && normalizedAngle < currentAngle + unboundAngle) {
+                        hoveredSegment = { type: '已连接，未绑定', value: unbound, color: unboundColor };
+                    }
+                    currentAngle += unboundAngle;
+
+                    if (normalizedAngle >= currentAngle) {
+                        hoveredSegment = { type: '未连接', value: disconnected, color: disconnectedColor };
+                    }
+
+                    if (hoveredSegment) {
+                        canvas.style.cursor = 'pointer';
+                        showTooltip(event, hoveredSegment);
+                    }
+                } else {
+                    canvas.style.cursor = 'default';
+                    hideTooltip();
+                }
+            });
+
+            canvas.addEventListener('mouseleave', function() {
+                hideTooltip();
+                canvas.style.cursor = 'default';
+            });
+        }
+
+        // 工具提示函数
+        function showTooltip(event, data) {
+            let tooltip = document.getElementById('chart-tooltip');
+            if (!tooltip) {
+                tooltip = document.createElement('div');
+                tooltip.id = 'chart-tooltip';
+                tooltip.style.cssText = `
+                    position: absolute;
+                    background: rgba(0, 0, 0, 0.8);
+                    color: white;
+                    padding: 8px 12px;
+                    border-radius: 6px;
+                    font-size: 13px;
+                    font-weight: 600;
+                    z-index: 1000;
+                    pointer-events: none;
+                    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+                `;
+                document.body.appendChild(tooltip);
+            }
+
+            const percentage = ((data.value / deviceData.total) * 100).toFixed(1);
+            tooltip.innerHTML = `${data.type}: ${data.value}台 (${percentage}%)`;
+            tooltip.style.left = event.pageX + 10 + 'px';
+            tooltip.style.top = event.pageY - 10 + 'px';
+            tooltip.style.display = 'block';
+        }
+
+        function hideTooltip() {
+            const tooltip = document.getElementById('chart-tooltip');
+            if (tooltip) {
+                tooltip.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>
