@@ -3,9 +3,122 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title data-zh="电价模版" data-en="Pricing Templates">电价模版</title>
+    <title data-zh="新界面" data-en="New Interface">新界面</title>
     <link rel="stylesheet" href="assets/css/common.css">
     <link rel="stylesheet" href="assets/css/navbar.css">
+    <style>
+        /* Tab导航样式 */
+        .tab-navigation {
+            display: flex;
+            border-bottom: 2px solid var(--divider);
+            margin-bottom: var(--space-6);
+            gap: 0;
+        }
+
+        .tab-button {
+            padding: var(--space-4) var(--space-6);
+            border: none;
+            background: transparent;
+            color: var(--text-secondary);
+            font-size: 16px;
+            font-weight: var(--font-weight-medium);
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+
+        .tab-button:hover {
+            color: var(--text-primary);
+            background: var(--surface);
+        }
+
+        .tab-button.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+            background: var(--surface);
+        }
+
+        /* Tab内容样式 */
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* 计量模版特定样式 */
+        .measurement-template-card {
+            background: var(--background);
+            border: var(--border);
+            border-radius: var(--radius);
+            padding: var(--space-6);
+            transition: all 0.15s ease;
+            cursor: pointer;
+        }
+
+        .measurement-template-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .measurement-template-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: var(--space-4);
+        }
+
+        .measurement-template-title {
+            font-size: 18px;
+            font-weight: var(--font-weight-semibold);
+            color: var(--text-primary);
+            margin-bottom: var(--space-2);
+        }
+
+        .measurement-template-description {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        .measurement-template-actions {
+            display: flex;
+            gap: var(--space-2);
+        }
+
+        .measurement-template-status {
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: var(--font-weight-medium);
+        }
+
+        .measurement-template-status.active {
+            background: var(--success-light);
+            color: var(--success);
+        }
+
+        .measurement-template-status.inactive {
+            background: var(--surface);
+            color: var(--text-secondary);
+        }
+    </style>
 </head>
 <body>
     <!-- 导航栏 -->
@@ -19,7 +132,7 @@
                 <a href="device-management.html" class="nav-link" data-zh="设备管理" data-en="Device Management">设备管理</a>
                 <a href="space-management.html" class="nav-link" data-zh="建筑管理" data-en="Building Management">建筑管理</a>
                 <a href="user-management.html" class="nav-link" data-zh="用户管理" data-en="User Management">用户管理</a>
-                <a href="bills.html" class="nav-link active" data-zh="账单管理" data-en="Bill Management">账单管理</a>
+                <a href="bills.html" class="nav-link" data-zh="账单管理" data-en="Bill Management">账单管理</a>
             </div>
             <div class="nav-actions">
                 <div class="lang-dropdown">
@@ -43,49 +156,98 @@
 
                 <!-- 返回按钮 -->
                 <div class="back-button-container">
-                    <button class="btn btn-secondary" onclick="window.location.href='bills.html'">
+                    <button class="btn btn-secondary" onclick="window.location.href='dashboard.html'">
                         <span>← </span>
-                        <span data-zh="返回账单" data-en="Back to Bills">返回账单</span>
+                        <span data-zh="返回仪表盘" data-en="Back to Dashboard">返回仪表盘</span>
                     </button>
                 </div>
 
-                <!-- 电价模版卡片容器 -->
+                <!-- 模版管理容器 -->
                 <div class="templates-container">
-                    <div class="templates-header">
-                        <div class="header-actions-left">
-                            <button class="btn btn-success" onclick="window.location.href='meter-template.html'">
-                                <span data-zh="+ 新增计量模版" data-en="+ Add Meter Template">+ 新增计量模版</span>
-                            </button>
+                    <!-- Tab导航 -->
+                    <div class="tab-navigation">
+                        <button class="tab-button active" onclick="switchTab('measurement')" data-zh="计量模版" data-en="Measurement Templates">计量模版</button>
+                        <button class="tab-button" onclick="switchTab('pricing')" data-zh="电价模版" data-en="Pricing Templates">电价模版</button>
+                    </div>
+
+                    <!-- 计量模版内容 -->
+                    <div id="measurement-tab" class="tab-content active">
+                        <div class="templates-header">
+                            <div class="header-actions-left">
+                                <button class="btn btn-success" onclick="addMeasurementTemplate()">
+                                    <span data-zh="+ 新增计量模版" data-en="+ Add Measurement Template">+ 新增计量模版</span>
+                                </button>
+                            </div>
+                            <div class="header-actions-right">
+                                <button class="btn btn-secondary" onclick="exportMeasurementTemplates()">
+                                    <span data-zh="导出模版" data-en="Export Templates">导出模版</span>
+                                </button>
+                            </div>
                         </div>
-                        <div class="header-actions-right">
-                            <button class="btn btn-secondary" onclick="exportTemplates()">
-                                <span data-zh="导出模版" data-en="Export Templates">导出模版</span>
+
+                        <!-- 计量模版卡片网格 -->
+                        <div class="templates-grid" id="measurement-templates-grid">
+                            <!-- 计量模版卡片由JavaScript生成 -->
+                        </div>
+
+                        <!-- 计量模版分页 -->
+                        <div class="pagination">
+                            <button class="btn btn-secondary" id="measurement-prev-page" disabled>
+                                <span>‹</span>
+                                <span data-zh="上一页" data-en="Previous">上一页</span>
+                            </button>
+                            <div class="page-info">
+                                <span data-zh="第" data-en="Page">第</span>
+                                <span id="measurement-current-page">1</span>
+                                <span data-zh="页，共" data-en="of">页，共</span>
+                                <span id="measurement-total-pages">1</span>
+                                <span data-zh="页" data-en="pages">页</span>
+                            </div>
+                            <button class="btn btn-secondary" id="measurement-next-page" disabled>
+                                <span data-zh="下一页" data-en="Next">下一页</span>
+                                <span>›</span>
                             </button>
                         </div>
                     </div>
 
-                    <!-- 电价模版卡片网格 -->
-                    <div class="templates-grid" id="templates-grid">
-                        <!-- 卡片由JavaScript生成 -->
-                    </div>
-
-                    <!-- 分页 -->
-                    <div class="pagination">
-                        <button class="btn btn-secondary" id="prev-page" disabled>
-                            <span>‹</span>
-                            <span data-zh="上一页" data-en="Previous">上一页</span>
-                        </button>
-                        <div class="page-info">
-                            <span data-zh="第" data-en="Page">第</span>
-                            <span id="current-page">1</span>
-                            <span data-zh="页，共" data-en="of">页，共</span>
-                            <span id="total-pages">2</span>
-                            <span data-zh="页" data-en="pages">页</span>
+                    <!-- 电价模版内容 -->
+                    <div id="pricing-tab" class="tab-content">
+                        <div class="templates-header">
+                            <div class="header-actions-left">
+                                <button class="btn btn-success" onclick="window.location.href='pricing-designer.html'">
+                                    <span data-zh="+ 添加模版" data-en="+ Add Template">+ 添加模版</span>
+                                </button>
+                            </div>
+                            <div class="header-actions-right">
+                                <button class="btn btn-secondary" onclick="exportTemplates()">
+                                    <span data-zh="导出模版" data-en="Export Templates">导出模版</span>
+                                </button>
+                            </div>
                         </div>
-                        <button class="btn btn-secondary" id="next-page">
-                            <span data-zh="下一页" data-en="Next">下一页</span>
-                            <span>›</span>
-                        </button>
+
+                        <!-- 电价模版卡片网格 -->
+                        <div class="templates-grid" id="templates-grid">
+                            <!-- 卡片由JavaScript生成 -->
+                        </div>
+
+                        <!-- 电价模版分页 -->
+                        <div class="pagination">
+                            <button class="btn btn-secondary" id="prev-page" disabled>
+                                <span>‹</span>
+                                <span data-zh="上一页" data-en="Previous">上一页</span>
+                            </button>
+                            <div class="page-info">
+                                <span data-zh="第" data-en="Page">第</span>
+                                <span id="current-page">1</span>
+                                <span data-zh="页，共" data-en="of">页，共</span>
+                                <span id="total-pages">2</span>
+                                <span data-zh="页" data-en="pages">页</span>
+                            </div>
+                            <button class="btn btn-secondary" id="next-page">
+                                <span data-zh="下一页" data-en="Next">下一页</span>
+                                <span>›</span>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -481,6 +643,111 @@
     <script src="assets/js/navbar.js"></script>
     <script src="assets/js/common.js"></script>
     <script>
+        // Tab切换功能
+        function switchTab(tabName) {
+            // 移除所有tab的active状态
+            document.querySelectorAll('.tab-button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+
+            // 激活选中的tab
+            document.querySelector(`[onclick="switchTab('${tabName}')"]`).classList.add('active');
+            document.getElementById(`${tabName}-tab`).classList.add('active');
+        }
+
+        // 计量模版数据
+        const measurementTemplatesData = [
+            {
+                id: 'MSR001',
+                name: '标准计量模版',
+                description: '适用于普通住宅的标准计量规则',
+                status: 'active',
+                createdDate: '2024-01-15',
+                lastModified: '2024-01-20',
+                appliedMeters: 45
+            },
+            {
+                id: 'MSR002',
+                name: '商业计量模版',
+                description: '适用于商业用电的计量规则，包含峰谷电价',
+                status: 'active',
+                createdDate: '2024-01-18',
+                lastModified: '2024-01-25',
+                appliedMeters: 23
+            },
+            {
+                id: 'MSR003',
+                name: '工业计量模版',
+                description: '大功率工业用电计量模版',
+                status: 'inactive',
+                createdDate: '2024-01-10',
+                lastModified: '2024-01-12',
+                appliedMeters: 8
+            }
+        ];
+
+        // 计量模版新增功能
+        function addMeasurementTemplate() {
+            window.location.href = 'meter-template.html';
+        }
+
+        // 计量模版导出功能
+        function exportMeasurementTemplates() {
+            alert('导出计量模版功能开发中...');
+            // 这里可以添加导出逻辑
+        }
+
+        // 渲染计量模版卡片
+        function renderMeasurementTemplates() {
+            const grid = document.getElementById('measurement-templates-grid');
+            if (!grid) return;
+
+            grid.innerHTML = measurementTemplatesData.map(template => `
+                <div class="measurement-template-card" onclick="viewMeasurementTemplate('${template.id}')">
+                    <div class="measurement-template-header">
+                        <div>
+                            <div class="measurement-template-title">${template.name}</div>
+                            <div class="measurement-template-description">${template.description}</div>
+                        </div>
+                        <div class="measurement-template-actions">
+                            <span class="measurement-template-status ${template.status}">
+                                ${template.status === 'active' ? '启用' : '停用'}
+                            </span>
+                        </div>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: var(--space-4); padding-top: var(--space-4); border-top: var(--border);">
+                        <div style="font-size: 13px; color: var(--text-secondary);">
+                            应用电表: ${template.appliedMeters}个 | 最后修改: ${template.lastModified}
+                        </div>
+                        <div style="display: flex; gap: var(--space-2);">
+                            <button class="btn btn-sm btn-secondary" onclick="event.stopPropagation(); editMeasurementTemplate('${template.id}')">编辑</button>
+                            <button class="btn btn-sm btn-secondary" onclick="event.stopPropagation(); deleteMeasurementTemplate('${template.id}')">删除</button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // 查看计量模版详情
+        function viewMeasurementTemplate(id) {
+            alert(`查看计量模版详情: ${id}`);
+        }
+
+        // 编辑计量模版
+        function editMeasurementTemplate(id) {
+            alert(`编辑计量模版: ${id}`);
+        }
+
+        // 删除计量模版
+        function deleteMeasurementTemplate(id) {
+            if (confirm('确定要删除这个计量模版吗？')) {
+                alert(`删除计量模版: ${id}`);
+            }
+        }
+
         // 印度电价模版数据
         const templatesData = [
             {
@@ -1248,6 +1515,9 @@
 
         // 分页事件处理
         document.addEventListener('DOMContentLoaded', function() {
+            // 初始化计量模版
+            renderMeasurementTemplates();
+
             // 初始化表格
             renderTemplatesTable();
 

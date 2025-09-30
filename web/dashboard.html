@@ -295,6 +295,57 @@
             transition: width 0.3s ease;
         }
 
+        /* 房间统计卡片样式 */
+        .room-stats-card {
+            margin-bottom: var(--space-6);
+        }
+
+        .room-stats {
+            padding: var(--space-6);
+        }
+
+        .room-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--space-6);
+        }
+
+        .room-stat-item {
+            text-align: center;
+            padding: var(--space-6) var(--space-4);
+            background: var(--surface);
+            border-radius: var(--radius);
+            border: var(--border);
+            transition: all 0.15s ease;
+        }
+
+        .room-stat-item:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .room-stat-value {
+            font-size: 32px;
+            font-weight: var(--font-weight-bold);
+            color: var(--text-primary);
+            margin-bottom: var(--space-2);
+            line-height: 1;
+        }
+
+        .room-stat-item.occupied .room-stat-value {
+            color: var(--success);
+        }
+
+        .room-stat-item.vacant .room-stat-value {
+            color: var(--warning);
+        }
+
+        .room-stat-label {
+            font-size: 14px;
+            color: var(--text-secondary);
+            font-weight: var(--font-weight-medium);
+        }
+
         /* 统计模块容器 - 50/50 布局 */
         .stats-modules-container {
             display: flex;
@@ -306,9 +357,17 @@
             flex: 1;
         }
 
+        /* 调整设备统计高度以匹配账单统计 */
+        .stats-module:nth-child(2) .device-stats {
+            height: calc(100% - 80px);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
         /* 设备统计样式 */
         .device-stats {
-            padding: var(--space-6);
+            padding: var(--space-6) var(--space-6) var(--space-8) var(--space-6);
             display: flex;
             flex-direction: column;
             gap: var(--space-6);
@@ -322,8 +381,8 @@
         }
 
         #deviceChart {
-            max-width: 150px;
-            max-height: 150px;
+            max-width: 200px;
+            max-height: 200px;
         }
 
         .device-summary {
@@ -355,46 +414,73 @@
 
         /* 图例样式 */
         .device-legend {
-            display: flex;
-            justify-content: center;
-            gap: var(--space-6);
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--space-4);
+            margin-top: var(--space-6);
+            padding: var(--space-4) var(--space-2);
         }
 
         .legend-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--space-2);
+            padding: var(--space-3);
+            border-radius: var(--radius);
+            background: var(--surface);
+            border: var(--border);
+            transition: all 0.15s ease;
+        }
+
+        .legend-item:hover {
+            transform: translateY(-1px);
+            box-shadow: var(--shadow);
+        }
+
+        .legend-color-container {
             display: flex;
             align-items: center;
             gap: var(--space-2);
         }
 
         .legend-color {
-            width: 12px;
-            height: 12px;
+            width: 14px;
+            height: 14px;
             border-radius: 50%;
+            flex-shrink: 0;
         }
 
-        .online-color {
+        .bound-color {
             background-color: var(--success);
         }
 
-        .offline-color {
+        .unbound-color {
+            background-color: var(--warning);
+        }
+
+        .disconnected-color {
             background-color: var(--error);
         }
 
         .legend-text {
-            text-align: left;
+            text-align: center;
         }
 
         .legend-value {
-            font-size: 16px;
-            font-weight: var(--font-weight-semibold);
+            font-size: 18px;
+            font-weight: var(--font-weight-bold);
             color: var(--text-primary);
-            line-height: 1;
+            line-height: 1.2;
+            margin-bottom: var(--space-1);
         }
 
         .legend-label {
-            font-size: 12px;
+            font-size: 13px;
             color: var(--text-secondary);
-            margin-top: 2px;
+            font-weight: var(--font-weight-medium);
+            text-align: center;
+            line-height: 1.3;
         }
 
         /* 账单统计样式 */
@@ -864,6 +950,15 @@
                 font-size: 18px;
             }
 
+            .room-stats-grid {
+                grid-template-columns: 1fr;
+                gap: var(--space-4);
+            }
+
+            .room-stat-value {
+                font-size: 28px;
+            }
+
             .workflow-dialog {
                 margin: var(--space-4);
                 width: calc(100% - 32px);
@@ -1067,6 +1162,31 @@
                     </div>
                 </div>
 
+                <!-- 房间统计卡片 -->
+                <div class="table-container room-stats-card">
+                    <div class="search-section">
+                        <div class="search-controls">
+                            <h3 data-zh="房间概况" data-en="Room Overview">房间概况</h3>
+                        </div>
+                    </div>
+                    <div class="room-stats">
+                        <div class="room-stats-grid">
+                            <div class="room-stat-item">
+                                <div class="room-stat-value">15</div>
+                                <div class="room-stat-label" data-zh="总房间" data-en="Total Rooms">总房间</div>
+                            </div>
+                            <div class="room-stat-item occupied">
+                                <div class="room-stat-value">12</div>
+                                <div class="room-stat-label" data-zh="入驻" data-en="Occupied">入驻</div>
+                            </div>
+                            <div class="room-stat-item vacant">
+                                <div class="room-stat-value">3</div>
+                                <div class="room-stat-label" data-zh="空闲" data-en="Vacant">空闲</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- 统计模块容器 - 50/50布局 -->
                 <div class="stats-modules-container">
                     <!-- 账单统计模块 -->
@@ -1124,7 +1244,7 @@
                         </div>
                         <div class="device-stats">
                             <div class="device-chart-container">
-                                <canvas id="deviceChart" width="150" height="150"></canvas>
+                                <canvas id="deviceChart" width="200" height="200"></canvas>
                                 <div class="device-summary">
                                     <div class="total-devices">
                                         <span class="total-number">15</span>
@@ -1134,17 +1254,30 @@
                             </div>
                             <div class="device-legend">
                                 <div class="legend-item">
-                                    <div class="legend-color online-color"></div>
+                                    <div class="legend-color-container">
+                                        <div class="legend-color bound-color"></div>
+                                    </div>
                                     <div class="legend-text">
-                                        <div class="legend-value">13</div>
-                                        <div class="legend-label" data-zh="在线" data-en="Online">在线</div>
+                                        <div class="legend-value">8</div>
+                                        <div class="legend-label" data-zh="已绑定" data-en="Bound">已绑定</div>
                                     </div>
                                 </div>
                                 <div class="legend-item">
-                                    <div class="legend-color offline-color"></div>
+                                    <div class="legend-color-container">
+                                        <div class="legend-color unbound-color"></div>
+                                    </div>
+                                    <div class="legend-text">
+                                        <div class="legend-value">5</div>
+                                        <div class="legend-label" data-zh="已连接，未绑定" data-en="Connected, Unbound">已连接，未绑定</div>
+                                    </div>
+                                </div>
+                                <div class="legend-item">
+                                    <div class="legend-color-container">
+                                        <div class="legend-color disconnected-color"></div>
+                                    </div>
                                     <div class="legend-text">
                                         <div class="legend-value">2</div>
-                                        <div class="legend-label" data-zh="离线" data-en="Offline">离线</div>
+                                        <div class="legend-label" data-zh="未连接" data-en="Not Connected">未连接</div>
                                     </div>
                                 </div>
                             </div>
@@ -1159,8 +1292,21 @@
     <script src="assets/js/common.js"></script>
     <script src="assets/js/navbar.js"></script>
     <script>
+        // 设备数据统一管理
+        const deviceData = {
+            bound: 8,        // 已绑定
+            unbound: 5,      // 已连接未绑定
+            disconnected: 2, // 未连接
+            get total() {
+                return this.bound + this.unbound + this.disconnected;
+            }
+        };
+
         // 页面特定初始化
         document.addEventListener('DOMContentLoaded', function() {
+            // 更新页面中的设备数据显示
+            updateDeviceDataDisplay();
+
             // 初始化工作流程状态
             initWorkflowStatus();
 
@@ -1173,6 +1319,23 @@
                 updateWorkflowUI();
             });
         });
+
+        // 更新页面中的设备数据显示
+        function updateDeviceDataDisplay() {
+            // 更新中心总数显示
+            const totalElement = document.querySelector('.total-number');
+            if (totalElement) {
+                totalElement.textContent = deviceData.total;
+            }
+
+            // 更新图例数据显示
+            const legendValues = document.querySelectorAll('.legend-value');
+            if (legendValues.length >= 3) {
+                legendValues[0].textContent = deviceData.bound;      // 已绑定
+                legendValues[1].textContent = deviceData.unbound;    // 已连接未绑定
+                legendValues[2].textContent = deviceData.disconnected; // 未连接
+            }
+        }
 
         // 工作流程状态管理
         let workflowProgress = {
@@ -1365,45 +1528,140 @@
             const ctx = canvas.getContext('2d');
             const centerX = canvas.width / 2;
             const centerY = canvas.height / 2;
-            const radius = 60;
+            const radius = 80; // 增大半径以配合更大的画布
 
-            // 数据
-            const online = 13;
-            const offline = 2;
-            const total = online + offline;
+            // 使用统一的数据源
+            const bound = deviceData.bound;
+            const unbound = deviceData.unbound;
+            const disconnected = deviceData.disconnected;
+            const total = deviceData.total;
 
             // 计算角度
-            const onlineAngle = (online / total) * 2 * Math.PI;
-            const offlineAngle = (offline / total) * 2 * Math.PI;
+            const boundAngle = (bound / total) * 2 * Math.PI;
+            const unboundAngle = (unbound / total) * 2 * Math.PI;
+            const disconnectedAngle = (disconnected / total) * 2 * Math.PI;
 
             // 颜色
-            const onlineColor = '#48bb78'; // var(--success)
-            const offlineColor = '#f56565'; // var(--error)
+            const boundColor = '#48bb78';      // var(--success) - 绿色
+            const unboundColor = '#ed8936';    // var(--warning) - 橙色
+            const disconnectedColor = '#f56565'; // var(--error) - 红色
 
             // 清除画布
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-            // 绘制在线部分
-            ctx.beginPath();
-            ctx.moveTo(centerX, centerY);
-            ctx.arc(centerX, centerY, radius, 0, onlineAngle);
-            ctx.closePath();
-            ctx.fillStyle = onlineColor;
-            ctx.fill();
+            let currentAngle = 0;
 
-            // 绘制离线部分
+            // 绘制已绑定部分
             ctx.beginPath();
             ctx.moveTo(centerX, centerY);
-            ctx.arc(centerX, centerY, radius, onlineAngle, onlineAngle + offlineAngle);
+            ctx.arc(centerX, centerY, radius, currentAngle, currentAngle + boundAngle);
             ctx.closePath();
-            ctx.fillStyle = offlineColor;
+            ctx.fillStyle = boundColor;
+            ctx.fill();
+            currentAngle += boundAngle;
+
+            // 绘制已连接未绑定部分
+            ctx.beginPath();
+            ctx.moveTo(centerX, centerY);
+            ctx.arc(centerX, centerY, radius, currentAngle, currentAngle + unboundAngle);
+            ctx.closePath();
+            ctx.fillStyle = unboundColor;
+            ctx.fill();
+            currentAngle += unboundAngle;
+
+            // 绘制未连接部分
+            ctx.beginPath();
+            ctx.moveTo(centerX, centerY);
+            ctx.arc(centerX, centerY, radius, currentAngle, currentAngle + disconnectedAngle);
+            ctx.closePath();
+            ctx.fillStyle = disconnectedColor;
             ctx.fill();
 
             // 绘制中心圆圈（创建环形效果）
             ctx.beginPath();
-            ctx.arc(centerX, centerY, 35, 0, 2 * Math.PI);
+            ctx.arc(centerX, centerY, 45, 0, 2 * Math.PI); // 增大中心圆的半径
             ctx.fillStyle = '#ffffff';
             ctx.fill();
+
+            // 添加鼠标事件监听器
+            canvas.addEventListener('mousemove', function(event) {
+                const rect = canvas.getBoundingClientRect();
+                const x = event.clientX - rect.left;
+                const y = event.clientY - rect.top;
+
+                // 计算鼠标相对于中心的角度
+                const mouseAngle = Math.atan2(y - centerY, x - centerX);
+                const normalizedAngle = mouseAngle < 0 ? mouseAngle + 2 * Math.PI : mouseAngle;
+
+                // 检查鼠标是否在圆环内
+                const distance = Math.sqrt((x - centerX) ** 2 + (y - centerY) ** 2);
+                if (distance >= 45 && distance <= radius) {
+                    let currentAngle = 0;
+                    let hoveredSegment = null;
+
+                    if (normalizedAngle >= currentAngle && normalizedAngle < currentAngle + boundAngle) {
+                        hoveredSegment = { type: '已绑定', value: bound, color: boundColor };
+                    }
+                    currentAngle += boundAngle;
+
+                    if (normalizedAngle >= currentAngle && normalizedAngle < currentAngle + unboundAngle) {
+                        hoveredSegment = { type: '已连接，未绑定', value: unbound, color: unboundColor };
+                    }
+                    currentAngle += unboundAngle;
+
+                    if (normalizedAngle >= currentAngle) {
+                        hoveredSegment = { type: '未连接', value: disconnected, color: disconnectedColor };
+                    }
+
+                    if (hoveredSegment) {
+                        canvas.style.cursor = 'pointer';
+                        showTooltip(event, hoveredSegment);
+                    }
+                } else {
+                    canvas.style.cursor = 'default';
+                    hideTooltip();
+                }
+            });
+
+            canvas.addEventListener('mouseleave', function() {
+                hideTooltip();
+                canvas.style.cursor = 'default';
+            });
+        }
+
+        // 工具提示函数
+        function showTooltip(event, data) {
+            let tooltip = document.getElementById('chart-tooltip');
+            if (!tooltip) {
+                tooltip = document.createElement('div');
+                tooltip.id = 'chart-tooltip';
+                tooltip.style.cssText = `
+                    position: absolute;
+                    background: rgba(0, 0, 0, 0.8);
+                    color: white;
+                    padding: 8px 12px;
+                    border-radius: 6px;
+                    font-size: 13px;
+                    font-weight: 600;
+                    z-index: 1000;
+                    pointer-events: none;
+                    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+                `;
+                document.body.appendChild(tooltip);
+            }
+
+            const percentage = ((data.value / deviceData.total) * 100).toFixed(1);
+            tooltip.innerHTML = `${data.type}: ${data.value}台 (${percentage}%)`;
+            tooltip.style.left = event.pageX + 10 + 'px';
+            tooltip.style.top = event.pageY - 10 + 'px';
+            tooltip.style.display = 'block';
+        }
+
+        function hideTooltip() {
+            const tooltip = document.getElementById('chart-tooltip');
+            if (tooltip) {
+                tooltip.style.display = 'none';
+            }
         }
     </script>
 </body>
