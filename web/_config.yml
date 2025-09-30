@@ -1,8 +1,8 @@
 # GitHub Pages Configuration
 title: "Energy Management System"
 description: "Smart Billing Management System with English Default"
-baseurl: "/Techno-Meters-web"
-url: "https://moss-xxh.github.io"
+baseurl: ""
+url: "https://moss-xxh.github.io/Techno-Meters-web"
 
 # Build settings
 markdown: kramdown
